@@ -59,7 +59,7 @@ router.post('/users/', async (req, res) => {
         sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
         res.cookie('auth_token', token, {
-            sameSite:'lax'
+            sameSite: 'lax'
         });
         res.status(201).send({ user, token });
     } catch (err) {
@@ -73,7 +73,7 @@ router.post('/users/login', async (req, res) => {
         const user = await User.findByCredentials(req.body.email, req.body.password);   // Static function
         const token = await user.generateAuthToken();
         res.cookie('auth_token', token, {
-            sameSite:'lax'
+            sameSite: 'lax'
         });
         res.send({ user, token });
     } catch (error) {
