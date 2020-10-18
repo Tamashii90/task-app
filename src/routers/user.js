@@ -86,7 +86,7 @@ router.post('/users/logout', auth, async (req, res) => {
         req.user.tokens = req.user.tokens.filter(token => token !== req.token);
         await req.user.save();
         res.clearCookie('auth_token');
-        res.redirect('/');
+        res.render('redirect', { message: 'You have been logged out.' });
     } catch (error) {
         res.status(500).send();
     }
