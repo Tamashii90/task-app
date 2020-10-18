@@ -19,7 +19,9 @@ const upload = multer({
 
 router.get('/users/me', auth, async (req, res) => {
     try {
-        res.send(req.user);
+        res.render('profile', {
+            profile:req.user
+        });
     } catch (error) {
         res.status(500).send();
     }
@@ -45,37 +47,48 @@ router.patch('/users/me', auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove();
-        sendBye(req.user.name, req.user.email);
+        //sendBye(req.user.name, req.user.email);
         res.send('Goodbye :(');
     } catch (err) {
         res.status(500).send(err);
     }
 });
+router.get('/users/signup', (req, res) => {
+    if (!req.cookies['auth_token']) {
+        return res.render('signup');
+    }
+    res.render('redirect', {
+        message: 'You already have an account.',
+        page: '/users/me'
+    })
+});
 
-router.post('/users/', async (req, res) => {
+router.post('/users/signup', async (req, res) => {
     const user = new User(req.body);
     try {
         await user.save();
-        sendWelcome(user.name, user.email);
+        //sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
-        res.cookie('auth_token', token, {
-            sameSite: 'lax'
-        });
-        res.status(201).send({ user, token });
+        res.cookie('auth_token', token, { sameSite: 'lax' });
+        res.status(201).render('redirect', { message: 'Thanks for creating an account.', page: '/users/me' });
     } catch (err) {
         res.status(400).send(err.message);
     }
 });
 
+router.get('/users/login', (req, res) => {
+    if (!req.cookies['auth_token']) {
+        return res.render('login')
+    }
+    res.redirect('/users/me');
+});
+
 router.post('/users/login', async (req, res) => {
     try {
-        console.log(req.body);
         const user = await User.findByCredentials(req.body.email, req.body.password);   // Static function
         const token = await user.generateAuthToken();
-        res.cookie('auth_token', token, {
-            sameSite: 'lax'
-        });
-        res.send({ user, token });
+        res.cookie('auth_token', token, { sameSite: 'lax' });
+        res.render('redirect', { message: `Welcome ${user.name}`, page: '/users/me' });
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -86,7 +99,7 @@ router.post('/users/logout', auth, async (req, res) => {
         req.user.tokens = req.user.tokens.filter(token => token !== req.token);
         await req.user.save();
         res.clearCookie('auth_token');
-        res.render('redirect', { message: 'You have been logged out.' });
+        res.render('redirect', { message: 'You have been logged out.', page: '/' });
     } catch (error) {
         res.status(500).send();
     }

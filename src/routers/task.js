@@ -12,7 +12,6 @@ router.get('/tasks/', auth, async (req, res) => {
         const [ field, order ] = req.query.sortBy.split(':');
         sort[field] = order === 'asc' ? 1 : -1;
     }
-    console.log(sort);
     try {
         await req.user.populate({
             path: 'tasks',

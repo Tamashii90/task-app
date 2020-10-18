@@ -9,9 +9,12 @@
 
 <body>
     {{> header}}
-    <a href="/users/login">Log in</a><br/>
+    <form method="POST" action="/users/login">
+        <input type="text" name="email" id="" placeholder="Email"><br />
+        <input type="password" name="password" id="" placeholder="Password"><br/>
+        <input type="submit" value="Log In">
+    </form>
     <a href="/users/signup">Don't have an account ? Register here</a>
-
     {{> footer}}
 
 </body>

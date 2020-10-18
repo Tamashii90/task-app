@@ -10,9 +10,10 @@ const auth = async (req, res, next) => {
             throw new Error();
         req.token = token;
         req.user = user;
+        res.locals.user = user;         // in order to hide/show content in handlebar
         next();
     } catch (err) {
-        res.status(401).send('Please log in.');
+        res.status(401).send('You aren\'t logged in.');
     }
 
 };

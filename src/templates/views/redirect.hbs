@@ -8,11 +8,12 @@
 </head>
 
 <body>
-    <p>{{message}}</p>
+    <p data-redirect={{page}}>{{message}}</p>
     Redirecting...
     <script>
+        const page = document.querySelector("[data-redirect]").dataset.redirect;
         setTimeout(() => {
-            window.location.replace('/');
+            window.location.replace(page);
         }, 2000);
     </script>
 </body>

@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task App</title>
+    <title>My Profile</title>
 </head>
-
 <body>
     {{> header}}
-    <a href="/users/login">Log in</a><br/>
-    <a href="/users/signup">Don't have an account ? Register here</a>
-
-    {{> footer}}
-
+    <p>{{profile.name}}</p>
+    <p>{{profile.email}}</p>
+    <p>{{profile.age}} years old</p>
+    <p>{{> footer}}</p>
 </body>
-
 </html>

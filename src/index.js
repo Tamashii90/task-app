@@ -20,12 +20,15 @@ app.set('views', viewsPath);
 app.use(favicon(faviconPath));
 app.use(express.static('public'));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(usersRouter);
 app.use(tasksRouter);
 
 app.get('/', (req, res) => {
+    if (req.cookies['auth_token']) {
+        return res.redirect('/users/me');
+    }
     res.render('index');
 });
 

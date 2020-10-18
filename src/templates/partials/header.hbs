@@ -1,1 +1,11 @@
+
+
+
 <h1>header goes here</h1>
+{{! user is populated from auth.js, res.local }}
+{{#if user}} 
+<form action="/users/logout" method="POST">
+    <button>Log Out</button>
+</form>
+{{/if}}
+<hr>
