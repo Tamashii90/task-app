@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task App</title>
+</head>
+<body>
+    {{> header}}
+    <form method="POST" action="/users/login">
+    <input type="text" name="email" id="" placeholder="Email"><br />
+    <input type="password" name="password" id="" placeholder="Password">
+    <input type="submit" value="Log In">    
+    </form>
+    {{> footer}}
+    <form action="/users/logout" method="POST">
+    <button>Log Out</button>
+    </form>
+</body>
+</html>
