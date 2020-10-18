@@ -27,7 +27,7 @@ app.use(tasksRouter);
 
 app.get('/', (req, res) => {
     if (req.cookies['auth_token']) {
-        return res.redirect('/users/me');
+        res.render('index', { user:true});
     }
     res.render('index');
 });
