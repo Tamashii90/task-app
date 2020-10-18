@@ -26,6 +26,10 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+app.get('*', (req, res) => {
+    res.status(404).send('404 - NO PAGE FOUND');
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}..`));
 
 
