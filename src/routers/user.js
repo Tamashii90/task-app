@@ -58,6 +58,7 @@ router.post('/users/', async (req, res) => {
         await user.save();
         sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
+        res.cookie('auth_token', token);
         res.status(201).send({ user, token });
     } catch (err) {
         res.status(400).send(err.message);
@@ -68,6 +69,7 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);   // Static function
         const token = await user.generateAuthToken();
+        res.cookie('auth_token', token);
         res.send({ user, token });
     } catch (error) {
         res.status(400).send(error.message);
@@ -78,6 +80,7 @@ router.post('/users/logout', auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => token !== req.token);
         await req.user.save();
+        res.clearCookie('auth_token');
         res.send('Logged Out Successfully !');
     } catch (error) {
         res.status(500).send();
