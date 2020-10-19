@@ -1,10 +1,11 @@
 require('./db/mongoose');
+const express = require('express');
+const app = express();
 const port = process.env.PORT;
 const usersRouter = require('./routers/user');
 const tasksRouter = require('./routers/task');
-const express = require('express');
-const app = express();
 const cookieParser = require('cookie-parser');
+const fillHeader = require('./middleware/fillHeader');
 const favicon = require('serve-favicon');
 const hbs = require('hbs');
 const path = require('path');
@@ -22,13 +23,11 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(fillHeader);
 app.use(usersRouter);
 app.use(tasksRouter);
 
 app.get('/', (req, res) => {
-    if (req.cookies['auth_token']) {
-        res.render('index', { user:true});
-    }
     res.render('index');
 });
 
@@ -37,5 +36,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}..`));
+
+
 
 

@@ -19,9 +19,8 @@ const upload = multer({
 
 router.get('/users/me', auth, async (req, res) => {
     try {
-        res.render('profile', {
-            profile:req.user
-        });
+        const user = req.user;
+        res.render('profile', { profile: user });
     } catch (error) {
         res.status(500).send();
     }
@@ -87,6 +86,7 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);   // Static function
         const token = await user.generateAuthToken();
+        res.cookie('current_user', user.name, { sameSite: 'lax' });
         res.cookie('auth_token', token, { sameSite: 'lax' });
         res.render('redirect', { message: `Welcome ${user.name}`, page: '/users/me' });
     } catch (error) {
@@ -99,6 +99,7 @@ router.post('/users/logout', auth, async (req, res) => {
         req.user.tokens = req.user.tokens.filter(token => token !== req.token);
         await req.user.save();
         res.clearCookie('auth_token');
+        res.clearCookie('current_user');
         res.render('redirect', { message: 'You have been logged out.', page: '/' });
     } catch (error) {
         res.status(500).send();
@@ -108,7 +109,9 @@ router.post('/users/logout', auth, async (req, res) => {
 router.post('/users/logoutAll', auth, async (req, res) => {
     try {
         req.user.tokens = [];
-        await req.user.save()
+        await req.user.save();
+        res.clearCookie('auth_token');
+        res.clearCookie('current_user');
         res.send("Logged Out From All Sessions.");
     } catch (error) {
         res.status(500).send();
