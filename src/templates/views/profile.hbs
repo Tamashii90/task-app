@@ -10,6 +10,12 @@
     <p>{{profile.name}}</p>
     <p>{{profile.email}}</p>
     <p>{{profile.age}} years old</p>
-    <p>{{> footer}}</p>
+    <form action="/users/logoutall" method="POST">
+    <button>Log Out From All Sessions</button>
+    </form>
+
+
+
+    <p>{{> footer}}</p>    
 </body>
 </html>

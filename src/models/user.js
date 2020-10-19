@@ -10,13 +10,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    age: {
-        type: Number,
-        default: 0,
-        validate(value) {
-            if (value < 0) throw new Error('Age must be a positive number');
-        }
-    },
     email: {
         type: String,
         unique: true,
@@ -36,15 +29,7 @@ const userSchema = new mongoose.Schema({
             if (value.toLowerCase().includes('password')) throw new Error('Password shouldn\'t include "password"');
         }
     },
-    tokens: [
-        String
-        // {
-        //     token: {
-        //         type: String,
-        //         required: true
-        //     }
-        // }
-    ],
+    tokens: [String],
     avatar: {
         type: Buffer
     }
