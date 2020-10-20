@@ -9,7 +9,7 @@ router.get('/tasks/', auth, async (req, res) => {
     if (req.query.completed !== undefined)      // Remember Boolean('false') == true
         match.completed = req.query.completed;
     if (req.query.sortBy) {
-        const [ field, order ] = req.query.sortBy.split(':');
+        const [field, order] = req.query.sortBy.split(':');
         sort[field] = order === 'asc' ? 1 : -1;
     }
     try {
@@ -22,7 +22,9 @@ router.get('/tasks/', auth, async (req, res) => {
                 sort
             }
         }).execPopulate();
-        res.send(req.user.tasks);
+        if (req.user.tasks.length)
+            res.render('tasks', { tasks: req.user.tasks });
+        else res.send('no tasks man');
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -68,12 +70,12 @@ router.delete('/tasks/:id', auth, async (req, res) => {
 });
 
 router.post('/tasks/', auth, async (req, res) => {
-    const task = new Task({ ...req.body, owner: req.user._id });
+    const task = new Task({ ...req.body.data, owner: req.user._id });
     try {
         await task.save();
-        res.status(201).send('Task created.')
+        res.status(201).send('Task created.');
     } catch (err) {
-        res.status(400).send(err.message)
+        res.status(400).send(err.message);
     }
 });
 

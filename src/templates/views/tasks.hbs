@@ -1,0 +1,4 @@
+<h2>Here are your tasks:</h2>
+{{#each tasks }}
+<p>{{this.description}} : {{#if this.completed}}completed{{else}}not yet completed{{/if}}</p>
+{{/each}}

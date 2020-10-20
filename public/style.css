@@ -1,0 +1,54 @@
+.modal {
+    background-color: rgba(10,10,10,.86);
+    width:100vw;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+}
+
+.modal-content{
+    position: absolute;
+    padding:20px;
+    width:400px;
+    left:50vw;
+    top:10vh;
+    transform:translateX(-50%);
+    background-color: white;
+}
+
+.modal-header{
+    padding: 10px 0;
+}
+
+.modal-body{
+    margin:20px auto;
+}
+
+.modal-body * {
+    margin:0 2px 15px;
+}
+
+.modal-body label{
+    margin-right:6px;
+}
+
+.modal-footer{
+    padding: 10px 0;
+}
+
+.modal-confirmation {
+    opacity:1;
+    transition: opacity 0.8s;
+}
+
+.modal-confirmation.fade {
+    opacity:0;
+}
+.hidden{
+    display:none;
+}
+
+.frozen {
+    overflow: hidden !important;
+}

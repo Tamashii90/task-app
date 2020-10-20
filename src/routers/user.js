@@ -112,7 +112,10 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         await req.user.save();
         res.clearCookie('auth_token');
         res.clearCookie('current_user');
-        res.send("Logged Out From All Sessions.");
+        res.render('redirect', {
+            message:'Successflly Logged Out From All Sessions.',
+            page:'/'
+        });
     } catch (error) {
         res.status(500).send();
     }
