@@ -113,7 +113,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         res.clearCookie('auth_token');
         res.clearCookie('current_user');
         res.render('redirect', {
-            message:'Successflly Logged Out From All Sessions.',
+            message:'Successfully Logged Out From All Sessions.',
             page:'/'
         });
     } catch (error) {
