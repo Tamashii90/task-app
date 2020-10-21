@@ -52,7 +52,7 @@ router.patch('/tasks/:id', auth, async (req, res) => {
             return res.status(404).send('No task found.');
         Object.assign(task, req.body);
         await task.save();
-        res.send('Updated: ' + task);
+        res.send('Task Updated.');
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -63,14 +63,14 @@ router.delete('/tasks/:id', auth, async (req, res) => {
         const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
         if (!task)
             return res.status(404).send('Task not found.');
-        res.send('Deleted: ' + task);
+        res.send('Task Deleted.');
     } catch (error) {
         res.status(500).send(error);
     }
 });
 
 router.post('/tasks/', auth, async (req, res) => {
-    const task = new Task({ ...req.body.data, owner: req.user._id });
+    const task = new Task({ ...req.body, owner: req.user._id });
     try {
         await task.save();
         res.status(201).send('Task created.');

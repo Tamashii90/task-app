@@ -30,6 +30,7 @@
 }
 
 .modal-body label{
+    display:inline-block;   /* so I can adjust vertical margins */
     margin-right:6px;
 }
 
@@ -45,10 +46,24 @@
 .modal-confirmation.fade {
     opacity:0;
 }
+
+button {
+    cursor: pointer;
+}
+
+#resTable td {
+    padding: 8px;
+    text-align: center;
+}
+
 .hidden{
     display:none;
 }
 
 .frozen {
     overflow: hidden !important;
+}
+
+.unchanging {
+    border:none;
 }

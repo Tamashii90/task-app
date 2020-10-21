@@ -17,15 +17,15 @@
     </form>
     <button id="fetchTasksBtn">Fetch Tasks</button>
     <button id="newTaskBtn">Create A New Task</button>
-    <div id="results"></div>
+    <div id="results" class="hidden"></div>
     <div class="modal hidden">
-        <div class="modal-content">
+        <div class="modal-content hidden">
             <div class="modal-header">
                 <h2>Create a New Task</h2>
             </div>
             <div class="modal-body">
-            <form method="POST" id="taskForm">
-            <textarea name="description" id="descriptionField" cols="30" rows="2" required placeholder="Task Description.."></textarea><br>
+            <form id="taskForm" action="/tasks/">
+            <textarea name="description" id="descriptionField" cols="30" rows="2" placeholder="Task Description.." required></textarea><br>
             <label>Completed ?</label>
             <br>
             <label><input type="radio" name="completed" id="" value="true"> Yes</label>
@@ -45,7 +45,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
         integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
         crossorigin="anonymous"></script>
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,30 @@
 <h2>Here are your tasks:</h2>
-{{#each tasks }}
-<p>{{this.description}} : {{#if this.completed}}completed{{else}}not yet completed{{/if}}</p>
-{{/each}}
+
+<table id="resTable">
+    {{#each tasks }}
+    <tr>
+        <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
+            <td><input name="description" form="edit-{{this._id}}" class="unchanging" type="text" readonly
+                    value="{{this.description}}" />
+            </td>
+            <td>
+                {{#if this.completed}}
+                <select form="edit-{{this._id}}" name="completed" class="hidden">
+                    <option value="false">No</option>
+                    <option value="true" selected>Yes</option>
+                </select>
+                <span id="state-{{this._id}}">completed</span>
+                {{else}}
+                <select form="edit-{{this._id}}" name="completed" class="hidden">
+                    <option value="false" selected>No</option>
+                    <option value="true">Yes</option>
+                </select><span id="state-{{this._id}}">not yet completed</span>
+            </td>{{/if}}
+            <td><input class="hidden editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
+                    value="Save Edits" /><button data-form="{{this._id}}" class="preEditBtn">Edit</button></td>
+            <td><button class="deleteBtn" data-id={{this._id}}>Delete</button></td>
+    </tr>
+    </form>
+    {{/each}}
+</table>
+</form>
