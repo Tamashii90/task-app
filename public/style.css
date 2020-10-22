@@ -1,3 +1,22 @@
+
+main {
+    width:25%;
+    margin:auto;    
+}
+
+header {
+    position: relative;
+}
+
+header form {
+    display: inline;
+}
+
+header div {
+    position: absolute;
+    right:10px;
+    top:5px;
+}
 .modal {
     background-color: rgba(10,10,10,.86);
     width:100vw;
@@ -47,13 +66,27 @@
     opacity:0;
 }
 
-button {
+#overlay{
+    background-color: rgba(10,10,10,.86);
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    width:100vw;
+    z-index: 5;
+}
+
+button, input[type=submit] {
     cursor: pointer;
 }
 
 #resTable td {
     padding: 8px;
     text-align: center;
+}
+
+tr {
+    position: relative;
 }
 
 .hidden{

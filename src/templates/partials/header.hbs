@@ -1,12 +1,19 @@
-<h1>Header Goes Here</h1>
-{{! user is populated from fillHeader.js }}
-{{#if user}}
-<span>Hello {{user}}</span>
-<form action="/users/logout" method="POST">
-    <button>Log Out</button>
-</form>
-{{else}}
-<a href="/users/login">Log in</a>&nbsp;
-<a href="/users/signup">Sign Up</a>
-{{/if}}
+<header>
+    <h1>Header Goes Here</h1>
+
+    {{! user is populated from fillHeader.js }}
+    {{#if user}}
+    <div>
+        <span>{{user}}</span>
+        <form action="/users/logout" method="POST">
+            <button>Log Out</button>
+        </form>
+    </div>
+    {{else}}
+    <div>
+        <a href="/users/login">Log in</a>&nbsp;
+        <a href="/users/signup">Sign Up</a>
+    </div>
+    {{/if}}
+</header>
 <hr>

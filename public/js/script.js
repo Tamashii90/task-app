@@ -6,6 +6,7 @@ const contentModal = document.querySelector('.modal-content');
 const msgModal = document.querySelector('.modal-confirmation');
 const resDiv = document.querySelector('#results');
 const taskForm = document.querySelector('#taskForm');
+const editOverlay = document.querySelector('#overlay');
 let deleteBtns;      // this isn't rendered until fetch tasks is called, so leave it undefined here
 
 
@@ -34,7 +35,11 @@ taskForm.addEventListener('submit', e => {
 });
 window.addEventListener('click', e => {
     if (e.target === containerModal) {
-        closeModal(containerModal);
+        closeModal(e.target);
+    }
+    if (e.target === overlay) {
+        closeModal(e.target);
+        loadContentAndScript();     // to drop the changes
     }
 });
 
@@ -43,14 +48,14 @@ window.addEventListener('click', e => {
 //---------------- Functions ----------------//
 
 function openModal(modal) {
-    if (modal === containerModal) {
+    if (modal === containerModal || modal === editOverlay) {
         document.querySelector('html').classList.add('frozen');
     }
     modal.classList.remove('hidden');
 }
 
 function closeModal(modal) {
-    if (modal === containerModal) {
+    if (modal === containerModal || modal === overlay) {
         document.querySelector('html').classList.remove('frozen');
     }
     modal.classList.add('hidden');

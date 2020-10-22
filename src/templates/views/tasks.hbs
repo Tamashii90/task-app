@@ -4,7 +4,7 @@
     {{#each tasks }}
     <tr>
         <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
-            <td><input name="description" form="edit-{{this._id}}" class="unchanging" type="text" readonly
+            <td><input size="30" name="description" form="edit-{{this._id}}" class="unchanging" type="text" readonly
                     value="{{this.description}}" />
             </td>
             <td>

@@ -68,6 +68,7 @@ router.post('/users/signup', async (req, res) => {
         await user.save();
         //sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
+        res.cookie('current_user', user.name, { sameSite: 'lax' });
         res.cookie('auth_token', token, { sameSite: 'lax' });
         res.status(201).render('redirect', { message: 'Thanks for creating an account.', page: '/users/me' });
     } catch (err) {
