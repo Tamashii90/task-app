@@ -1,0 +1,47 @@
+<div class="profile">
+    <table id="profileTable">
+        <form action="/users/me/" id="profileForm"></form>
+        <tr>
+            <td><label>Username </td>
+            <td><input size="30" type="text" name="name" id="" form="profileForm" value="{{profile.name}}"></label></td>
+        </tr>
+        <tr>
+            <td><label>Email </td>
+            <td><input size="30" type="text" name="email" id="" form="profileForm" value="{{profile.email}}"></label>
+            </td>
+        </tr>
+        <tr>
+            <td><label>New Password </td>
+            <td><input size="30" type="password" name="password" id="" form="profileForm"></label></td>
+        </tr>
+        <tr>
+            <td><label>Verify New Passowrd </td>
+            <td><input size="30" type="password" name="pwdVerif" id="" form="profileForm"></label></td>
+        </tr>
+        <tr>
+            <td><label>Joined</label></td>
+            <td>{{profile.createdAt}}</label></td>
+        </tr>
+        <tr>
+            <td><input type="submit" form="profileForm" value="Save Changes"></td>
+        </tr>
+        </form>
+        <tr>
+            <td>
+                <form action="/users/logoutall" method="POST">
+                    <button>Log Out From All Sessions</button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form action="/users/me" id="deleteAcct">
+                    <button>DELETE ACCOUNT</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+
+
+</div>

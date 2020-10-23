@@ -19,25 +19,43 @@ const upload = multer({
 
 router.get('/users/me', auth, async (req, res) => {
     try {
+        res.render('profile');
+    } catch (error) {
+        res.status(500).send();
+    }
+});
+
+router.get('/users/me/info', auth, (req, res) => {
+    try {
         const user = req.user;
-        res.render('profile', { profile: user });
+        res.render('account', { profile: user })
     } catch (error) {
         res.status(500).send();
     }
 });
 
 router.patch('/users/me', auth, async (req, res) => {
-    const allowedFields = ["name", "age", "email", "password"];
+    const allowedFields = ["name", "pwdVerif", "email", "password"];
     const isAllowedField = Object.keys(req.body).every(property => allowedFields.includes(property));
 
     if (!isAllowedField)
         return res.status(400).send('Bad field.');
+    if (req.body.pwdVerif !== req.body.password) {  // in case the user DID want to change his password
+        res.send("Passwords don't match.");
+    }
+    if (!req.body.password && !req.body.pwdVerif) {
+        // if the user didn't change his password, those two fields will arrive as empty strings
+        // which will cause Mongoose to throw an error. If I delete one now, and the other
+        // in the try block, then Mongoose won't malfunction.
+        delete req.body.password
+    }
 
     try {
+        delete req.body.pwdVerif     // this doesn't get stored in the database
         const user = req.user;
         Object.assign(user, req.body);
         await user.save();
-        res.send(user);
+        res.send('Changes Applied.');
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -47,6 +65,8 @@ router.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove();
         //sendBye(req.user.name, req.user.email);
+        res.clearCookie('auth_token');
+        res.clearCookie('current_user');
         res.send('Goodbye :(');
     } catch (err) {
         res.status(500).send(err);
@@ -63,14 +83,17 @@ router.get('/users/signup', (req, res) => {
 });
 
 router.post('/users/signup', async (req, res) => {
-    const user = new User(req.body);
     try {
+        if (req.body.pwdVerif !== req.body.password)
+            throw new Error("Passwords don't match.");
+        delete req.body.pwdVerif;       // this doesn't get stored in the database
+        const user = new User(req.body);
         await user.save();
         //sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
         res.cookie('current_user', user.name, { sameSite: 'lax' });
         res.cookie('auth_token', token, { sameSite: 'lax' });
-        res.status(201).render('redirect', { message: 'Thanks for creating an account.', page: '/users/me' });
+        res.status(201).render('redirect', { message: 'Welcome !', page: '/users/me' });
     } catch (err) {
         res.status(400).send(err.message);
     }
@@ -114,8 +137,8 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         res.clearCookie('auth_token');
         res.clearCookie('current_user');
         res.render('redirect', {
-            message:'Successfully Logged Out From All Sessions.',
-            page:'/'
+            message: 'Successfully Logged Out From All Sessions.',
+            page: '/'
         });
     } catch (error) {
         res.status(500).send();

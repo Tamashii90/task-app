@@ -12,13 +12,9 @@
     {{> header}}
     <main>
         <div id="overlay" class="hidden"></div>
-        <p>{{profile.name}}</p>
-        <p>{{profile.email}}</p>
-        <form action="/users/logoutall" method="POST">
-            <button>Log Out From All Sessions</button>
-        </form>
         <button id="fetchTasksBtn">Fetch Tasks</button>
         <button id="newTaskBtn">Create A New Task</button>
+        <button id="getInfo">Profile</button>
         <div id="results" class="hidden"></div>
         <div class="modal hidden">
             <div class="modal-content hidden">

@@ -9,7 +9,7 @@ let deleteButtons = document.querySelectorAll('#editForm');
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         axios.delete(`/tasks/${this.dataset.id}`).then(res => {
-            if (!editOverlay.classList.contains('hidden')){
+            if (!editOverlay.classList.contains('hidden')) {
                 closeModal(editOverlay);
             }
             openModal(containerModal);
@@ -23,7 +23,7 @@ document.querySelectorAll('.deleteBtn').forEach(btn => {
 document.querySelectorAll('.editForm').forEach(editForm => {
     editForm.addEventListener('submit', e => {
         e.preventDefault();
-        submitTaskForm(editForm, 'PATCH')
+        asyncSubmit(editForm, 'PATCH')
             .then(res => {
                 closeModal(editOverlay);
                 closeModal(contentModal);
@@ -57,5 +57,6 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
         }
         parentRow.style.zIndex = 20;
         descriptionField.removeAttribute('readonly');
+        descriptionField.style.background = 'white';
     });
 });

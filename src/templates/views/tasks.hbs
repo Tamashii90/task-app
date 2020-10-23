@@ -1,11 +1,10 @@
 <h2>Here are your tasks:</h2>
-
 <table id="resTable">
     {{#each tasks }}
     <tr>
         <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
-            <td><input size="30" name="description" form="edit-{{this._id}}" class="unchanging" type="text" readonly
-                    value="{{this.description}}" />
+            <td>
+                <input size="30" name="description" form="edit-{{this._id}}" class="unchanging" type="text" readonly value="{{this.description}}" />
             </td>
             <td>
                 {{#if this.completed}}
@@ -20,9 +19,14 @@
                     <option value="true">Yes</option>
                 </select><span id="state-{{this._id}}">not yet completed</span>
             </td>{{/if}}
-            <td><input class="hidden editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
-                    value="Save Edits" /><button data-form="{{this._id}}" class="preEditBtn">Edit</button></td>
-            <td><button class="deleteBtn" data-id={{this._id}}>Delete</button></td>
+            <td>
+                <input class="hidden editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
+                    value="Save Edits" />
+                <button data-form="{{this._id}}" class="preEditBtn">Edit</button>
+            </td>
+            <td>
+                <button class="deleteBtn" data-id={{this._id}}>Delete</button>
+            </td>
     </tr>
     </form>
     {{/each}}

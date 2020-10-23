@@ -1,6 +1,7 @@
 
 const fetchTasksBtn = document.querySelector('#fetchTasksBtn');
 const newTaskBtn = document.querySelector('#newTaskBtn');
+const getInfoBtn = document.querySelector('#getInfo');
 const containerModal = document.querySelector(".modal");
 const contentModal = document.querySelector('.modal-content');
 const msgModal = document.querySelector('.modal-confirmation');
@@ -10,9 +11,13 @@ const editOverlay = document.querySelector('#overlay');
 let deleteBtns;      // this isn't rendered until fetch tasks is called, so leave it undefined here
 
 
+getInfoBtn.addEventListener('click', () => {
+    loadContentAndScript('profile');
+    openModal(resDiv);
+});
 fetchTasksBtn.addEventListener('click', () => {
-    resDiv.classList.remove('hidden');
-    loadContentAndScript();
+    loadContentAndScript('tasks');
+    openModal(resDiv);
 });
 newTaskBtn.addEventListener('click', () => {
     taskForm.reset();       // clear out any values from old submissions
@@ -21,12 +26,12 @@ newTaskBtn.addEventListener('click', () => {
 });
 taskForm.addEventListener('submit', e => {
     e.preventDefault();
-    submitTaskForm(taskForm,'POST')        // submit the form asynchronously using axios
+    asyncSubmit(taskForm, 'POST')        // submit the form asynchronously using axios
         .then(res => {
             closeModal(contentModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-                loadContentAndScript();
+                loadContentAndScript('tasks');
             }, 800);
         }).catch(err => {
             closeModal(contentModal);
@@ -39,7 +44,7 @@ window.addEventListener('click', e => {
     }
     if (e.target === overlay) {
         closeModal(e.target);
-        loadContentAndScript();     // to drop the changes
+        loadContentAndScript('tasks');     // to drop the changes
     }
 });
 
@@ -61,7 +66,7 @@ function closeModal(modal) {
     modal.classList.add('hidden');
 }
 
-async function submitTaskForm(form, method) {         // submit form asynchronously using axios
+async function asyncSubmit(form, method) {         // submit form asynchronously using axios
     const formData = [...new FormData(form).entries()];
     const newForm = Object.fromEntries(formData);
     return axios({
@@ -84,13 +89,19 @@ function displayConfirm(data) {
     }, 1000);
 }
 
-function loadContentAndScript() {
+function loadContentAndScript(route) {
     // everytime the content gets updated I have to reload the delete/edit script
-    // for the newly rendered delete/edit buttons
-    axios.get('/tasks/').then(res => {
-        resDiv.innerHTML = res.data;
-        const script = document.createElement('script');
-        script.src = '/js/asyncHandler.js';
-        resDiv.append(script);
-    });
+    // for the newly rendered delete/edit 
+    const script = document.createElement('script');
+    script.src = '/js/asyncTasks.js';
+    if (route === 'profile') {
+        route = '/users/me/info';
+        script.src = '/js/asyncProfile.js';
+    }
+    else route = '/tasks/';
+    axios.get(route)
+        .then(res => {
+            resDiv.innerHTML = res.data;
+            resDiv.append(script);
+        }).catch(err => alert(err));
 }
