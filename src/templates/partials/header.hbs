@@ -4,10 +4,12 @@
     {{! user is populated from fillHeader.js }}
     {{#if user}}
     <div>
-        <span>{{user}}</span>
+        <img src='/users/me/avatar' width="50" height="50"/>
+        <span>{{user}}
         <form action="/users/logout" method="POST">
             <button>Log Out</button>
         </form>
+        </span>
     </div>
     {{else}}
     <div>
@@ -16,4 +18,3 @@
     </div>
     {{/if}}
 </header>
-<hr>

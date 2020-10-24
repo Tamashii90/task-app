@@ -1,6 +1,7 @@
 <div class="profile">
+    <img src="{{avatarPath}}" alt="profile picture">
     <table id="profileTable">
-        <form action="/users/me/" id="profileForm"></form>
+        <form action="/users/me/" enctype="multipart/form-data" id="profileForm"></form>
         <tr>
             <td><label>Username </td>
             <td><input size="30" type="text" name="name" id="" form="profileForm" value="{{profile.name}}"></label></td>
@@ -21,6 +22,11 @@
         <tr>
             <td><label>Joined</label></td>
             <td>{{profile.createdAt}}</label></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="file" id="avatarFile" name="avatar" form="profileForm">
+            </td>
         </tr>
         <tr>
             <td><input type="submit" form="profileForm" value="Save Changes"></td>

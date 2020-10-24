@@ -76,6 +76,15 @@ async function asyncSubmit(form, method) {         // submit form asynchronously
     });
 }
 
+async function asyncSubmitMulti(form, method) {
+    const formData = new FormData(form);
+    return axios({
+        url: form.action,
+        method,
+        data: formData
+    });
+}
+
 function displayConfirm(data) {
     openModal(msgModal);
     msgModal.innerHTML = data;

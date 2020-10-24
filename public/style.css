@@ -1,10 +1,11 @@
 main {
     width:33%;
-    margin:auto;    
+    margin:10px auto;    
 }
 
 header {
     position: relative;
+    border-bottom: 2px solid gray;
 }
 
 header form {
@@ -12,10 +13,23 @@ header form {
 }
 
 header div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     right:10px;
     top:5px;
 }
+
+header div * {
+    margin:auto 2px;
+}
+
+footer {
+    border-top:2px solid gray;
+}
+
 .modal {
     background-color: rgba(10,10,10,.86);
     width:100vw;
@@ -99,6 +113,10 @@ button, input[type=submit] {
     background:none;
 }
 
+div.profile{
+    margin-top: 10px;
+}
+
 /* #profileTable {
   
 } */
@@ -110,11 +128,6 @@ button, input[type=submit] {
 
 tr {
     position: relative;
-}
-
-footer {
-    position: absolute;
-    bottom: 0;
 }
 
 .hidden{

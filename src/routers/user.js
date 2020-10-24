@@ -28,16 +28,40 @@ router.get('/users/me', auth, async (req, res) => {
 router.get('/users/me/info', auth, (req, res) => {
     try {
         const user = req.user;
-        res.render('account', { profile: user })
+        res.render('account', { profile: user, avatarPath: "/users/me/avatar" })
     } catch (error) {
         res.status(500).send();
     }
 });
 
-router.patch('/users/me', auth, async (req, res) => {
-    const allowedFields = ["name", "pwdVerif", "email", "password"];
-    const isAllowedField = Object.keys(req.body).every(property => allowedFields.includes(property));
+router.post('/users/signup', upload.single('avatar'), async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
+    try {
+        if (req.body.pwdVerif !== req.body.password)
+            throw new Error("Passwords don't match.");
+        delete req.body.pwdVerif;       // this doesn't get stored in the database
+        const user = new User({ ...req.body, avatar: buffer });
+        await user.save();
+        //sendWelcome(user.name, user.email);
+        const token = await user.generateAuthToken();
+        res.cookie('current_user', user.name, { sameSite: 'lax' });
+        res.cookie('auth_token', token, { sameSite: 'lax' });
+        res.status(201).render('redirect', { message: 'Welcome !', page: '/users/me' });
+    } catch (err) {
+        res.status(400).send(err.message);
+    }
+}, (err, req, res, next) => {
+    res.status(400).send({ error: err.message });
+});
 
+router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
+    const allowedFields = ["name", "pwdVerif", "email", "password", "avatar"];
+    const isAllowedField = Object.keys(req.body).every(property => allowedFields.includes(property));
+    let buffer;
+    if (req.file) {
+        buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
+        req.body.avatar = buffer;
+    }
     if (!isAllowedField)
         return res.status(400).send('Bad field.');
     if (req.body.pwdVerif !== req.body.password) {  // in case the user DID want to change his password
@@ -49,12 +73,12 @@ router.patch('/users/me', auth, async (req, res) => {
         // in the try block, then Mongoose won't malfunction.
         delete req.body.password
     }
-
+    delete req.body.pwdVerif     // this doesn't get stored in the database
+    const user = req.user;
+    Object.assign(user, req.body);
     try {
-        delete req.body.pwdVerif     // this doesn't get stored in the database
-        const user = req.user;
-        Object.assign(user, req.body);
         await user.save();
+        res.cookie('current_user', user.name, { sameSite: "lax" });     // update the cookie to the new name
         res.send('Changes Applied.');
     } catch (error) {
         res.status(400).send(error.message);
@@ -80,23 +104,6 @@ router.get('/users/signup', (req, res) => {
         message: 'You already have an account.',
         page: '/users/me'
     })
-});
-
-router.post('/users/signup', async (req, res) => {
-    try {
-        if (req.body.pwdVerif !== req.body.password)
-            throw new Error("Passwords don't match.");
-        delete req.body.pwdVerif;       // this doesn't get stored in the database
-        const user = new User(req.body);
-        await user.save();
-        //sendWelcome(user.name, user.email);
-        const token = await user.generateAuthToken();
-        res.cookie('current_user', user.name, { sameSite: 'lax' });
-        res.cookie('auth_token', token, { sameSite: 'lax' });
-        res.status(201).render('redirect', { message: 'Welcome !', page: '/users/me' });
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
 });
 
 router.get('/users/login', (req, res) => {
@@ -145,15 +152,15 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     }
 });
 
-router.post('/users/me/avatar/', auth, upload.single('avatar'), async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
-    req.user.avatar = buffer;
-    await req.user.save();
-    res.send('Uploaded !');
+// router.post('/users/me/avatar/', auth, upload.single('avatar'), async (req, res) => {
+//     const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
+//     req.user.avatar = buffer;
+//     await req.user.save();
+//     res.send('Uploaded !');
 
-}, (err, req, res, next) => {
-    res.status(400).send({ error: err.message });
-});
+// }, (err, req, res, next) => {
+//     res.status(400).send({ error: err.message });
+// });
 
 router.delete('/users/me/avatar/', auth, async (req, res) => {
     req.user.avatar = undefined;
@@ -161,11 +168,9 @@ router.delete('/users/me/avatar/', auth, async (req, res) => {
     res.send('Deleted your avatar.');
 });
 
-router.get('/users/:id/avatar/', async (req, res) => {
+router.get('/users/me/avatar/', auth, async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user || !user.avatar)
-            throw new Error('No avatar or user.');
+        const user = await User.findOne(req.user._id);
         res.set('Content-Type', 'image/jpg');
         res.send(user.avatar);
     } catch (error) {

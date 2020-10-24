@@ -1,11 +1,13 @@
 document.querySelector('#profileForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    asyncSubmit(this, 'PATCH').then(res => {
+    asyncSubmitMulti(this, 'PATCH').then(res => {
         closeModal(contentModal);
         openModal(containerModal);
         displayConfirm(res.data);
-        setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-            loadContentAndScript('profile');
+        setTimeout(() => {          
+            // have to reload the whole page unfortunately because I need to update:
+            // avatar, avatar in the header, and the name in the header
+            window.location.reload();
         }, 800);
     }).catch(err => {
         closeModal(contentModal);
