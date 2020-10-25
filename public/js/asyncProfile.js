@@ -4,14 +4,13 @@ document.querySelector('#profileForm').addEventListener('submit', function (e) {
         closeModal(contentModal);
         openModal(containerModal);
         displayConfirm(res.data);
-        setTimeout(() => {          
-            // have to reload the whole page unfortunately because I need to update:
-            // avatar, avatar in the header, and the name in the header
+        setTimeout(() => {
             window.location.reload();
         }, 800);
     }).catch(err => {
         closeModal(contentModal);
-        alert(err.message);
+        if (err.response) return alert(err.response.data);
+        alert(err);
     });
 });
 document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
@@ -21,7 +20,7 @@ document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
             closeModal(contentModal);
             openModal(containerModal);
             displayConfirm(res.data);
-            setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
+            setTimeout(() => {
                 window.location = '/';
             }, 800);
         }).catch(err => {
@@ -29,4 +28,20 @@ document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
             alert(err.message);
         });
     }
+});
+document.querySelector('#deleteAvForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const avatars = document.querySelectorAll('.avatarImg');
+    asyncSubmitMulti(this, 'DELETE').then(res => {          // no idea why I have to make this multipart
+        closeModal(contentModal);
+        openModal(containerModal);
+        displayConfirm(res.data);
+        setTimeout(() => {
+            loadContentAndScript('profile');
+            avatars.forEach(avatar => avatar.src = 'https://i.imgur.com/F9cRyax.png');
+        }, 800);
+    }).catch(err => {
+        closeModal(contentModal);
+        alert(err.message);
+    });
 });

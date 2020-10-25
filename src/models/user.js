@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique:true
+        unique: true
     },
     email: {
         type: String,
@@ -66,13 +66,18 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 };
 
+userSchema.methods.minifyUser = function () {
+    const user = this;
+    const newUser = user.toObject();
+    delete newUser.avatar;
+    delete newUser.tokens;
+    delete newUser.password;
+    return newUser;
+};
+
 userSchema.methods.toJSON = function () {
     const user = this;
-    const userObj = user.toObject();
-    delete userObj.password;
-    delete userObj.tokens;
-    delete userObj.avatar;
-    return userObj;
+    return user.minifyUser();
 };
 
 userSchema.statics.findByCredentials = async (email, password) => {

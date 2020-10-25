@@ -3,6 +3,7 @@ const router = express.Router();
 const sharp = require('sharp');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
+const { clearMyCookies, setMyCookies } = require('../utils/cookies');
 const { sendBye, sendWelcome } = require('../../mailgun');
 const multer = require('multer');
 const upload = multer({
@@ -28,14 +29,13 @@ router.get('/users/me', auth, async (req, res) => {
 router.get('/users/me/info', auth, (req, res) => {
     try {
         const user = req.user;
-        res.render('account', { profile: user, avatarPath: "/users/me/avatar" })
+        res.render('account', { profile: user });
     } catch (error) {
         res.status(500).send();
     }
 });
 
-router.post('/users/signup', upload.single('avatar'), async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
+router.post('/users/signup', async (req, res) => {
     try {
         if (req.body.pwdVerif !== req.body.password)
             throw new Error("Passwords don't match.");
@@ -44,14 +44,12 @@ router.post('/users/signup', upload.single('avatar'), async (req, res) => {
         await user.save();
         //sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
-        res.cookie('current_user', user.name, { sameSite: 'lax' });
-        res.cookie('auth_token', token, { sameSite: 'lax' });
+        res.setMyCookies = setMyCookies;
+        res.setMyCookies(user, token);
         res.status(201).render('redirect', { message: 'Welcome !', page: '/users/me' });
     } catch (err) {
         res.status(400).send(err.message);
     }
-}, (err, req, res, next) => {
-    res.status(400).send({ error: err.message });
 });
 
 router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
@@ -60,12 +58,13 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
     let buffer;
     if (req.file) {
         buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
+        res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
         req.body.avatar = buffer;
     }
     if (!isAllowedField)
         return res.status(400).send('Bad field.');
     if (req.body.pwdVerif !== req.body.password) {  // in case the user DID want to change his password
-        res.send("Passwords don't match.");
+        return res.status(400).send("Passwords don't match.");
     }
     if (!req.body.password && !req.body.pwdVerif) {
         // if the user didn't change his password, those two fields will arrive as empty strings
@@ -83,14 +82,16 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
+}, (err, req, res, next) => {
+    res.status(400).send({ error: err.message });
 });
 
 router.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove();
         //sendBye(req.user.name, req.user.email);
-        res.clearCookie('auth_token');
-        res.clearCookie('current_user');
+        res.clearMyCookies = clearMyCookies;
+        res.clearMyCookies();
         res.send('Goodbye :(');
     } catch (err) {
         res.status(500).send(err);
@@ -117,8 +118,8 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);   // Static function
         const token = await user.generateAuthToken();
-        res.cookie('current_user', user.name, { sameSite: 'lax' });
-        res.cookie('auth_token', token, { sameSite: 'lax' });
+        res.setMyCookies = setMyCookies;
+        res.setMyCookies(user, token);
         res.render('redirect', { message: `Welcome ${user.name}`, page: '/users/me' });
     } catch (error) {
         res.status(400).send(error.message);
@@ -129,8 +130,8 @@ router.post('/users/logout', auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => token !== req.token);
         await req.user.save();
-        res.clearCookie('auth_token');
-        res.clearCookie('current_user');
+        res.clearMyCookies = clearMyCookies;
+        res.clearMyCookies();
         res.render('redirect', { message: 'You have been logged out.', page: '/' });
     } catch (error) {
         res.status(500).send();
@@ -141,14 +142,14 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();
-        res.clearCookie('auth_token');
-        res.clearCookie('current_user');
+        res.clearMyCookies = clearMyCookies;
+        res.clearMyCookies();
         res.render('redirect', {
             message: 'Successfully Logged Out From All Sessions.',
             page: '/'
         });
     } catch (error) {
-        res.status(500).send();
+        res.status(500).send(error);
     }
 });
 
@@ -165,7 +166,8 @@ router.post('/users/logoutAll', auth, async (req, res) => {
 router.delete('/users/me/avatar/', auth, async (req, res) => {
     req.user.avatar = undefined;
     await req.user.save();
-    res.send('Deleted your avatar.');
+    res.cookie('hasAvatar', '');
+    res.send('Avatar Reset.');
 });
 
 router.get('/users/me/avatar/', auth, async (req, res) => {
