@@ -166,7 +166,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
 router.delete('/users/me/avatar/', auth, async (req, res) => {
     req.user.avatar = undefined;
     await req.user.save();
-    res.cookie('hasAvatar', '');
+    res.cookie('hasAvatar', '', { sameSite: 'lax' });
     res.send('Avatar Reset.');
 });
 
