@@ -29,18 +29,24 @@ router.get('/users/me', auth, async (req, res) => {
 router.get('/users/me/info', auth, (req, res) => {
     try {
         const user = req.user;
-        res.render('account', { profile: user });
+        const profile = {
+            ...user._doc,
+            createdAt: user.createdAt.toDateString()
+        };
+        res.render('account', { profile });
     } catch (error) {
         res.status(500).send();
     }
 });
 
-router.post('/users/signup', async (req, res) => {
+router.post('/users/signup', async (req, res, next) => {
+
+    // if (req.body.pwdVerif !== req.body.password)
+    //     return next("Passwords don't match.");
+    //delete req.body.pwdVerif;       // this doesn't get stored in the database
     try {
-        if (req.body.pwdVerif !== req.body.password)
-            throw new Error("Passwords don't match.");
-        delete req.body.pwdVerif;       // this doesn't get stored in the database
-        const user = new User({ ...req.body, avatar: buffer });
+        const user = new User(req.body);
+        // user.pwdVerif = req.body.pwdVerif;
         await user.save();
         //sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
@@ -48,7 +54,8 @@ router.post('/users/signup', async (req, res) => {
         res.setMyCookies(user, token);
         res.status(201).render('redirect', { message: 'Welcome !', page: '/users/me' });
     } catch (err) {
-        res.status(400).send(err.message);
+        // res.status(400).send(err);
+        res.status(400).render('signup', { error: err, pastEmail: req.body.email, pastName : req.body.name });
     }
 });
 
@@ -80,7 +87,11 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
         res.cookie('current_user', user.name, { sameSite: "lax" });     // update the cookie to the new name
         res.send('Changes Applied.');
     } catch (error) {
-        res.status(400).send(error.message);
+        const profile = {
+            ...user._doc,
+            createdAt: user.createdAt.toDateString()
+        };
+        res.status(400).render('account', { profile, error });
     }
 }, (err, req, res, next) => {
     res.status(400).send({ error: err.message });
@@ -122,7 +133,7 @@ router.post('/users/login', async (req, res) => {
         res.setMyCookies(user, token);
         res.render('redirect', { message: `Welcome ${user.name}`, page: '/users/me' });
     } catch (error) {
-        res.status(400).send(error.message);
+        res.status(400).render('login', { error: error.message, pastEmail: req.body.email });
     }
 });
 

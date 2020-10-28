@@ -9,8 +9,7 @@ document.querySelector('#profileForm').addEventListener('submit', function (e) {
         }, 800);
     }).catch(err => {
         closeModal(contentModal);
-        if (err.response) return alert(err.response.data);
-        alert(err);
+        loadContentAndScript('profile', err);
     });
 });
 document.querySelector('#deleteAcct').addEventListener('submit', function (e) {

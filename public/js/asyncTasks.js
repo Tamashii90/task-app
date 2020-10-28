@@ -60,3 +60,8 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
         descriptionField.style.background = 'white';
     });
 });
+document.querySelector('#newTaskBtn').addEventListener('click', () => {
+    taskForm.reset();       // clear out any values from old submissions
+    openModal(contentModal);
+    openModal(containerModal);
+});

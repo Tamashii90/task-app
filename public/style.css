@@ -1,6 +1,10 @@
-main {
-    width:33%;
-    margin:10px auto;    
+#signupMain, #loginMain {
+    max-width: 330px;
+    margin: 30px auto;
+}
+
+#signupMain *:not(.help), #loginMain *:not(.help){
+    margin:10px auto;
 }
 
 header {
@@ -93,10 +97,8 @@ button, input[type=submit] {
     cursor: pointer;
 }
 
-#resTable{
-    /* border:2px solid black; */
-     border-collapse: collapse; 
-     margin:auto;
+#resTable {
+    border-collapse: collapse; 
 }
 
 #resTable td {
@@ -129,17 +131,21 @@ button, input[type=submit] {
     margin-left: 10px;
 }
 
-/* #profileTable {
-  
-} */
+#profileTable {
+  width: 100%;
+}
 
 #profileTable td {
     white-space: nowrap;
-    padding:10px;
+    padding:10px 60px;
 }
 
 tr {
     position: relative;
+}
+
+.danger {           /* same color as Bulma's is-danger but this one works on FA icons */
+    color:#f14668 !important;
 }
 
 .hidden{

@@ -11,18 +11,15 @@ const editOverlay = document.querySelector('#overlay');
 let deleteBtns;      // this isn't rendered until fetch tasks is called, so leave it undefined here
 
 
-getInfoBtn.addEventListener('click', () => {
+getInfoBtn.addEventListener('click', function () {
+    this.classList.add('is-loading');
     loadContentAndScript('profile');
     openModal(resDiv);
 });
-fetchTasksBtn.addEventListener('click', () => {
+fetchTasksBtn.addEventListener('click', function () {
+    this.classList.add('is-loading');
     loadContentAndScript('tasks');
     openModal(resDiv);
-});
-newTaskBtn.addEventListener('click', () => {
-    taskForm.reset();       // clear out any values from old submissions
-    openModal(contentModal);
-    openModal(containerModal);
 });
 taskForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -98,19 +95,28 @@ function displayConfirm(data) {
     }, 1000);
 }
 
-function loadContentAndScript(route) {
+function loadContentAndScript(route, error) {
     // everytime the content gets updated I have to reload the delete/edit script
     // for the newly rendered delete/edit 
     const script = document.createElement('script');
-    script.src = '/js/asyncTasks.js';
+    let btn;
     if (route === 'profile') {
         route = '/users/me/info';
         script.src = '/js/asyncProfile.js';
+        btn = getInfoBtn;
     }
-    else route = '/tasks/';
+    else {
+        route = '/tasks/';
+        script.src = '/js/asyncTasks.js';
+        btn = fetchTasksBtn;
+    }
     axios.get(route)
         .then(res => {
-            resDiv.innerHTML = res.data;
+            // If this is confusing, check from where it's being called.
+            // The way axios works, if there's an error, the response payload will be inside
+            // error.response.data. I pass this error because I want hbs to render it.
+            error ? resDiv.innerHTML = error.response.data : resDiv.innerHTML = res.data;
             resDiv.append(script);
+            btn.classList.remove('is-loading');
         }).catch(err => alert(err));
 }

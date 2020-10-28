@@ -5,20 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" />
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
     {{> header}}
-    <form method="POST" action="/users/signup" enctype="multipart/form-data">
-        <input type="text" name="name" id="" placeholder="Username"><br />
-        <input type="text" name="email" id="" placeholder="Email"><br />
-        <input type="password" name="password" id="" placeholder="Password"><br />
-        <input type="password" name="pwdVerif" id="" placeholder="Verify Password"><br />
-        <input type="submit" value="Sign Up">
-    </form>
+    <main id="signupMain">
+        <form method="POST" action="/users/signup">
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input {{#if error.errors.name}}is-danger{{/if}}" type="text" name="name"
+                        placeholder="Username" value="{{pastName}}" required>
+                    <span class="icon is-small is-left {{#if error.errors.name}}danger{{/if}}">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span class="help is-danger">{{error.errors.name.message}}</span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input {{#if error.errors.email}}is-danger{{/if}}" type="email" name="email"
+                        placeholder="Email" value="{{pastEmail}}" required>
+                    <span class="icon is-left {{#if error.errors.email}}danger{{/if}}">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="help is-danger">{{error.errors.email.message}}</span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input {{#if error.errors.password}}is-danger{{/if}}" type="password" name="password"
+                        placeholder="Password" required>
+                    <span class="icon is-left {{#if error.errors.password}}danger{{/if}}">
+                        <i class="fas fa-key"></i>
+                    </span>
+                    <span class="help is-danger">{{error.errors.password.message}}</span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input {{#if error.errors.pwdVerif}}is-danger{{/if}}" type="password" name="pwdVerif"
+                        placeholder="Verify Password" required>
+                    <span class="icon is-left {{#if error.errors.pwdVerif}}danger{{/if}}">
+                        <i class="fas fa-key"></i>
+                    </span>
+                    <span class="help is-danger">{{error.errors.pwdVerif.message}}</span>
+                </div>
+            </div>
+            <button class="button">Sign Up</button>
+        </form>
+    </main>
     {{> footer}}
-
+    <script>
+        document.querySelector('#signupMain form').addEventListener('submit', function (e) {
+            const btn = this.querySelector('button');
+            btn.classList.add('is-static');
+            btn.innerText = 'Signing Up..';
+        });
+    </script>
 </body>
 
 </html>

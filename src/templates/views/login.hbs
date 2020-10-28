@@ -5,19 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css" />
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
     {{> header}}
-    <form method="POST" action="/users/login">
-        <input type="text" size="20" name="email" id="" placeholder="Email"><br />
-        <input type="password" name="password" id="" placeholder="Password"><br/>
-        <input type="submit" value="Log In">
-    </form>
-    <a href="/users/signup">Don't have an account ? Register here</a>
-    {{> footer}}
+    <main id="loginMain">
+        <form method="POST" action="/users/login">
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input {{#if error}}is-danger{{/if}}" type="email" size="30" name="email"
+                        placeholder="Email" value="{{pastEmail}}" required>
+                    <span class="icon is-left {{#if error}}danger{{/if}}">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input class="input {{#if error}}is-danger{{/if}}" type="password" size="30" name="password"
+                        placeholder="Password" required>
+                    <span class="icon is-left {{#if error}}danger{{/if}}">
+                        <i class="fas fa-key"></i>
+                    </span>
 
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-outlined">Log In</button>
+                </div>
+                <span class="help is-danger">{{error}}</span>
+            </div>
+        </form>
+        <div style="margin-top:30px;">
+            <a href="/users/signup">Don't have an account ?</a>
+        </div>
+    </main>
+    {{> footer}}
+    <script>
+        document.querySelector('#loginMain form').addEventListener('submit', function (e) {
+            const btn = this.querySelector('button');
+            btn.classList.add('is-static');
+            btn.innerText = 'Logging In..';
+        });
+    </script>
 </body>
 
 </html>

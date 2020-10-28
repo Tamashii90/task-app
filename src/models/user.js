@@ -2,29 +2,30 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const beautifyUnique = require('mongoose-beautiful-unique-validation');
 const Task = require('./task');
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: 'Username is required !',
         trim: true,
-        unique: true
+        unique: 'Username already exists.'
     },
     email: {
         type: String,
-        unique: true,
+        unique: 'Email already exists.',
         trim: true,
         lowercase: true,
-        required: true,
+        required: 'Email is required !',
         validate(value) {
             if (!validator.isEmail(value)) throw new Error('Invalid email');
         }
     },
     password: {
         type: String,
-        required: true,
-        minlength: 7,
+        required: 'Password is required !',
+        minlength: [7, 'Password has to be longer than 6 characters.'],
         trim: true,
         validate(value) {
             if (value.toLowerCase().includes('password')) throw new Error('Password shouldn\'t include "password"');
@@ -38,10 +39,18 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
+userSchema.plugin(beautifyUnique);
+
 userSchema.virtual('tasks', {
     ref: 'Task',
     localField: '_id',
     foreignField: 'owner'
+});
+
+userSchema.virtual('pwdVerif')
+.set(function (pwd) {
+    if (this.password !== pwd)
+        this.invalidate('pwdVerif', 'Passwords don\'t match.');
 });
 
 userSchema.pre('save', async function (next) {
