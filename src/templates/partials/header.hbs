@@ -1,24 +1,28 @@
-<header>
-    <h1 class="is-size-1">Header Goes Here</h1>
-
+<header class="level">
+    <div class="level-left">
+        <h1 class="level-item is-size-1">Header Goes Here</h1>
+    </div>
     {{! user is populated from fillHeader.js }}
     {{#if user}}
-    <div>
+    <div class="level-right">
         {{#if hasAvatar}}
-        <img class="avatarImg" src='/users/me/avatar' width="50" height="50" />
-        {{else}}
-        <img src='https://i.imgur.com/F9cRyax.png' width="50" height="50" />
-        {{/if}}
-        <span>{{user}}
-            <form action="/users/logout" method="POST">
-                <button>Log Out</button>
-            </form>
+        <span class="level-item">
+            <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />
         </span>
-    </div>
-    {{else}}
-    <div>
-        <a href="/users/login">Log in</a>&nbsp;
-        <a href="/users/signup">Sign Up</a>
+        {{else}}
+        <span class="level-item">
+            <img src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />
+        </span>
+        {{/if}}
+        <span class="level-item">{{user}}</span>
+        <form class="level-item" action="/users/logout" method="POST">
+            <button>Log Out</button>
+        </form>
+        {{else}}
+        <div class="level-item">
+            <a href="/users/login">Log in</a>&nbsp;
+            <a href="/users/signup">Sign Up</a>
+        </div>
     </div>
     {{/if}}
 </header>

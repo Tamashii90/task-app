@@ -8,26 +8,7 @@
 }
 
 header {
-    position: relative;
     border-bottom: 2px solid gray;
-}
-
-header form {
-    display: inline;
-}
-
-header div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right:10px;
-    top:5px;
-}
-
-header div * {
-    margin:auto 2px;
 }
 
 footer {
@@ -142,10 +123,6 @@ button, input[type=submit] {
 
 tr {
     position: relative;
-}
-
-.danger {           /* same color as Bulma's is-danger but this one works on FA icons */
-    color:#f14668 !important;
 }
 
 .hidden{
