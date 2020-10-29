@@ -3,26 +3,25 @@
         <h1 class="level-item is-size-1">Header Goes Here</h1>
     </div>
     {{! user is populated from fillHeader.js }}
-    {{#if user}}
     <div class="level-right">
+        {{#if user}}
         {{#if hasAvatar}}
         <span class="level-item">
-            <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />
+            <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />&nbsp;
+            {{user}}
         </span>
         {{else}}
         <span class="level-item">
-            <img src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />
+            <img src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />&nbsp;
+            {{user}}
         </span>
         {{/if}}
-        <span class="level-item">{{user}}</span>
         <form class="level-item" action="/users/logout" method="POST">
             <button>Log Out</button>
         </form>
         {{else}}
-        <div class="level-item">
-            <a href="/users/login">Log in</a>&nbsp;
-            <a href="/users/signup">Sign Up</a>
-        </div>
+        <a class="level-item" href="/users/login">Log in</a>&nbsp;
+        <a class="level-item" href="/users/signup">Sign Up</a>
     </div>
     {{/if}}
 </header>

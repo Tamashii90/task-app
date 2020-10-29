@@ -11,6 +11,10 @@ header {
     border-bottom: 2px solid gray;
 }
 
+.level-right{
+    margin-right:10px;
+}
+
 footer {
     border-top:2px solid gray;
 }
