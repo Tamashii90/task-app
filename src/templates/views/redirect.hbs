@@ -12,7 +12,7 @@
     Redirecting...
     <script>
         const page = document.querySelector("[data-redirect]").dataset.redirect;
-        setTimeout(() => {
+        setTimeout(function () {
             window.location.replace(page);
         }, 2000);
     </script>
