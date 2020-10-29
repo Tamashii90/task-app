@@ -70,16 +70,12 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
     }
     if (!isAllowedField)
         return res.status(400).send('Bad field.');
-    if (req.body.pwdVerif !== req.body.password) {  // in case the user DID want to change his password
-        return res.status(400).send("Passwords don't match.");
-    }
     if (!req.body.password && !req.body.pwdVerif) {
         // if the user didn't change his password, those two fields will arrive as empty strings
         // which will cause Mongoose to throw an error. If I delete one now, and the other
         // in the try block, then Mongoose won't malfunction.
         delete req.body.password
     }
-    delete req.body.pwdVerif     // this doesn't get stored in the database
     const user = req.user;
     Object.assign(user, req.body);
     try {

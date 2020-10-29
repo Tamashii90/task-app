@@ -1,5 +1,5 @@
 <div class="profile">
-    <div class="level">
+    {{!-- <div class="level">
         <div class="level-left">
             <span class="level-item">
                 {{#if hasAvatar}}
@@ -15,33 +15,52 @@
             </form>
         </div>
     </div>
-    <hr>
-    <table id="profileTable">
+    <hr> --}}
+    {{!-- <table id="profileTable">
+        <tr>
+            <td>
+                {{#if hasAvatar}}
+                <img class="avatarImg" src='/users/me/avatar' />
+                {{else}}
+                <img src='https://i.imgur.com/F9cRyax.png' />
+                {{/if}}
+            </td>
+            <td style="vertical-align: middle;">
+                <form class="level-item" action="/users/me/avatar" id="deleteAvForm">
+                    <input type="submit" value="Reset Profile Picture">
+                </form>
+            </td>
+        <tr>
+            <td colspan="2">
+                <hr>
+            </td>
+        </tr>
+        </tr>
         <form action="/users/me/" enctype="multipart/form-data" id="profileForm">
             <tr>
                 <td><label>Username</label></td>
-                <td><input size="30" type="text" name="name" id="" form="profileForm" value="{{profile.name}}">
+                <td><input class="input" size="30" type="text" name="name" form="profileForm" value="{{profile.name}}">
                     <span class="help is-danger">{{error.errors.name.message}}</span>
                 </td>
             </tr>
             <tr>
                 <td><label>Email</label></td>
                 <td>
-                    <input size="30" type="email" name="email" id="" form="profileForm" value="{{profile.email}}">
+                    <input class="input" size="30" type="email" name="email" form="profileForm" value="{{profile.email}}">
                     <span class="help is-danger">{{error.errors.email.message}}</span>
                 </td>
             </tr>
             <tr>
                 <td><label>New Password</label></td>
                 <td>
-                    <input size="30" type="password" name="password" id="" form="profileForm">
+                    <input class="input" size="30" type="password" name="password" form="profileForm">
                     <span class="help is-danger">{{error.errors.password.message}}</span>
                 </td>
             </tr>
             <tr>
                 <td><label>Verify New Passowrd</label></td>
                 <td>
-                    <input size="30" type="password" name="pwdVerif" id="" form="profileForm">
+                    <input class="input" size="30" type="password" name="pwdVerif" form="profileForm">
                     <span class="help is-danger">{{error.errors.pwdVerif.message}}</span>
                 </td>
             </tr>
@@ -64,9 +83,7 @@
         </form>
         <tr>
             <td>
-                <form action="/users/logoutall" method="POST">
-                    <button>Log Out From All Sessions</button>
-                </form>
+                
             </td>
         </tr>
         <tr>
@@ -76,5 +93,72 @@
                 </form>
             </td>
         </tr>
-    </table>
+    </table> --}}
+
+    <div class="input_field avatarContainer">
+        {{#if hasAvatar}}
+        <img class="avatarImg" src='/users/me/avatar' />
+        {{else}}
+        <img src='https://i.imgur.com/F9cRyax.png' />
+        {{/if}}
+        <form action="/users/me/avatar" id="deleteAvForm">
+            <input type="submit" value="Reset Profile Picture">
+        </form>
+    </div>
+    <hr>
+    <form action="/users/me/" enctype="multipart/form-data" id="profileForm">
+        <div class="input_field">
+            <label>Username</label>
+            <div class="field">
+            <input class="input" size="30" type="text" name="name" form="profileForm" value="{{profile.name}}">
+            <span class="help is-danger">{{error.errors.name.message}}</span>
+            </div>
+        </div>
+        <div class="input_field">
+            <label>Email</label>
+            <div class="field">
+            <input class="input" size="30" type="email" name="email" form="profileForm" value="{{profile.email}}">
+            <span class="help is-danger">{{error.errors.email.message}}</span>
+            </div>
+        </div>
+        <div class="input_field">
+            <label>New Password</label>
+             <div class="field">
+            <input class="input" size="30" type="password" name="password" form="profileForm">
+            <span class="help is-danger">{{error.errors.password.message}}</span>
+            </div>
+        </div>
+        <div class="input_field">
+            <label>Verify New Passowrd</label>
+            <div class="field">
+            <input class="input" size="30" type="password" name="pwdVerif" form="profileForm">
+            <span class="help is-danger">{{error.errors.pwdVerif.message}}</span>
+            </div>
+        </div>
+        <div class="input_field">
+            <label>Joined</label>
+            <span>{{profile.createdAt}}</span>
+        </div>
+        <div class="input_field">
+            <label>Upload a profile picture</label>
+            <input type="file" id="avatarFile" name="avatar" form="profileForm"></td>
+        </div>
+        <div class="input_field">
+            <input type="submit" form="profileForm" value="Save Changes">
+        </div>
+
+        <hr>
+
+        <div class="input_field">
+            <form action="/users/logoutall" method="POST">
+                <button>Log Out From All Sessions</button>
+            </form>
+        </div>
+        <div class="input_field">
+            <form action="/users/me" id="deleteAcct">
+                <button>DELETE ACCOUNT</button>
+            </form>
+        </div>
+
+
 </div>

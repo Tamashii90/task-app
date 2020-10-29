@@ -105,28 +105,67 @@ button, input[type=submit] {
     position: relative;
 }
 
-.avatarContainer{
-    padding:10px 0;
-    display:flex;
+.input_field {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.avatarContainer {
     align-items: center;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
-.avatarContainer form {
-    margin-left: 10px;
+.avatarContainer input {
+    margin-right:25px;
 }
 
-#profileTable {
+.input_field form {
+    display: inline-block;
+}
+
+.input_field label {
+    width: 200px;
+}
+
+.input_field .input, 
+.input_field input[type=file],
+.input_field span  {
+    width:auto;     /* overrides Bulma's 100% */
+    margin-left: 10vw;
+}
+
+.input_field span:not(.help),
+.input_field input[type=file],
+.input_field input[type=submit]{
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+
+
+
+/* #profileTable {
   width: 100%;
 }
 
 #profileTable td {
+    vertical-align: middle;
     white-space: nowrap;
-    padding:10px 60px;
+    padding:10px;
 }
+
+#profileTable tr:nth-child(n+2)  td:nth-child(even){    /* starting from 3rd row */
+    /*
+    display: block;
+    margin-left: 50px;
+}  */
 
 tr {
     position: relative;
+}
+
+hr{
+    background-color: black;
 }
 
 .hidden{
@@ -141,3 +180,17 @@ tr {
     border:none;
 }
 
+@media (max-width:966px){
+    .input_field {
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+    }
+    .input_field label{
+        margin-bottom: 15px;
+        margin-left: -30px;
+    }
+    .avatarContainer input {
+        margin-right:0;
+    }
+}

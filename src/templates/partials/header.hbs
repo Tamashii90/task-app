@@ -7,14 +7,14 @@
         {{#if user}}
         {{#if hasAvatar}}
         <span class="level-item">
-            <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />&nbsp;
-            {{user}}
+            <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />
         </span>
+        <span class="level-item">{{user}}</span>
         {{else}}
         <span class="level-item">
-            <img src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />&nbsp;
-            {{user}}
+            <img src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />
         </span>
+        <span class="level-item">{{user}}</span>
         {{/if}}
         <form class="level-item" action="/users/logout" method="POST">
             <button>Log Out</button>
