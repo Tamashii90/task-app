@@ -118,5 +118,8 @@ function loadContentAndScript(route, error) {
             error ? resDiv.innerHTML = error.response.data : resDiv.innerHTML = res.data;
             resDiv.append(script);
             btn.classList.remove('is-loading');
-        }).catch(err => alert(err));
+        }).catch(err => {
+            alert(err);
+            btn.classList.remove('is-loading');
+        });
 }
