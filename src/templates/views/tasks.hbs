@@ -1,6 +1,6 @@
 <div class="columns is-multiline is-centered">
     <div class="column is-full">
-        <button class="is-pulled-right" id="newTaskBtn">Create A New Task</button>
+        <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
     </div>
     <div class="column">
     <table class="table is-fullwidth my-4" id="resTable">
@@ -27,10 +27,10 @@
                 <td>
                     <input class="hidden editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
                         value="Save Edits" />
-                    <button data-form="{{this._id}}" class="preEditBtn">Edit</button>
+                    <button class="button preEditBtn"data-form="{{this._id}}" >Edit</button>
                 </td>
                 <td>
-                    <button class="deleteBtn" data-id={{this._id}}>Delete</button>
+                    <button class="button deleteBtn" data-id={{this._id}}>Delete</button>
                 </td>
         </tr>
         </form>

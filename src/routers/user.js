@@ -62,24 +62,22 @@ router.post('/users/signup', async (req, res, next) => {
 router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
     const allowedFields = ["name", "pwdVerif", "email", "password", "avatar"];
     const isAllowedField = Object.keys(req.body).every(property => allowedFields.includes(property));
-    let buffer;
-    if (req.file) {
-        buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
-        res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
-        req.body.avatar = buffer;
-    }
     if (!isAllowedField)
         return res.status(400).send('Bad field.');
     if (!req.body.password && !req.body.pwdVerif) {
         // if the user didn't change his password, those two fields will arrive as empty strings
-        // which will cause Mongoose to throw an error. If I delete one now, and the other
-        // in the try block, then Mongoose won't malfunction.
-        delete req.body.password
+        // which will cause Mongoose to throw an error. I delete them, so Mongoose won't malfunction.
+        delete req.body.password;
+        delete req.body.pwdVerif;
+    }
+    if (req.file) {
+        req.body.avatar = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
     }
     const user = req.user;
     Object.assign(user, req.body);
     try {
         await user.save();
+        res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
         res.cookie('current_user', user.name, { sameSite: "lax" });     // update the cookie to the new name
         res.send('Changes Applied.');
     } catch (error) {

@@ -1,3 +1,7 @@
+html{
+    background-color: rgba(128, 0, 128, 0.438);
+}
+
 #signupMain, #loginMain {
     max-width: 330px;
     margin: 30px auto;
@@ -8,6 +12,7 @@
 }
 
 header {
+    padding-bottom: 10px;
     border-bottom: 2px solid gray;
 }
 
@@ -93,7 +98,7 @@ button, input[type=submit] {
 }
 
 #resTable tr:nth-child(odd) {
-    background-color: gray;
+    background-color: rgba(175, 20, 175, 0.712);
 }
 
 #resTable input[type=text]{
@@ -107,58 +112,25 @@ button, input[type=submit] {
 
 .input_field {
     display: flex;
-    margin-bottom: 15px;
-}
-
-.avatarContainer {
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-}
-
-.avatarContainer input {
-    margin-right:25px;
+    margin-bottom: 15px;
 }
 
 .input_field form {
     display: inline-block;
 }
 
-.input_field label {
-    width: 200px;
+.input_field > label + span{
+    width: 303px; 
 }
 
-.input_field .input, 
-.input_field input[type=file],
-.input_field span  {
-    width:auto;     /* overrides Bulma's 100% */
-    margin-left: 10vw;
+.input_field > label + span:not(.file){
+    height: 40px;
+    padding-top: 6px;
+       
 }
-
-.input_field span:not(.help),
-.input_field input[type=file],
-.input_field input[type=submit]{
-    margin-top:10px;
-    margin-bottom: 10px;
-}
-
-
-
-
-/* #profileTable {
-  width: 100%;
-}
-
-#profileTable td {
-    vertical-align: middle;
-    white-space: nowrap;
-    padding:10px;
-}
-
-#profileTable tr:nth-child(n+2)  td:nth-child(even){    /* starting from 3rd row */
-    /*
-    display: block;
-    margin-left: 50px;
-}  */
 
 tr {
     position: relative;
@@ -180,7 +152,7 @@ hr{
     border:none;
 }
 
-@media (max-width:966px){
+@media (max-width:955px){
     .input_field {
        flex-direction: column;
        justify-content: center;
@@ -188,9 +160,11 @@ hr{
     }
     .input_field label{
         margin-bottom: 15px;
-        margin-left: -30px;
     }
-    .avatarContainer input {
-        margin-right:0;
+    .input_field > label + span{
+        width: auto;
+    }
+    .avatarImg ~ form > input {
+        margin-top:30px;
     }
 }
