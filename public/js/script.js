@@ -2,21 +2,27 @@
 const fetchTasksBtn = document.querySelector('#fetchTasksBtn');
 const newTaskBtn = document.querySelector('#newTaskBtn');
 const getInfoBtn = document.querySelector('#getInfo');
-const containerModal = document.querySelector(".modal");
+const containerModal = document.querySelector(".my-modal");
 const contentModal = document.querySelector('.modal-content');
 const msgModal = document.querySelector('.modal-confirmation');
 const resDiv = document.querySelector('#results');
+const tasksDiv = document.querySelector('#tasks');
+const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const editOverlay = document.querySelector('#overlay');
 let deleteBtns;      // this isn't rendered until fetch tasks is called, so leave it undefined here
 
 
 getInfoBtn.addEventListener('click', function () {
+    fetchTasksBtn.parentElement.classList.remove('is-active');
+    getInfoBtn.parentElement.classList.add('is-active');
     this.classList.add('is-loading');
     loadContentAndScript('profile');
     openModal(resDiv);
 });
 fetchTasksBtn.addEventListener('click', function () {
+    getInfoBtn.parentElement.classList.remove('is-active');
+    fetchTasksBtn.parentElement.classList.add('is-active');
     this.classList.add('is-loading');
     loadContentAndScript('tasks');
     openModal(resDiv);

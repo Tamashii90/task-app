@@ -12,15 +12,20 @@
 
 <body>
     {{> header}}
+    <div class="hidden" id="tasks">{{> tasks}}</div>
+    <div class="hidden" id="accountInfo">{{> account}}</div>
     <main class="columns is-centered my-5">
         <div id="overlay" class="hidden"></div>
-
         <div class="column is-half">
-            <button class="button" id="fetchTasksBtn">Fetch Tasks</button>
-            <button class="button" id="getInfo">Profile</button>
+            <div class="tabs is-boxed">
+                <ul>
+                    <li><a id="fetchTasksBtn">Fetch Tasks</a></li>
+                    <li><a id="getInfo">Profile</a></li>
+                </ul>
+            </div>
             <div id="results" class="hidden"></div>
         </div>
-        <div class="modal hidden">
+        <div class="my-modal hidden">
             <div class="modal-content hidden">
                 <div class="modal-header">
                     <h2>Create a New Task</h2>
@@ -36,11 +41,11 @@
                         <br>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" value="Create Task">
+                    <input class="button" type="submit" value="Create Task">
                 </div>
                 </form>
             </div>
-            <div class="modal-content modal-confirmation"></div>
+            <div class="modal-content modal-confirmation hidden"></div>
         </div>
 
     </main>

@@ -3,38 +3,43 @@
         <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
     </div>
     <div class="column">
-    <table class="table is-fullwidth my-4" id="resTable">
-        {{#each tasks }}
-        <tr>
-            <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
-                <td>
-                    <input size="30" name="description" form="edit-{{this._id}}" class="unchanging" type="text" readonly
-                        value="{{this.description}}" />
-                </td>
-                <td>
-                    {{#if this.completed}}
-                    <select form="edit-{{this._id}}" name="completed" class="hidden">
-                        <option value="false">No</option>
-                        <option value="true" selected>Yes</option>
-                    </select>
-                    <span id="state-{{this._id}}">completed</span>
-                    {{else}}
-                    <select form="edit-{{this._id}}" name="completed" class="hidden">
-                        <option value="false" selected>No</option>
-                        <option value="true">Yes</option>
-                    </select><span id="state-{{this._id}}">not yet completed</span>
-                </td>{{/if}}
-                <td>
-                    <input class="hidden editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
-                        value="Save Edits" />
-                    <button class="button preEditBtn"data-form="{{this._id}}" >Edit</button>
-                </td>
-                <td>
-                    <button class="button deleteBtn" data-id={{this._id}}>Delete</button>
-                </td>
-        </tr>
-        </form>
-        {{/each}}
-    </table>
+        <table class="table is-fullwidth my-4" id="resTable">
+            {{#each tasks }}
+            <tr>
+                <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
+                    <td>
+                        <input class="input unchanging" size="30" name="description" form="edit-{{this._id}}"
+                            type="text" readonly value="{{this.description}}" />
+                    </td>
+                    <td>
+                        {{#if this.completed}}
+                        <div class="hidden select">
+                            <select form="edit-{{this._id}}" name="completed">
+                                <option value="false">No</option>
+                                <option value="true" selected>Yes</option>
+                            </select>
+                        </div>
+                        <span id="state-{{this._id}}">completed</span>
+                        {{else}}
+                        <div class="hidden select">
+                            <select form="edit-{{this._id}}" name="completed">
+                                <option value="false" selected>No</option>
+                                <option value="true">Yes</option>
+                            </select>
+                        </div>
+                        <span id="state-{{this._id}}">not yet completed</span>
+                    </td>{{/if}}
+                    <td>
+                        <input class="hidden button editBtn" form="edit-{{this._id}}" type="submit"
+                            data-id="{{this._id}}" value="Save Edits" />
+                        <button class="button preEditBtn" data-form="{{this._id}}">Edit</button>
+                    </td>
+                    <td>
+                        <button class="button deleteBtn" data-id={{this._id}}>Delete</button>
+                    </td>
+            </tr>
+            </form>
+            {{/each}}
+        </table>
     </div>
 </div>

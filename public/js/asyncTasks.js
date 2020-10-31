@@ -43,7 +43,7 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         const parentForm = document.querySelector(`#edit-${btn.dataset.form}`);
         const descriptionField = parentForm[0];
-        const completedField = parentForm[1];
+        const completedField = parentForm[1].parentElement;     // get the wrapping div.select
         const submitBtn = parentForm[2];
         const parentRow = btn.parentElement.parentElement;
         const completedState = document.querySelector(`#state-${btn.dataset.form}`);

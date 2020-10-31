@@ -24,7 +24,7 @@ footer {
     border-top:2px solid gray;
 }
 
-.modal {
+.my-modal {
     background-color: rgba(10,10,10,.86);
     width:100vw;
     height:100vh;
@@ -92,6 +92,7 @@ button, input[type=submit] {
 }
 
 #resTable td {
+    vertical-align: middle;
     white-space: nowrap;
     padding: 10px;
     text-align: center;
