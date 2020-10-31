@@ -10,9 +10,9 @@ document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         axios.delete(`/tasks/${this.dataset.id}`).then(res => {
             if (!editOverlay.classList.contains('hidden')) {
-                closeModal(editOverlay);
+                hide(editOverlay);
             }
-            openModal(containerModal);
+            unhide(containerModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so it matches the fade time of the confirmation msg
                 loadContentAndScript();
@@ -25,16 +25,16 @@ document.querySelectorAll('.editForm').forEach(editForm => {
         e.preventDefault();
         asyncSubmit(editForm, 'PATCH')
             .then(res => {
-                closeModal(editOverlay);
-                closeModal(contentModal);
-                openModal(containerModal);
+                hide(editOverlay);
+                hide(contentModal);
+                unhide(containerModal);
                 displayConfirm(res.data);
                 setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
                     loadContentAndScript();
                 }, 800);
             }).catch(err => {
-                closeModal(editOverlay);
-                closeModal(contentModal);
+                hide(editOverlay);
+                hide(contentModal);
                 alert(err);
             });
     });
@@ -50,10 +50,10 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
 
         //--------- Edit Mode On ---------// 
         for (let element of [completedField, submitBtn, editOverlay]) {
-            openModal(element);
+            unhide(element);
         }
         for (let element of [btn, completedState]) {
-            closeModal(element);
+            hide(element);
         }
         parentRow.style.zIndex = 20;
         descriptionField.removeAttribute('readonly');
@@ -62,6 +62,6 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
 });
 document.querySelector('#newTaskBtn').addEventListener('click', () => {
     taskForm.reset();       // clear out any values from old submissions
-    openModal(contentModal);
-    openModal(containerModal);
+    unhide(contentModal);
+    unhide(containerModal);
 });

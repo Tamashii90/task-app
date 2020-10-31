@@ -12,8 +12,6 @@
 
 <body>
     {{> header}}
-    <div class="hidden" id="tasks">{{> tasks}}</div>
-    <div class="hidden" id="accountInfo">{{> account}}</div>
     <main class="columns is-centered my-5">
         <div id="overlay" class="hidden"></div>
         <div class="column is-half">
@@ -23,7 +21,10 @@
                     <li><a id="getInfo">Profile</a></li>
                 </ul>
             </div>
-            <div id="results" class="hidden"></div>
+            <div id="results" class="hidden">
+                <div class="hidden" id="tasks">{{> tasks}}</div>
+                <div class="hidden" id="accountInfo">{{> account}}</div>
+            </div>
         </div>
         <div class="my-modal hidden">
             <div class="modal-content hidden">

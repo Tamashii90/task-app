@@ -20,9 +20,20 @@ const upload = multer({
 
 router.get('/users/me', auth, async (req, res) => {
     try {
-        res.render('profile');
+        const user = req.user;
+        const profile = {
+            ...user._doc,
+            createdAt: user.createdAt.toDateString()
+        };
+        let tasks = [];
+        await req.user.populate({
+            path: 'tasks'
+        }).execPopulate();
+        if (req.user.tasks.length)
+            tasks = req.user.tasks;
+        res.render('profile', { profile, tasks });
     } catch (error) {
-        res.status(500).send();
+        res.status(500).send(error);
     }
 });
 
@@ -55,7 +66,7 @@ router.post('/users/signup', async (req, res, next) => {
         res.status(201).render('redirect', { message: 'Welcome !', page: '/users/me' });
     } catch (err) {
         // res.status(400).send(err);
-        res.status(400).render('signup', { error: err, pastEmail: req.body.email, pastName : req.body.name });
+        res.status(400).render('signup', { error: err, pastEmail: req.body.email, pastName: req.body.name });
     }
 });
 
@@ -77,7 +88,7 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
     Object.assign(user, req.body);
     try {
         await user.save();
-        res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
+        if (user.avatar) res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
         res.cookie('current_user', user.name, { sameSite: "lax" });     // update the cookie to the new name
         res.send('Changes Applied.');
     } catch (error) {
@@ -85,7 +96,7 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
             ...user._doc,
             createdAt: user.createdAt.toDateString()
         };
-        res.status(400).render('account', { profile, error });
+        res.status(400).render('../partials/account', { profile, error });
     }
 }, (err, req, res, next) => {
     res.status(400).send({ error: err.message });

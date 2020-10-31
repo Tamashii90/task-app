@@ -16,37 +16,37 @@ let deleteBtns;      // this isn't rendered until fetch tasks is called, so leav
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
     getInfoBtn.parentElement.classList.add('is-active');
-    this.classList.add('is-loading');
-    loadContentAndScript('profile');
-    openModal(resDiv);
+    hide(tasksDiv);
+    unhide(accountDiv);
+    unhide(resDiv);
 });
 fetchTasksBtn.addEventListener('click', function () {
     getInfoBtn.parentElement.classList.remove('is-active');
     fetchTasksBtn.parentElement.classList.add('is-active');
-    this.classList.add('is-loading');
-    loadContentAndScript('tasks');
-    openModal(resDiv);
+    hide(accountDiv);
+    unhide(tasksDiv);
+    unhide(resDiv);
 });
 taskForm.addEventListener('submit', e => {
     e.preventDefault();
     asyncSubmit(taskForm, 'POST')        // submit the form asynchronously using axios
         .then(res => {
-            closeModal(contentModal);
+            hide(contentModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
                 loadContentAndScript('tasks');
             }, 800);
         }).catch(err => {
-            closeModal(contentModal);
+            hide(contentModal);
             alert(err);
         });
 });
 window.addEventListener('click', e => {
     if (e.target === containerModal) {
-        closeModal(e.target);
+        hide(e.target);
     }
     if (e.target === overlay) {
-        closeModal(e.target);
+        hide(e.target);
         loadContentAndScript('tasks');     // to drop the changes
     }
 });
@@ -55,14 +55,14 @@ window.addEventListener('click', e => {
 
 //---------------- Functions ----------------//
 
-function openModal(modal) {
+function unhide(modal) {
     if (modal === containerModal || modal === editOverlay) {
         document.querySelector('html').classList.add('frozen');
     }
     modal.classList.remove('hidden');
 }
 
-function closeModal(modal) {
+function hide(modal) {
     if (modal === containerModal || modal === overlay) {
         document.querySelector('html').classList.remove('frozen');
     }
@@ -89,14 +89,14 @@ async function asyncSubmitMulti(form, method) {
 }
 
 function displayConfirm(data) {
-    openModal(msgModal);
+    unhide(msgModal);
     msgModal.innerHTML = data;
     setTimeout(() => {
         msgModal.classList.add('fade');
     }, 200)
     setTimeout(() => {
-        closeModal(msgModal);
-        closeModal(containerModal);
+        hide(msgModal);
+        hide(containerModal);
         msgModal.classList.remove('fade');
     }, 1000);
 }
@@ -106,26 +106,28 @@ function loadContentAndScript(route, error) {
     // for the newly rendered delete/edit 
     const script = document.createElement('script');
     let btn;
+    let desiredDiv;
     if (route === 'profile') {
         route = '/users/me/info';
         script.src = '/js/asyncProfile.js';
         btn = getInfoBtn;
+        desiredDiv = accountDiv;
     }
     else {
         route = '/tasks/';
         script.src = '/js/asyncTasks.js';
         btn = fetchTasksBtn;
+        desiredDiv = tasksDiv;
     }
     axios.get(route)
         .then(res => {
             // If this is confusing, check from where it's being called.
             // The way axios works, if there's an error, the response payload will be inside
             // error.response.data. I pass this error because I want hbs to render it.
-            error ? resDiv.innerHTML = error.response.data : resDiv.innerHTML = res.data;
-            resDiv.append(script);
-            btn.classList.remove('is-loading');
+            error ? desiredDiv.innerHTML = error.response.data : desiredDiv.innerHTML = res.data;
+            desiredDiv.removeChild(desiredDiv.querySelector('script')); // remove the previous script first 
+            desiredDiv.append(script);
         }).catch(err => {
             alert(err);
-            btn.classList.remove('is-loading');
         });
 }

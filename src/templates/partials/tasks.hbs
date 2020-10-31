@@ -3,6 +3,7 @@
         <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
     </div>
     <div class="column">
+        {{#if tasks.length}}
         <table class="table is-fullwidth my-4" id="resTable">
             {{#each tasks }}
             <tr>
@@ -41,5 +42,9 @@
             </form>
             {{/each}}
         </table>
+        {{else }}
+        No Tasks Man
+        {{/if}}
     </div>
 </div>
+<script src="/js/asyncTasks.js"></script>
