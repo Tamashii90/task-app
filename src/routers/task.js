@@ -23,7 +23,7 @@ router.get('/tasks/', auth, async (req, res) => {
             }
         }).execPopulate();
         if (req.user.tasks.length)
-            res.render('tasks', { tasks: req.user.tasks });
+            res.render('../partials/tasks', { tasks: req.user.tasks });
         else res.send('no tasks man');
     } catch (error) {
         res.status(500).send(error.message);

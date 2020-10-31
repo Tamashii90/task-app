@@ -33,7 +33,7 @@ router.get('/users/me/info', auth, (req, res) => {
             ...user._doc,
             createdAt: user.createdAt.toDateString()
         };
-        res.render('account', { profile });
+        res.render('../partials/account', { profile });
     } catch (error) {
         res.status(500).send();
     }
