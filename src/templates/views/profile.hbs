@@ -17,12 +17,12 @@
         <div class="column is-half">
             <div class="tabs is-boxed">
                 <ul>
-                    <li><a id="fetchTasksBtn">Fetch Tasks</a></li>
+                    <li class="is-active"><a id="fetchTasksBtn">Tasks</a></li>
                     <li><a id="getInfo">Profile</a></li>
                 </ul>
             </div>
-            <div id="results" class="hidden">
-                <div class="hidden" id="tasks">{{> tasks}}</div>
+            <div id="results" class="">
+                <div class="" id="tasks">{{> tasks}}</div>
                 <div class="hidden" id="accountInfo">{{> account}}</div>
             </div>
         </div>
@@ -31,26 +31,26 @@
                 <div class="modal-header">
                     <h2>Create a New Task</h2>
                 </div>
-                <div class="modal-body">
-                    <form id="taskForm" action="/tasks/">
+                <form id="taskForm" action="/tasks/">
+                    <div class="modal-body">
                         <textarea name="description" id="descriptionField" cols="30" rows="2"
                             placeholder="Task Description.." required></textarea><br>
                         <label>Completed ?</label>
                         <br>
-                        <label><input type="radio" name="completed" id="" value="true"> Yes</label>
-                        <label><input type="radio" name="completed" id="" value="false" checked> No</label>
+                        <label><input type="radio" name="completed" value="true"> Yes</label>
+                        <label><input type="radio" name="completed" value="false" checked> No</label>
                         <br>
-                </div>
-                <div class="modal-footer">
-                    <input class="button" type="submit" value="Create Task">
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="button" type="submit" value="Create Task">
+                    </div>
                 </form>
             </div>
             <div class="modal-content modal-confirmation hidden"></div>
         </div>
 
     </main>
-    <p>{{> footer}}</p>
+    {{> footer}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
     <script src="/js/script.js"></script>
 </body>
