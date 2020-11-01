@@ -9,8 +9,9 @@
             <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
                 <tr>
                     <td>
-                        <input class="input unchanging" size="30" name="description" form="edit-{{this._id}}"
-                            type="text" readonly value="{{this.description}}" />
+                        <span>{{this.description}}</span>
+                        <textarea class="hidden textarea" name="description" form="edit-{{this._id}}"
+                            cols="30" rows="1">{{this.description}}</textarea>
                     </td>
                     <td>
                         {{#if this.completed}}

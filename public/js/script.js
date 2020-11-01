@@ -10,7 +10,24 @@ const tasksDiv = document.querySelector('#tasks');
 const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const editOverlay = document.querySelector('#overlay');
-let deleteBtns;      // this isn't rendered until fetch tasks is called, so leave it undefined here
+
+// Make everything small for mobile screens
+if (window.innerWidth < 768) {
+    document.querySelector('.tabs').classList.add('is-small');
+    // rest of the elements are minimzed in their respective script (asyncProfile/asyncTasks)
+}
+window.addEventListener('resize', function () {
+    if (window.innerWidth < 768) {
+        document.querySelectorAll('.button, input, .file, .textarea, .select, .tabs').forEach(btn => {
+            btn.classList.add('is-small');
+        });
+    }
+    if (window.innerWidth > 768) {
+        document.querySelectorAll('.button, input, .file, .textarea, .select, .tabs').forEach(btn => {
+            btn.classList.remove('is-small');
+        });
+    }
+});
 
 
 getInfoBtn.addEventListener('click', function () {

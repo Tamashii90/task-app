@@ -1,3 +1,11 @@
+
+if (window.innerWidth < 768) {
+    document.querySelectorAll('.button, .input, .file').forEach(btn => {
+        btn.classList.add('is-small');
+    });
+}
+
+
 document.querySelector('#profileForm').addEventListener('submit', function (e) {
     e.preventDefault();
     asyncSubmitMulti(this, 'PATCH').then(res => {

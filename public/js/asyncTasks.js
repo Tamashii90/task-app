@@ -6,6 +6,13 @@
 let editForms = ...editForms...;
 let deleteButtons = document.querySelectorAll('#editForm');
 */
+
+if (window.innerWidth < 768) {
+    document.querySelectorAll('.textarea, .button, .select').forEach(btn => {
+        btn.classList.add('is-small');
+    });
+}
+
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         axios.delete(`/tasks/${this.dataset.id}`).then(res => {
@@ -47,17 +54,16 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
         const submitBtn = parentForm[2];
         const parentRow = btn.parentElement.parentElement;
         const completedState = document.querySelector(`#state-${btn.dataset.form}`);
+        const initialSpan = descriptionField.previousElementSibling;
 
         //--------- Edit Mode On ---------// 
-        for (let element of [completedField, submitBtn, editOverlay]) {
+        for (let element of [descriptionField, completedField, submitBtn, editOverlay]) {
             unhide(element);
         }
-        for (let element of [btn, completedState]) {
+        for (let element of [btn, completedState, initialSpan]) {
             hide(element);
         }
         parentRow.style.zIndex = 20;
-        descriptionField.removeAttribute('readonly');
-        descriptionField.style.background = 'white';
     });
 });
 document.querySelector('#newTaskBtn').addEventListener('click', () => {
