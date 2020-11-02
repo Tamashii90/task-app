@@ -23,8 +23,29 @@
                     </ul>
                 </div>
                 <div id="results" class="">
-                    <div class="" id="tasks">{{> tasks}}</div>
-                    <div class="hidden" id="accountInfo">{{> account}}</div>
+                    <div class="" id="tasks">
+                        <div class="columns is-multiline is-centered">
+                            <div class="column is-full">
+                                <label class="label">Sort By </label>
+                                <div class="select is-pulled-left">
+                                    <select id="sortBy">
+                                        <option value="description">Name</option>
+                                        <option value="completed">Completion</option>
+                                        <option value="createdAt" selected>Date</option>
+                                    </select><button type="button">Hide completed</button>
+                                </div>
+                                <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
+                            </div>
+                            <div class="column">
+                                {{> tasks}}
+                                <script src="/js/asyncTasks.js"></script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden" id="accountInfo">
+                        {{> account}}
+                        <script src="/js/asyncProfile.js"></script>
+                    </div>
                 </div>
             </div>
             <div class="my-modal hidden">

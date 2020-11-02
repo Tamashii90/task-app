@@ -1,51 +1,56 @@
-<div class="columns is-multiline is-centered">
-    <div class="column is-full">
-        <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
-    </div>
-    <div class="column">
-        {{#if tasks.length}}
-        <table class="table is-fullwidth my-4" id="resTable">
-            {{#each tasks }}
+<table class="table is-fullwidth my-4" id="resTable">
+    <tbody>
+        {{#each tasks }}
+        <tr>
             <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
-                <tr>
-                    <td>
-                        <span>{{this.description}}</span>
-                        <textarea class="hidden textarea" name="description" form="edit-{{this._id}}"
-                            cols="30" rows="1">{{this.description}}</textarea>
-                    </td>
-                    <td>
-                        {{#if this.completed}}
-                        <div class="hidden select">
-                            <select form="edit-{{this._id}}" name="completed">
-                                <option value="false">No</option>
-                                <option value="true" selected>Yes</option>
-                            </select>
-                        </div>
-                        <span id="state-{{this._id}}">completed</span>
-                        {{else}}
-                        <div class="hidden select">
-                            <select form="edit-{{this._id}}" name="completed">
-                                <option value="false" selected>No</option>
-                                <option value="true">Yes</option>
-                            </select>
-                        </div>
-                        <span id="state-{{this._id}}">not yet completed</span>
-                    </td>{{/if}}
-                    <td>
-                        <input class="hidden button editBtn" form="edit-{{this._id}}" type="submit"
-                            data-id="{{this._id}}" value="Save Edits" />
-                        <button type="button" class="button preEditBtn" data-form="{{this._id}}">Edit</button>
-                    </td>
-                    <td>
-                        <button type="button" class="button deleteBtn" data-id={{this._id}}>Delete</button>
-                    </td>
-                </tr>
+                <td>
+                    <span>{{this.description}}</span>
+                    <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30"
+                        rows="1">{{this.description}}</textarea>
+                </td>
+                <td>
+                    {{#if this.completed}}
+                    <div class="hidden select">
+                        <select form="edit-{{this._id}}" name="completed">
+                            <option value="false">No</option>
+                            <option value="true" selected>Yes</option>
+                        </select>
+                    </div>
+                    <span id="state-{{this._id}}">completed</span>
+                    {{else}}
+                    <div class="hidden select">
+                        <select form="edit-{{this._id}}" name="completed">
+                            <option value="false" selected>No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>
+                    <span id="state-{{this._id}}">not yet completed</span>
+                </td>{{/if}}
+                <td>
+                    <input class="hidden button editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
+                        value="Save Edits" />
+                    <button type="button" class="button preEditBtn" data-form="{{this._id}}">Edit</button>
+                </td>
+                <td>
+                    <button type="button" class="button deleteBtn" data-id={{this._id}}>Delete</button>
+                </td>
             </form>
-            {{/each}}
-        </table>
+        </tr>
         {{else }}
-        No Tasks Man
-        {{/if}}
-    </div>
-</div>
-<script src="/js/asyncTasks.js"></script>
+        <tr>
+            <td colspan="3">No Tasks Found</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<nav class="pagination" role="navigation" aria-label="pagination">
+    <ul class="pagination-list">
+
+        {{#each pages}}
+        <li>
+            <a class="pagination-link {{#if (isEqual @index ../current)}}is-current{{/if}}"
+                data-skip="{{this}}">{{increment @index}}</a>
+        </li>
+        {{/each}}
+    </ul>
+</nav>

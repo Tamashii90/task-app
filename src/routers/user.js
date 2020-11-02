@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const { clearMyCookies, setMyCookies } = require('../utils/cookies');
 const { sendBye, sendWelcome } = require('../../mailgun');
 const multer = require('multer');
+const Task = require('../models/task');
 const upload = multer({
     limits: {
         fileSize: 1000000
@@ -26,12 +27,21 @@ router.get('/users/me', auth, async (req, res) => {
             createdAt: user.createdAt.toDateString()
         };
         let tasks = [];
+        let pages = [];
         await req.user.populate({
-            path: 'tasks'
+            path: 'tasks',
+            options: {
+                limit: 5
+            }
         }).execPopulate();
-        if (req.user.tasks.length)
+        if (req.user.tasks.length) {
             tasks = req.user.tasks;
-        res.render('profile', { profile, tasks });
+            let count = await Task.countDocuments({ owner: req.user._id });
+            let pageCount = Math.ceil(count / 5);
+            pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
+            res.render('profile', { profile, tasks, pages });
+        }
+        else res.render('profile', { profile });
     } catch (error) {
         res.status(500).send(error);
     }

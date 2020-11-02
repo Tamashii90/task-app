@@ -15,6 +15,13 @@ const partialsPath = path.join(__dirname, '/templates/partials');
 const faviconPath = path.join(__dirname, '../public/favicon.ico');
 
 hbs.registerPartials(partialsPath);
+hbs.registerHelper('increment', value => {
+    return ++value;
+});
+hbs.registerHelper('isEqual', (val1, val2) => {
+    val2 = val2 || 0; // it's undefined on initial load of /users/me
+    return val1 === val2; 
+});
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 

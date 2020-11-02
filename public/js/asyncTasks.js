@@ -7,22 +7,16 @@ let editForms = ...editForms...;
 let deleteButtons = document.querySelectorAll('#editForm');
 */
 
-if (window.innerWidth < 768) {
-    document.querySelectorAll('.textarea, .button, .select').forEach(btn => {
-        btn.classList.add('is-small');
-    });
-}
-
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         axios.delete(`/tasks/${this.dataset.id}`).then(res => {
-            if (!editOverlay.classList.contains('hidden')) {
-                hide(editOverlay);
-            }
+            // if (!editOverlay.classList.contains('hidden')) {
+            hide(editOverlay);
+            // }
             unhide(containerModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so it matches the fade time of the confirmation msg
-                loadContentAndScript();
+                loadContentAndScript('tasks');
             }, 800);
         });
     });
@@ -37,7 +31,7 @@ document.querySelectorAll('.editForm').forEach(editForm => {
                 unhide(containerModal);
                 displayConfirm(res.data);
                 setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-                    loadContentAndScript();
+                    filterTsksAndRldScrpt();
                 }, 800);
             }).catch(err => {
                 hide(editOverlay);
@@ -66,8 +60,12 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
         parentRow.style.zIndex = 20;
     });
 });
-document.querySelector('#newTaskBtn').addEventListener('click', () => {
-    taskForm.reset();       // clear out any values from old submissions
-    unhide(contentModal);
-    unhide(containerModal);
+document.querySelectorAll('.pagination-link').forEach(link => {
+    link.addEventListener('click', function () {
+        document.querySelectorAll('.pagination-link').forEach(link => {     // remove any active links first
+            link.classList.remove('is-current');
+        });
+        link.classList.add('is-current');
+        filterTsksAndRldScrpt();
+    });
 });

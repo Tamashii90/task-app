@@ -11,25 +11,6 @@ const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const editOverlay = document.querySelector('#overlay');
 
-// Make everything small for mobile screens
-if (window.innerWidth < 768) {
-    document.querySelector('.tabs').classList.add('is-small');
-    // rest of the elements are minimzed in their respective script (asyncProfile/asyncTasks)
-}
-window.addEventListener('resize', function () {
-    if (window.innerWidth < 768) {
-        document.querySelectorAll('.button, input, .file, .textarea, .select, .tabs').forEach(btn => {
-            btn.classList.add('is-small');
-        });
-    }
-    if (window.innerWidth > 768) {
-        document.querySelectorAll('.button, input, .file, .textarea, .select, .tabs').forEach(btn => {
-            btn.classList.remove('is-small');
-        });
-    }
-});
-
-
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
     getInfoBtn.parentElement.classList.add('is-active');
@@ -44,6 +25,11 @@ fetchTasksBtn.addEventListener('click', function () {
     unhide(tasksDiv);
     unhide(resDiv);
 });
+newTaskBtn.addEventListener('click', () => {
+    taskForm.reset();       // clear out any values from old submissions
+    unhide(contentModal);
+    unhide(containerModal);
+});
 taskForm.addEventListener('submit', e => {
     e.preventDefault();
     asyncSubmit(taskForm, 'POST')        // submit the form asynchronously using axios
@@ -51,12 +37,15 @@ taskForm.addEventListener('submit', e => {
             hide(contentModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-                loadContentAndScript('tasks');
+                filterTsksAndRldScrpt();
             }, 800);
         }).catch(err => {
             hide(contentModal);
             alert(err);
         });
+});
+document.querySelector('#sortBy').addEventListener('change', function () {
+    filterTsksAndRldScrpt();
 });
 window.addEventListener('click', e => {
     if (e.target === containerModal) {
@@ -134,17 +123,35 @@ function loadContentAndScript(route, error) {
         route = '/tasks/';
         script.src = '/js/asyncTasks.js';
         btn = fetchTasksBtn;
-        desiredDiv = tasksDiv;
+        desiredDiv = tasksDiv.querySelector('.column:last-child');
+        // desiredDiv = tasksDiv.querySelector('tbody');
     }
+
     axios.get(route)
         .then(res => {
             // If this is confusing, check from where it's being called.
             // The way axios works, if there's an error, the response payload will be inside
             // error.response.data. I pass this error because I want hbs to render it.
             error ? desiredDiv.innerHTML = error.response.data : desiredDiv.innerHTML = res.data;
-            desiredDiv.removeChild(desiredDiv.querySelector('script')); // remove the previous script first 
             desiredDiv.append(script);
         }).catch(err => {
             alert(err);
         });
+}
+
+function filterTsksAndRldScrpt() {
+    const sortField = document.querySelector('#sortBy').value;
+    const sortOrder = 'asc';
+    const skip = document.querySelector('.pagination-link.is-current').dataset.skip;
+    axios.get(`/tasks/?sortBy=${sortField}:${sortOrder}&skip=${skip}`)
+        .then(res => {
+            const desiredDiv = tasksDiv.querySelector('.column:last-child');
+            // const desiredDiv = tasksDiv.querySelector('tbody');
+            desiredDiv.innerHTML = res.data;
+            const script = document.createElement('script');
+            script.src = "/js/asyncTasks.js";
+            desiredDiv.append(script);
+        })
+        .catch(err => alert(err.message));
+
 }

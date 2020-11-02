@@ -1,4 +1,4 @@
-html{
+body{
     background-color: rgba(128, 0, 128, 0.438);
 }
 
@@ -106,6 +106,10 @@ button, input[type=submit] {
     background-color: rgba(175, 20, 175, 0.712);
 }
 
+#resTable tr:nth-child(even) {
+    background-color: rgba(145, 120, 120, 0.712);
+}
+
 #resTable input[type=text]{
     background:none;
 }
@@ -137,8 +141,18 @@ button, input[type=submit] {
        
 }
 
+/* .columns > div:nth-child(2){
+    position: relative;     
+    min-height: 580px;
+}
+
+nav.pagination {
+    position: absolute;
+    bottom: -5px;
+} */
+
 tr {
-    position: relative;
+    position: relative;     /* this is necessary in order to adjust the z-index for the overlay effect */
 }
 
 hr{
@@ -157,7 +171,7 @@ hr{
     border:none;
 }
 
-@media (max-width:955px){
+@media screen and (max-width:955px){
     .input_field {
        flex-direction: column;
        justify-content: center;
@@ -173,8 +187,15 @@ hr{
         margin-top:30px;
     }
 }
-@media (max-width:768px){
+@media screen and (max-width:768px){
    #newTaskBtn {
         margin-bottom:2rem;
    }
+   .tabs, .textarea, .button, .label, .select, .input, .file {
+    border-radius: 2px;
+    font-size: .75rem;
+   }
+   /* .columns > div:nth-child(2){
+    min-height: 400px;
+    } */
 }

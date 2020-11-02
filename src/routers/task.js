@@ -17,14 +17,20 @@ router.get('/tasks/', auth, async (req, res) => {
             path: 'tasks',
             match,
             options: {
-                limit: +req.query.limit,
+                limit: 5,
                 skip: +req.query.skip,
                 sort
             }
         }).execPopulate();
-        if (req.user.tasks.length)
-            res.render('../partials/tasks', { tasks: req.user.tasks });
-        else res.send('no tasks man');
+        if (req.user.tasks.length) {
+            let tasks = req.user.tasks;
+            let count = await Task.countDocuments({ owner: req.user._id });
+            let pageCount = Math.ceil(count / 5);
+            let current = +req.query.skip / 5;      // current page
+            pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
+            res.render('../partials/tasks', { tasks, pages, current });
+        } else
+            res.render('../partials/tasks', { tasks: [] });
     } catch (error) {
         res.status(500).send(error.message);
     }
