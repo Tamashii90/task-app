@@ -6,27 +6,42 @@ const auth = require('../middleware/auth');
 router.get('/tasks/', auth, async (req, res) => {
     const match = {};
     const sort = {};
-    if (req.query.completed !== undefined)      // Remember Boolean('false') == true
+    if (req.query.completed !== undefined)
         match.completed = req.query.completed;
     if (req.query.sortBy) {
         const [field, order] = req.query.sortBy.split(':');
         sort[field] = order === 'asc' ? 1 : -1;
+    };
+    const filter = { owner: req.user._id };
+    if (match.completed) {
+        filter.completed = match.completed;
     }
+
+    let count = await Task.countDocuments(filter);
+    let skip;
+    if (req.query.skip == 'first') {
+        skip = 0;
+    } else if (req.query.skip == 'last') {
+        skip = count % 5 ? count - count % 5 : count - 5;
+    } else {
+        skip = +req.query.skip || 0;        // req.query.skip doesn't exist ? Skip to beginning
+    }
+
     try {
         await req.user.populate({
             path: 'tasks',
             match,
             options: {
+                skip,
                 limit: 5,
-                skip: +req.query.skip,
                 sort
             }
         }).execPopulate();
         if (req.user.tasks.length) {
             let tasks = req.user.tasks;
-            let count = await Task.countDocuments({ owner: req.user._id });
             let pageCount = Math.ceil(count / 5);
-            let current = +req.query.skip / 5;      // current page
+            let current = Math.ceil(skip / 5);      // current page
+            console.log('Current page index should be ' + current + '.\nCount is ' + count + '.\nSkip is ' + skip);
             pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
             res.render('../partials/tasks', { tasks, pages, current });
         } else

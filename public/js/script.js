@@ -36,9 +36,8 @@ taskForm.addEventListener('submit', e => {
         .then(res => {
             hide(contentModal);
             displayConfirm(res.data);
-            filterTsksAndRldScrpt();
             setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-                document.querySelector('nav ul li:last-child a').click(); // so it goes to the last page
+                filterTsksAndRldScrpt('last'); // so it goes to the last page
             }, 800);
         }).catch(err => {
             hide(contentModal);
@@ -48,7 +47,10 @@ taskForm.addEventListener('submit', e => {
 document.querySelector('#sortBy').addEventListener('change', function () {
     filterTsksAndRldScrpt();
 });
-document.querySelector('#sortOrder').addEventListener('click', function() {
+document.querySelector('.switch input[type=checkbox]').addEventListener('change', function () {
+    filterTsksAndRldScrpt('first');
+});
+document.querySelector('#sortOrder').addEventListener('click', function () {
     const up = this.querySelector('.fa-sort-amount-up');
     const down = this.querySelector('.fa-sort-amount-down-alt');
     up.classList.toggle('hidden');
@@ -132,7 +134,8 @@ function loadContentAndScript(route, error) {
         route = '/tasks/';
         script.src = '/js/asyncTasks.js';
         btn = fetchTasksBtn;
-        desiredDiv = tasksDiv.querySelector('.column:last-child');
+        desiredDiv = tasksDiv.querySelector('div:last-child');
+        // desiredDiv = tasksDiv.querySelector('.column:last-child');
         // desiredDiv = tasksDiv.querySelector('tbody');
     }
 
@@ -148,19 +151,27 @@ function loadContentAndScript(route, error) {
         });
 }
 
-function filterTsksAndRldScrpt() {
+function filterTsksAndRldScrpt(skipToFirstOrLast) {
+    // skipToFirstOrLast MUST have either 'last','first', or just undefined
     const sortField = document.querySelector('#sortBy').value;
     const sortOrder = document.querySelector('#sortOrder i.fas:not(.hidden)').dataset.order;
-    const skip = document.querySelector('.pagination-link.is-current').dataset.skip;
-    axios.get(`/tasks/?sortBy=${sortField}:${sortOrder}&skip=${skip}`)
-        .then(res => {
-            const desiredDiv = tasksDiv.querySelector('.column:last-child');
-            // const desiredDiv = tasksDiv.querySelector('tbody');
-            desiredDiv.innerHTML = res.data;
-            const script = document.createElement('script');
-            script.src = "/js/asyncTasks.js";
-            desiredDiv.append(script);
-        })
+    const skip = skipToFirstOrLast || document.querySelector('.pagination-link.is-current').dataset.skip;
+    const isCompleted = document.querySelector('.switch input[type=checkbox]').checked;
+    axios.get('/tasks/', {
+        params: {
+            sortBy: `${sortField}:${sortOrder}`,
+            skip,
+            completed: isCompleted ? Boolean(isCompleted.value) : undefined // undefined means ignore it
+        }
+    }).then(res => {
+        const desiredDiv = tasksDiv.querySelector('div:last-child');
+        // const desiredDiv = tasksDiv.querySelector('.column:last-child');
+        // const desiredDiv = tasksDiv.querySelector('tbody');
+        desiredDiv.innerHTML = res.data;
+        const script = document.createElement('script');
+        script.src = "/js/asyncTasks.js";
+        desiredDiv.append(script);
+    })
         .catch(err => alert(err.message));
 
 }

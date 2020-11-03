@@ -12,71 +12,70 @@
 
 <body>
     {{> header}}
-    <main class="container">
-        <div class="columns is-centered my-5 mx-1">
-            <div id="overlay" class="hidden"></div>
-            <div class="column is-half">
-                <div class="tabs is-boxed">
-                    <ul>
-                        <li class="is-active"><a id="fetchTasksBtn">Tasks</a></li>
-                        <li><a id="getInfo">Profile</a></li>
-                    </ul>
+    <main class="container px-5">
+        <div id="overlay" class="hidden"></div>
+        <div class="tabs is-boxed">
+            <ul>
+                <li class="is-active"><a id="fetchTasksBtn">Tasks</a></li>
+                <li><a id="getInfo">Profile</a></li>
+            </ul>
+        </div>
+        <div id="results">
+            <div id="tasks">
+                <label class="label">Sort By </label>
+                <div class="select is-pulled-left">
+                    <select id="sortBy">
+                        <option value="description">Name</option>
+                        <option value="completed">Completion</option>
+                        <option value="createdAt" selected>Date</option>
+                    </select>
                 </div>
-                <div id="results" class="">
-                    <div class="" id="tasks">
-                        <div class="columns is-multiline is-centered">
-                            <div class="column is-full">
-
-                                <label class="label">Sort By </label>
-                                <div class="select is-pulled-left">
-                                    <select id="sortBy">
-                                        <option value="description">Name</option>
-                                        <option value="completed">Completion</option>
-                                        <option value="createdAt" selected>Date</option>
-                                    </select>
-                                    <button type="button">Hide completed</button>
-                                </div>
-                                <span id="sortOrder" class="icon is-large">
-                                    <i class="fas fa-sort-amount-up" data-order="asc"></i>
-                                    <i class="fas fa-sort-amount-down-alt hidden" data-order="desc"></i>
-                                </span>
-                                <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
-                            </div>
-                            <div class="column">
-                                {{> tasks}}
-                                <script src="/js/asyncTasks.js"></script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hidden" id="accountInfo">
-                        {{> account}}
-                        <script src="/js/asyncProfile.js"></script>
-                    </div>
+                <span id="sortOrder" class="icon is-large pl-1">
+                    <i class="fas fa-sort-amount-up" data-order="asc"></i>
+                    <i class="fas fa-sort-amount-down-alt hidden" data-order="desc"></i>
+                </span>
+                <button class="button is-pulled-right" id="newTaskBtn">Create A New Task</button>
+                <div class="mt-2">
+                    <label>Hide Completed</label>
+                    <label class="switch">
+                        <input type="checkbox" value=""> {{! the value HAS to be empty}}
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div>
+                {{> tasks}}
+                <script src="/js/asyncTasks.js"></script>
                 </div>
             </div>
-            <div class="my-modal hidden">
-                <div class="modal-content hidden">
-                    <div class="modal-header">
-                        <h2>Create a New Task</h2>
-                    </div>
-                    <form id="taskForm" action="/tasks/">
-                        <div class="modal-body">
-                            <textarea name="description" id="descriptionField" cols="30" rows="2"
-                                placeholder="Task Description.." required></textarea><br>
-                            <label>Completed ?</label>
-                            <br>
-                            <label><input type="radio" name="completed" value="true"> Yes</label>
-                            <label><input type="radio" name="completed" value="false" checked> No</label>
-                            <br>
-                        </div>
-                        <div class="modal-footer">
-                            <input class="button" type="submit" value="Create Task">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-content modal-confirmation hidden"></div>
+            <div class="hidden" id="accountInfo">
+                {{> account}}
+                <script src="/js/asyncProfile.js"></script>
             </div>
         </div>
+
+        <div class="my-modal hidden">
+            <div class="modal-content hidden">
+                <div class="modal-header">
+                    <h2>Create a New Task</h2>
+                </div>
+                <form id="taskForm" action="/tasks/">
+                    <div class="modal-body">
+                        <textarea name="description" id="descriptionField" cols="30" rows="2"
+                            placeholder="Task Description.." required></textarea><br>
+                        <label>Completed ?</label>
+                        <br>
+                        <label><input type="radio" name="completed" value="true"> Yes</label>
+                        <label><input type="radio" name="completed" value="false" checked> No</label>
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="button" type="submit" value="Create Task">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-content modal-confirmation hidden"></div>
+        </div>
+
     </main>
     {{> footer}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
