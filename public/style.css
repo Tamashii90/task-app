@@ -140,17 +140,14 @@ button, input[type=submit] {
     padding-top: 6px;
        
 }
-
-/* .columns > div:nth-child(2){
-    position: relative;     
-    min-height: 580px;
+.icon.is-large{
+    position: relative;
+    top: -5px;
 }
 
-nav.pagination {
-    position: absolute;
-    bottom: -5px;
-} */
-
+.fa-sort-amount-down-alt, .fa-sort-amount-up {
+    font-size: 2rem;
+}
 tr {
     position: relative;     /* this is necessary in order to adjust the z-index for the overlay effect */
 }
@@ -191,11 +188,16 @@ hr{
    #newTaskBtn {
         margin-bottom:2rem;
    }
-   .tabs, .textarea, .button, .label, .select, .input, .file {
+   .tabs, .textarea, .button, .label, .select, .input, .file, .icon {
     border-radius: 2px;
     font-size: .75rem;
    }
-   /* .columns > div:nth-child(2){
-    min-height: 400px;
-    } */
+   .icon.is-large {
+       top:0;
+       height: 2rem;
+       width: auto;
+   }
+   .fa-sort-amount-down-alt, .fa-sort-amount-up {
+    font-size: 1.5rem;
+    }
 }

@@ -36,8 +36,9 @@ taskForm.addEventListener('submit', e => {
         .then(res => {
             hide(contentModal);
             displayConfirm(res.data);
+            filterTsksAndRldScrpt();
             setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-                filterTsksAndRldScrpt();
+                document.querySelector('nav ul li:last-child a').click(); // so it goes to the last page
             }, 800);
         }).catch(err => {
             hide(contentModal);
@@ -46,6 +47,14 @@ taskForm.addEventListener('submit', e => {
 });
 document.querySelector('#sortBy').addEventListener('change', function () {
     filterTsksAndRldScrpt();
+});
+document.querySelector('#sortOrder').addEventListener('click', function() {
+    const up = this.querySelector('.fa-sort-amount-up');
+    const down = this.querySelector('.fa-sort-amount-down-alt');
+    up.classList.toggle('hidden');
+    down.classList.toggle('hidden');
+    filterTsksAndRldScrpt();
+
 });
 window.addEventListener('click', e => {
     if (e.target === containerModal) {
@@ -141,7 +150,7 @@ function loadContentAndScript(route, error) {
 
 function filterTsksAndRldScrpt() {
     const sortField = document.querySelector('#sortBy').value;
-    const sortOrder = 'asc';
+    const sortOrder = document.querySelector('#sortOrder i.fas:not(.hidden)').dataset.order;
     const skip = document.querySelector('.pagination-link.is-current').dataset.skip;
     axios.get(`/tasks/?sortBy=${sortField}:${sortOrder}&skip=${skip}`)
         .then(res => {

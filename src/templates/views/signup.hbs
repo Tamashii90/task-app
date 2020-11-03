@@ -18,7 +18,7 @@
                 <div class="control has-icons-left">
                     <input class="input {{#if error.errors.name}}is-danger{{/if}}" type="text" name="name"
                         placeholder="Username" value="{{pastName}}" required>
-                    <span class="icon is-small is-left {{#if error.errors.name}}has-text-danger{{/if}}">
+                    <span class="icon is-left {{#if error.errors.name}}has-text-danger{{/if}}">
                         <i class="fas fa-user"></i>
                     </span>
                     <span class="help is-danger">{{error.errors.name.message}}</span>
