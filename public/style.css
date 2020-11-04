@@ -232,7 +232,7 @@ svg {
 	z-index: 0;     /* bulma makes it 4 for some reason */
 }
 
-.button, .input, .select, table {
+.button, .input, .select, #resTable {
     background: transparent;
 }
 
