@@ -20,7 +20,10 @@ hbs.registerHelper('increment', value => {
 });
 hbs.registerHelper('isEqual', (val1, val2) => {
     val2 = val2 || 0; // it's undefined on initial load of /users/me
-    return val1 === val2; 
+    return val1 === val2;
+});
+hbs.registerHelper('DateString', ISOString => {
+    return ISOString.toLocaleDateString() + ' ' + ISOString.toLocaleTimeString();
 });
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);

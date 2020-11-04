@@ -38,7 +38,7 @@ taskForm.addEventListener('submit', e => {
             hide(contentModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
-                filterTsksAndRldScrpt('last'); // so it goes to the last page
+                filterTsksAndRldScrpt('first'); // so it goes to the first page
             }, 800);
         }).catch(err => {
             hide(contentModal);
@@ -53,7 +53,7 @@ document.querySelector('.switch input[type=checkbox]').addEventListener('change'
 });
 document.querySelector('#sortOrder').addEventListener('click', function () {
     const up = this.querySelector('.fa-sort-amount-up');
-    const down = this.querySelector('.fa-sort-amount-down-alt');
+    const down = this.querySelector('.fa-sort-amount-down');
     up.classList.toggle('hidden');
     down.classList.toggle('hidden');
     filterTsksAndRldScrpt();

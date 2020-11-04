@@ -22,16 +22,13 @@ const upload = multer({
 router.get('/users/me', auth, async (req, res) => {
     try {
         const user = req.user;
-        const profile = {
-            ...user._doc,
-            createdAt: user.createdAt.toDateString()
-        };
         let tasks = [];
         let pages = [];
         await req.user.populate({
             path: 'tasks',
             options: {
-                limit: 5
+                limit: 5,
+                sort:{createdAt:'desc'}     // I want to display the most recent tasks first
             }
         }).execPopulate();
         if (req.user.tasks.length) {
@@ -39,9 +36,9 @@ router.get('/users/me', auth, async (req, res) => {
             let count = await Task.countDocuments({ owner: req.user._id });
             let pageCount = Math.ceil(count / 5);
             pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
-            res.render('profile', { profile, tasks, pages });
+            res.render('profile', { profile: user, tasks, pages });
         }
-        else res.render('profile', { profile });
+        else res.render('profile', { profile: user });
     } catch (error) {
         res.status(500).send(error);
     }
@@ -50,11 +47,7 @@ router.get('/users/me', auth, async (req, res) => {
 router.get('/users/me/info', auth, (req, res) => {
     try {
         const user = req.user;
-        const profile = {
-            ...user._doc,
-            createdAt: user.createdAt.toDateString()
-        };
-        res.render('../partials/account', { profile });
+        res.render('../partials/account', { profile: user });
     } catch (error) {
         res.status(500).send();
     }
@@ -102,11 +95,7 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
         res.cookie('current_user', user.name, { sameSite: "lax" });     // update the cookie to the new name
         res.send('Changes Applied.');
     } catch (error) {
-        const profile = {
-            ...user._doc,
-            createdAt: user.createdAt.toDateString()
-        };
-        res.status(400).render('../partials/account', { profile, error });
+        res.status(400).render('../partials/account', { profile: user, error });
     }
 }, (err, req, res, next) => {
     res.status(400).send({ error: err.message });
