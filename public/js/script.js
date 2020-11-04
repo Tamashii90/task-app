@@ -10,6 +10,7 @@ const tasksDiv = document.querySelector('#tasks');
 const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const editOverlay = document.querySelector('#overlay');
+const preLoader = document.querySelector('svg');
 
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
@@ -138,15 +139,17 @@ function loadContentAndScript(route, error) {
         // desiredDiv = tasksDiv.querySelector('.column:last-child');
         // desiredDiv = tasksDiv.querySelector('tbody');
     }
-
+    preLoader.classList.remove('is-invisible');
     axios.get(route)
         .then(res => {
             // If this is confusing, check from where it's being called.
             // The way axios works, if there's an error, the response payload will be inside
             // error.response.data. I pass this error because I want hbs to render it.
+            preLoader.classList.add('is-invisible');
             error ? desiredDiv.innerHTML = error.response.data : desiredDiv.innerHTML = res.data;
             desiredDiv.append(script);
         }).catch(err => {
+            preLoader.classList.add('is-invisible');
             alert(err);
         });
 }
@@ -157,6 +160,7 @@ function filterTsksAndRldScrpt(skipToFirstOrLast) {
     const sortOrder = document.querySelector('#sortOrder i.fas:not(.hidden)').dataset.order;
     const skip = skipToFirstOrLast || document.querySelector('.pagination-link.is-current').dataset.skip;
     const isCompleted = document.querySelector('.switch input[type=checkbox]').checked;
+    preLoader.classList.remove('is-invisible');     // unhide controls display, I wanna control visbility
     axios.get('/tasks/', {
         params: {
             sortBy: `${sortField}:${sortOrder}`,
@@ -167,11 +171,15 @@ function filterTsksAndRldScrpt(skipToFirstOrLast) {
         const desiredDiv = tasksDiv.querySelector('div:last-child');
         // const desiredDiv = tasksDiv.querySelector('.column:last-child');
         // const desiredDiv = tasksDiv.querySelector('tbody');
+        preLoader.classList.add('is-invisible');
         desiredDiv.innerHTML = res.data;
         const script = document.createElement('script');
         script.src = "/js/asyncTasks.js";
         desiredDiv.append(script);
     })
-        .catch(err => alert(err.message));
+        .catch(err => {
+            preLoader.classList.add('is-invisible');
+            alert(err.message);
+        });
 
 }

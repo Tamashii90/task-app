@@ -41,7 +41,6 @@ router.get('/tasks/', auth, async (req, res) => {
             let tasks = req.user.tasks;
             let pageCount = Math.ceil(count / 5);
             let current = Math.ceil(skip / 5);      // current page
-            console.log('Current page index should be ' + current + '.\nCount is ' + count + '.\nSkip is ' + skip);
             pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
             res.render('../partials/tasks', { tasks, pages, current });
         } else
