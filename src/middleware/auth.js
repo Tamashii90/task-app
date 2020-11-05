@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
         req.user = user;    
         next();
     } catch (err) {
-        res.status(401).send('You aren\'t logged in.');
+        res.status(401).redirect('/');
     }
 
 };

@@ -103,7 +103,7 @@ button, input[type=submit] {
     background: none;
 }
 
-#resTable td {
+#resTable td, #resTable th {
     vertical-align: middle;
     /* white-space: nowrap; */
     padding: 10px;

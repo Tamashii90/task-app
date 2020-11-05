@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=B612&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Vollkorn:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
 /*! bulma.io v0.9.1 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 @-webkit-keyframes spinAround {
@@ -335,7 +339,7 @@ th:not([align]) {
 
 html {
   background-color: white;
-  font-size: 16px;
+  font-size: 17px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   min-width: 300px;
@@ -364,7 +368,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Oswald", sans-serif;
 }
 
 code,
@@ -3229,6 +3233,7 @@ a.tag:hover {
 
 .title {
   color: black;
+  font-family: "Montserrat", sans-serif;
   font-size: 2rem;
   font-weight: 600;
   line-height: 1.125;
@@ -11318,7 +11323,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .is-family-primary {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+  font-family: "Oswald", sans-serif !important;
 }
 
 .is-family-secondary {
