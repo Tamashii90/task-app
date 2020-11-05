@@ -5,7 +5,10 @@
   "main": "mongodb.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "nodemon -r dotenv/config ./src/index.js -e js,hbs dotenv_config_path=./config/dev.env"
+    "dev": "nodemon -r dotenv/config ./src/index.js -e js,hbs dotenv_config_path=./config/dev.env",
+    "css-build": "node-sass --omit-source-map-url ./sass/mystyles.scss ./public/mystyles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start2": "npm run css-watch"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +29,7 @@
     "validator": "^10.9.0"
   },
   "devDependencies": {
+    "bulma": "^0.9.1",
     "dotenv": "^8.2.0"
   }
 }

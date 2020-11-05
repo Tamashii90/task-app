@@ -65,7 +65,7 @@ window.addEventListener('click', e => {
     }
     if (e.target === overlay) {
         hide(e.target);
-        loadContentAndScript('tasks');     // to drop the changes
+        filterTsksAndRldScrpt();     // to drop the changes
     }
 });
 

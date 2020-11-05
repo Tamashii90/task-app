@@ -1,0 +1,37 @@
+@charset "utf-8";
+//////      My Variables     //////
+$fontColor:black;
+$primary:#c657c6;
+$secondaryColor:#8e57c6a9;
+$thirdColor:#c6578e;
+$fourthColor:#c6c657;
+
+
+
+
+//////      Bulma's Variables     //////
+
+$text: $fontColor;
+$text-strong:$fontColor;
+
+$border:$secondaryColor;
+
+$link:$primary;
+
+$link-hover:$primary;
+$link-hover-border:$secondaryColor;
+
+$link-focus:$fourthColor;
+$link-focus-border:$fourthColor;
+
+$link-active:$thirdColor;
+$link-active-border:$thirdColor;
+
+
+$scheme-main-bis:#c657c6a6;     // $primary but more transparent
+
+// $title-color:$headingColor;
+// $title-weight:normal;
+
+
+@import "../../node_modules/bulma/bulma.sass";

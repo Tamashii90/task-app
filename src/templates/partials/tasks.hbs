@@ -1,4 +1,4 @@
-<table class="table is-fullwidth my-4" id="resTable">
+<table class="table is-hoverable is-striped is-fullwidth my-4" id="resTable">
     <tbody>
         {{#each tasks }}
         <tr>
@@ -26,16 +26,21 @@
                     </div>
                     <span id="state-{{this._id}}">not yet completed</span>
                 </td>{{/if}}
+                <td>{{DateString this.createdAt}}</td>
                 <td>
-                    <input class="hidden button editBtn" form="edit-{{this._id}}" type="submit" data-id="{{this._id}}"
-                        value="Save Edits" />
-                    <button type="button" class="button preEditBtn" data-form="{{this._id}}">Edit</button>
+                    <button type="submit" class="button hidden" form="edit-{{this._id}}">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button type="button" class="button preEditBtn" data-form="{{this._id}}">
+                        <i class="far fa-edit"></i>
+                    </button>
                 </td>
                 <td>
-                    <button type="button" class="button deleteBtn" data-id={{this._id}}>Delete</button>
+                    <button type="button" class="button deleteBtn" data-id="{{this._id}}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </td>
             </form>
-            <td>{{DateString this.createdAt}}</td>
         </tr>
         {{else }}
         <tr>

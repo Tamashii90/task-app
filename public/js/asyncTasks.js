@@ -10,9 +10,7 @@ let deleteButtons = document.querySelectorAll('#editForm');
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         axios.delete(`/tasks/${this.dataset.id}`).then(res => {
-            // if (!editOverlay.classList.contains('hidden')) {
             hide(editOverlay);
-            // }
             unhide(containerModal);
             displayConfirm(res.data);
             setTimeout(() => {          // so it matches the fade time of the confirmation msg
