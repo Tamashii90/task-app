@@ -1,11 +1,11 @@
-<table class="table is-hoverable is-striped is-fullwidth my-4" id="resTable">
+<table class="table is-striped is-fullwidth my-4" id="resTable">
     <thead>
         <tr>
             <th>Task</th>
             <th>Status</th>
-            <th>Date Created</th>
             <th>Edit</th>
             <th>Delete</th>
+            <th class="dateCell">Date</th>
         </tr>
     </thead>
     <tbody>
@@ -13,9 +13,9 @@
         <tr>
             <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
                 <td>
-                    <span>{{this.description}}</span>
-                    <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30"
-                        rows="1">{{this.description}}</textarea>
+                    <span {{#if this.completed}}style="text-decoration:line-through;"{{/if}}>{{this.description}}</span>
+                    <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30" rows="1"
+                        required>{{this.description}}</textarea>
                 </td>
                 <td>
                     {{#if this.completed}}
@@ -25,7 +25,9 @@
                             <option value="true" selected>Yes</option>
                         </select>
                     </div>
-                    <span id="state-{{this._id}}">completed</span>
+                    <span class="icon is-medium" id="state-{{this._id}}" title="Complete">
+                        <i class="fas fa-check-circle fa-lg"></i>
+                    </span>
                     {{else}}
                     <div class="hidden select">
                         <select form="edit-{{this._id}}" name="completed">
@@ -33,9 +35,11 @@
                             <option value="true">Yes</option>
                         </select>
                     </div>
-                    <span id="state-{{this._id}}">not yet completed</span>
-                </td>{{/if}}
-                <td>{{DateString this.createdAt}}</td>
+                    <span class="icon is-medium" id="state-{{this._id}}" title="Not Complete">
+                        <i class="fas fa-times-circle fa-lg"></i>
+                    </span>
+                    {{/if}}
+                </td>
                 <td>
                     <button type="submit" class="button hidden" form="edit-{{this._id}}">
                         <i class="fas fa-check"></i>
@@ -49,11 +53,14 @@
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </td>
+                <td class="dateCell">
+                    {{DateString this.createdAt}}
+                </td>
             </form>
         </tr>
         {{else }}
         <tr>
-            <td colspan="3">No Tasks Found</td>
+            <td colspan="5" style="text-align: center;">No Tasks Found</td>
         </tr>
         {{/each}}
     </tbody>

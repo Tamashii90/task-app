@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=B612&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Vollkorn:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap");
 /*! bulma.io v0.9.1 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 @-webkit-keyframes spinAround {
@@ -339,7 +337,7 @@ th:not([align]) {
 
 html {
   background-color: white;
-  font-size: 17px;
+  font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   min-width: 300px;
@@ -408,7 +406,7 @@ code {
 }
 
 hr {
-  background-color: whitesmoke;
+  background-color: black;
   border: none;
   display: block;
   height: 2px;
@@ -5043,7 +5041,7 @@ button.dropdown-item {
 
 a.dropdown-item:hover,
 button.dropdown-item:hover {
-  background-color: whitesmoke;
+  background-color: #c657c6;
   color: #0a0a0a;
 }
 

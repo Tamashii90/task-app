@@ -9,14 +9,19 @@ let deleteButtons = document.querySelectorAll('#editForm');
 
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
-        axios.delete(`/tasks/${this.dataset.id}`).then(res => {
-            hide(editOverlay);
-            unhide(containerModal);
-            displayConfirm(res.data);
-            setTimeout(() => {          // so it matches the fade time of the confirmation msg
-                loadContentAndScript('tasks');
-            }, 800);
-        });
+        displayConfirm('Delete Task ?').then(value => {
+            if (value)
+                axios.delete(`/tasks/${this.dataset.id}`)
+                    .then(res => {
+                        hide(overlay);
+                        displaySuccess(res.data);
+                        setTimeout(() => {          // so it matches the fade time of the confirmation msg
+                            loadContentAndScript('tasks');
+                        }, 800);
+                    }).catch(err => {
+                        displayError(err);
+                    });
+        })
     });
 });
 document.querySelectorAll('.editForm').forEach(editForm => {
@@ -24,17 +29,16 @@ document.querySelectorAll('.editForm').forEach(editForm => {
         e.preventDefault();
         asyncSubmit(editForm, 'PATCH')
             .then(res => {
-                hide(editOverlay);
+                hide(overlay);
                 hide(contentModal);
-                unhide(containerModal);
-                displayConfirm(res.data);
-                setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
+                displaySuccess(res.data);
+                setTimeout(() => {          // so the new task shows up after the displaySuccess fades out
                     filterTsksAndRldScrpt();
                 }, 800);
             }).catch(err => {
-                hide(editOverlay);
+                hide(overlay);
                 hide(contentModal);
-                alert(err);
+                displayError(err.message);
             });
     });
 });
@@ -49,7 +53,7 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
         const initialSpan = descriptionField.previousElementSibling;
 
         //--------- Edit Mode On ---------// 
-        for (let element of [descriptionField, completedField, submitBtn, editOverlay]) {
+        for (let element of [descriptionField, completedField, submitBtn, overlay]) {
             unhide(element);
         }
         for (let element of [btn, completedState, initialSpan]) {

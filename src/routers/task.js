@@ -74,7 +74,7 @@ router.patch('/tasks/:id', auth, async (req, res) => {
         await task.save();
         res.send('Task Updated.');
     } catch (err) {
-        res.status(400).send(err.message);
+        res.status(400).send(err);
     }
 });
 

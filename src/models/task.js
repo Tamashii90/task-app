@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
     description: {
         type: String,
-        required: true,
+        required: 'Description can\'t be empty',
         trim: true
     },
     completed: {

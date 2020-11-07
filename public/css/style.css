@@ -1,3 +1,6 @@
+@import url('./swal.css');
+
+
 body{
     /* Credits to www.svgbackgrounds.com for this awesome background */
     background-color: #ffffff;
@@ -71,15 +74,6 @@ footer {
     padding: 10px 0;
 }
 
-.modal-confirmation {
-    opacity:1;
-    transition: opacity 0.8s;
-}
-
-.modal-confirmation.fade {
-    opacity:0;
-}
-
 #overlay{
     background-color: rgba(10,10,10,.86);
     position: fixed;
@@ -95,6 +89,7 @@ button, input[type=submit] {
 }
 
 #resTable {
+    table-layout: fixed;
     border-collapse: collapse; 
 }
 
@@ -141,6 +136,7 @@ button, input[type=submit] {
 }
 
 .input_field > label + span{
+    padding-left: 45px;
     width: 303px; 
 }
 
@@ -219,10 +215,12 @@ svg {
     margin: auto;
     background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%;
     shape-rendering: auto;
-    position: relative;
-    height:100px;
-    left:-10px;
-    top: -34px;    
+    height:150px;
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+    z-index: 100;  
 }
 
 .noideawhatimdoing {
@@ -278,6 +276,7 @@ tr {
         margin-bottom: 15px;
     }
     .input_field > label + span{
+        padding-left: 0;
         width: auto;
     }
     .avatarImg ~ form > input {
@@ -285,9 +284,6 @@ tr {
     }
 }
 @media screen and (max-width:768px){
-   #newTaskBtn {
-        margin-bottom:2rem;
-   }
    .tabs, .textarea, .button, .label, .select, .input, .file, .icon {
     border-radius: 2px;
     font-size: .75rem;
@@ -303,5 +299,8 @@ tr {
     svg {
         top: -55px;
         height: 60px;
+    }
+    #resTable .dateCell {       /* no need to display date on small screens */
+        display: none;
     }
 }

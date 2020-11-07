@@ -9,7 +9,7 @@ const resDiv = document.querySelector('#results');
 const tasksDiv = document.querySelector('#tasks');
 const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
-const editOverlay = document.querySelector('#overlay');
+const overlay = document.querySelector('#overlay');
 const preLoader = document.querySelector('svg');
 
 getInfoBtn.addEventListener('click', function () {
@@ -36,13 +36,15 @@ taskForm.addEventListener('submit', e => {
     asyncSubmit(taskForm, 'POST')        // submit the form asynchronously using axios
         .then(res => {
             hide(contentModal);
-            displayConfirm(res.data);
-            setTimeout(() => {          // so the new task shows up after the displayConfirm fades out
+            hide(containerModal);
+            displaySuccess(res.data);
+            setTimeout(() => {          // so the new task shows up after the displaySuccess fades out
                 filterTsksAndRldScrpt('first'); // so it goes to the first page
             }, 800);
         }).catch(err => {
+            hide(containerModal);
             hide(contentModal);
-            alert(err);
+            displayError(err);
         });
 });
 document.querySelector('#sortBy').addEventListener('change', function () {
@@ -74,7 +76,7 @@ window.addEventListener('click', e => {
 //---------------- Functions ----------------//
 
 function unhide(modal) {
-    if (modal === containerModal || modal === editOverlay) {
+    if (modal === containerModal || modal === overlay) {
         document.querySelector('html').classList.add('frozen');
     }
     modal.classList.remove('hidden');
@@ -106,17 +108,50 @@ async function asyncSubmitMulti(form, method) {
     });
 }
 
-function displayConfirm(data) {
-    unhide(msgModal);
-    msgModal.innerHTML = data;
-    setTimeout(() => {
-        msgModal.classList.add('fade');
-    }, 200)
-    setTimeout(() => {
-        hide(msgModal);
-        hide(containerModal);
-        msgModal.classList.remove('fade');
-    }, 1000);
+function displaySuccess(data) {
+    // unhide(msgModal);
+    // msgModal.innerHTML = data;
+    // setTimeout(() => {
+    //     msgModal.classList.add('fade');
+    // }, 200)
+    // setTimeout(() => {
+    //     hide(msgModal);
+    //     hide(containerModal);
+    //     msgModal.classList.remove('fade');
+    // }, 1000);
+    swal({
+        text: data,
+        buttons: false,
+        timer: 1000,
+        icon: 'success'
+    })
+}
+
+function displayError(err) {
+    swal({
+        text: err,
+        button: 'OK',
+        icon: 'error'
+    })
+}
+
+async function displayConfirm(data) {
+    return swal({
+        title: 'Are You Sure ?',
+        text: data,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    });
+}
+
+function showLoader(show) {
+    if (show) {
+        unhide(overlay);
+        return unhide(preLoader);
+    }
+    hide(overlay);
+    return hide(preLoader);
 }
 
 function loadContentAndScript(route, error) {
@@ -135,22 +170,22 @@ function loadContentAndScript(route, error) {
         route = '/tasks/';
         script.src = '/js/asyncTasks.js';
         btn = fetchTasksBtn;
-        desiredDiv = tasksDiv.querySelector('div:last-child');
+        desiredDiv = tasksDiv.children[tasksDiv.children.length - 1];
         // desiredDiv = tasksDiv.querySelector('.column:last-child');
         // desiredDiv = tasksDiv.querySelector('tbody');
     }
-    preLoader.classList.remove('is-invisible');
+    showLoader(true);
     axios.get(route)
         .then(res => {
             // If this is confusing, check from where it's being called.
             // The way axios works, if there's an error, the response payload will be inside
             // error.response.data. I pass this error because I want hbs to render it.
-            preLoader.classList.add('is-invisible');
+            showLoader(false);
             error ? desiredDiv.innerHTML = error.response.data : desiredDiv.innerHTML = res.data;
             desiredDiv.append(script);
         }).catch(err => {
-            preLoader.classList.add('is-invisible');
-            alert(err);
+            showLoader(false);
+            displayError(err);
         });
 }
 
@@ -160,7 +195,7 @@ function filterTsksAndRldScrpt(skipToFirstOrLast) {
     const sortOrder = document.querySelector('#sortOrder i.fas:not(.hidden)').dataset.order;
     const skip = skipToFirstOrLast || document.querySelector('.pagination-link.is-current').dataset.skip;
     const isCompleted = document.querySelector('.switch input[type=checkbox]').checked;
-    preLoader.classList.remove('is-invisible');     // unhide controls display, I wanna control visbility
+    showLoader(true);
     axios.get('/tasks/', {
         params: {
             sortBy: `${sortField}:${sortOrder}`,
@@ -168,17 +203,17 @@ function filterTsksAndRldScrpt(skipToFirstOrLast) {
             completed: isCompleted ? Boolean(isCompleted.value) : undefined // undefined means ignore it
         }
     }).then(res => {
-        const desiredDiv = tasksDiv.querySelector('div:last-child');
+        const desiredDiv = tasksDiv.children[tasksDiv.children.length - 1];
         // const desiredDiv = tasksDiv.querySelector('.column:last-child');
         // const desiredDiv = tasksDiv.querySelector('tbody');
-        preLoader.classList.add('is-invisible');
+        showLoader(false);
         desiredDiv.innerHTML = res.data;
         const script = document.createElement('script');
         script.src = "/js/asyncTasks.js";
         desiredDiv.append(script);
     })
         .catch(err => {
-            preLoader.classList.add('is-invisible');
+            showLoader(false);
             alert(err.message);
         });
 
