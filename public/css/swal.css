@@ -1,0 +1,19 @@
+.swal-icon--success{
+    border-color:#c657c6;
+}
+.swal-icon--success__line{
+    background-color: #c657c6;
+}
+
+.swal-icon--warning__body, .swal-icon--warning__dot{
+    background-color: #c6c657;
+}
+
+@keyframes pulseWarning {
+    0% {
+        border-color:#c6c657;
+    }
+    100% {
+        border-color:#c6c657;
+    }
+}
