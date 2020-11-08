@@ -1,3 +1,4 @@
+{{#if tasks}}
 <table class="table is-striped is-fullwidth my-4" id="resTable">
     <thead>
         <tr>
@@ -13,7 +14,8 @@
         <tr>
             <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}">
                 <td>
-                    <span {{#if this.completed}}style="text-decoration:line-through;"{{/if}}>{{this.description}}</span>
+                    <span {{#if this.completed}}style="text-decoration:line-through;"
+                        {{/if}}>{{this.description}}</span>
                     <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30" rows="1"
                         required>{{this.description}}</textarea>
                 </td>
@@ -58,13 +60,12 @@
                 </td>
             </form>
         </tr>
-        {{else }}
-        <tr>
-            <td colspan="5" style="text-align: center;">No Tasks Found</td>
-        </tr>
         {{/each}}
     </tbody>
 </table>
+{{else}}
+<div style="text-align: center;margin: 4rem auto;">No Tasks Found</div>
+{{/if}}
 <nav class="pagination" role="navigation" aria-label="pagination">
     <ul class="pagination-list">
 
