@@ -19,15 +19,8 @@ body{
     margin:10px auto;
 }
 
-
-
 header {
-    padding-bottom: 10px;
     border-bottom: 2px solid black;
-}
-
-.level-right{
-    margin-right:10px;
 }
 
 footer {
@@ -116,7 +109,6 @@ button, input[type=submit] {
 #resTable tr:nth-child(even) {
     background-color: rgba(208, 160, 208, 0.71);
 }
-
 
 .profile{
     margin-top: 10px;

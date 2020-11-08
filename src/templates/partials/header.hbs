@@ -5,37 +5,17 @@
     {{! user is populated from fillHeader.js }}
     <div class="level-right">
         {{#if user}}
-        {{#if hasAvatar}}
         <span class="level-item">
-            <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />
-        </span>
-        <span class="level-item">{{user}}</span>
-        {{else}}
-        <span class="level-item">
+            {{#if hasAvatar}}
+            <img src='/users/me/avatar' width="64" height="64" />
+            {{else}}
             <img src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />
+            {{/if}}
         </span>
-        <div class="dropdown is-hoverable level-item">
-            <div class="dropdown-trigger">
-                <button type="button" class="button" style="border: none;" aria-haspopup="true">
-                    <span>{{user}}</span>
-                    <span class="icon is-small">
-                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                </button>
-            </div>
-            <div class="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                    <a href="/users/me" class="dropdown-item">
-                        Dashboard
-                    </a>
-                    <hr class="dropdown-divider">
-                    <form action="/users/logout" method="POST">
-                        <button class="button dropdown-item" style="border: none;">Log Out</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {{/if}}
+        <a href="/users/me" class="level-item" style="text-decoration: underline;color:black;">{{user}}</a>
+        <form class="level-item" action="/users/logout" method="POST">
+            <button class="button">Log Out</button>
+        </form>
         {{else}}
         <a class="level-item" href="/users/login">Log in</a>&nbsp;
         <a class="level-item" href="/users/signup">Sign Up</a>
