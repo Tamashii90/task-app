@@ -10,7 +10,7 @@ const tasksDiv = document.querySelector('#tasks');
 const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const overlay = document.querySelector('#overlay');
-const preLoader = document.querySelector('svg');
+const preLoader = document.querySelector('progress');
 
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
@@ -147,10 +147,8 @@ async function displayConfirm(data) {
 
 function showLoader(show) {
     if (show) {
-        unhide(overlay);
         return unhide(preLoader);
     }
-    hide(overlay);
     return hide(preLoader);
 }
 

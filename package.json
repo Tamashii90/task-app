@@ -5,10 +5,7 @@
   "main": "mongodb.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "nodemon -r dotenv/config ./src/index.js -e js,hbs dotenv_config_path=./config/dev.env",
-    "css-build": "node-sass --omit-source-map-url ./sass/mystyles.scss ./public/mystyles.css",
-    "css-watch": "npm run css-build -- --watch",
-    "start2": "npm run css-watch"
+    "dev": "nodemon -r dotenv/config ./src/index.js -e js,hbs dotenv_config_path=./config/dev.env"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +14,7 @@
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-useragent": "^1.0.15",
     "hbs": "^4.1.1",
     "jsonwebtoken": "^8.4.0",
     "mailgun-js": "^0.22.0",

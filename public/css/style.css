@@ -203,16 +203,15 @@ button, input[type=submit] {
 
   /* End of toggle swtich taken from w3schools */
 
-svg {
-    margin: auto;
-    background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%;
-    shape-rendering: auto;
-    height:150px;
+.progress {
     position: fixed;
-    left: 50vw;
-    top: 50vh;
-    transform: translate(-50%, -50%);
-    z-index: 100;  
+    top: 0;
+    height: 5px;
+    border-radius: 0;
+}
+
+.progress:indeterminate{
+    animation-duration: 1s;
 }
 
 .noideawhatimdoing {
@@ -287,10 +286,6 @@ tr {
    }
    .fa-sort-amount-down, .fa-sort-amount-up {
     font-size: 1.5rem;
-    }
-    svg {
-        top: -55px;
-        height: 60px;
     }
     #resTable .dateCell {       /* no need to display date on small screens */
         display: none;

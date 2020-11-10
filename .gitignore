@@ -1,3 +1,4 @@
 node_modules
 config
 /public/css/bulma.scss
+preLoader.html
