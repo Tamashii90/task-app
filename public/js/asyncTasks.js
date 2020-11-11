@@ -7,6 +7,27 @@ let editForms = ...editForms...;
 let deleteButtons = document.querySelectorAll('#editForm');
 */
 
+document.querySelectorAll('.preEditBtn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const parentForm = document.querySelector(`#edit-${btn.dataset.form}`);
+        const completedField = parentForm[0].parentElement;   // get the wrapping div.select
+        const descriptionField = parentForm[1];
+        const submitBtn = parentForm[2];
+        const parentCard = btn.parentElement.parentElement;
+        const completedState = document.querySelector(`#state-${btn.dataset.form}`);
+        const initialDesc = descriptionField.previousElementSibling;
+
+        //--------- Edit Mode On ---------// 
+        for (let element of [descriptionField, completedField, submitBtn, overlay]) {
+            unhide(element);
+        }
+        for (let element of [btn, completedState, initialDesc]) {
+            hide(element);
+            console.log('ich ni hide !');
+        }
+        parentCard.style.zIndex = 20;
+    });
+});
 document.querySelectorAll('.deleteBtn').forEach(btn => {
     btn.addEventListener('click', function () {
         displayConfirm('Delete Task ?').then(value => {
@@ -22,6 +43,19 @@ document.querySelectorAll('.deleteBtn').forEach(btn => {
                         displayError(err);
                     });
         })
+    });
+});
+document.querySelectorAll('.completeBtn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        axios.patch(`/tasks/${this.dataset.id}`, { completed: true }).then(res => {
+            hide(overlay);
+            displaySuccess(res.data);
+            setTimeout(() => {          // so it matches the fade time of the confirmation msg
+                filterTsksAndRldScrpt();
+            }, 800);
+        }).catch(err => {
+            displayError(err);
+        });
     });
 });
 document.querySelectorAll('.editForm').forEach(editForm => {
@@ -40,26 +74,6 @@ document.querySelectorAll('.editForm').forEach(editForm => {
                 hide(contentModal);
                 displayError(err.message);
             });
-    });
-});
-document.querySelectorAll('.preEditBtn').forEach(btn => {
-    btn.addEventListener('click', function () {
-        const parentForm = document.querySelector(`#edit-${btn.dataset.form}`);
-        const descriptionField = parentForm[0];
-        const completedField = parentForm[1].parentElement;     // get the wrapping div.select
-        const submitBtn = parentForm[2];
-        const parentRow = btn.parentElement.parentElement;
-        const completedState = document.querySelector(`#state-${btn.dataset.form}`);
-        const initialSpan = descriptionField.previousElementSibling;
-
-        //--------- Edit Mode On ---------// 
-        for (let element of [descriptionField, completedField, submitBtn, overlay]) {
-            unhide(element);
-        }
-        for (let element of [btn, completedState, initialSpan]) {
-            hide(element);
-        }
-        parentRow.style.zIndex = 20;
     });
 });
 document.querySelectorAll('.pagination-link').forEach(link => {

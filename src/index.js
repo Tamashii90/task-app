@@ -23,7 +23,7 @@ hbs.registerHelper('isEqual', (val1, val2) => {
     return val1 === val2;
 });
 hbs.registerHelper('DateString', ISOString => {
-    return ISOString.toLocaleDateString();
+    return ISOString.toLocaleDateString() + ' ' + ISOString.toLocaleTimeString();
 });
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);

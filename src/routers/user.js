@@ -24,18 +24,19 @@ router.get('/users/me', auth, async (req, res) => {
         const user = req.user;
         let tasks = [];
         let pages = [];
+        let limit = 6;
         await req.user.populate({
             path: 'tasks',
             options: {
-                limit: 5,
+                limit,
                 sort:{createdAt:'desc'}     // I want to display the most recent tasks first
             }
         }).execPopulate();
         if (req.user.tasks.length) {
             tasks = req.user.tasks;
             let count = await Task.countDocuments({ owner: req.user._id });
-            let pageCount = Math.ceil(count / 5);
-            pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
+            let pageCount = Math.ceil(count / limit);
+            pages = Array(pageCount).fill(1).map((el, idx) => idx * limit);
             res.render('profile', { profile: user, tasks, pages });
         }
         else res.render('profile', { profile: user });

@@ -19,6 +19,7 @@ router.get('/tasks/', auth, async (req, res) => {
 
     let count = await Task.countDocuments(filter);
     let skip;
+    let limit = 6;
     if (req.query.skip == 'first') {
         skip = 0;
     } else if (req.query.skip == 'last') {
@@ -33,15 +34,15 @@ router.get('/tasks/', auth, async (req, res) => {
             match,
             options: {
                 skip,
-                limit: 5,
+                limit,
                 sort
             }
         }).execPopulate();
         if (req.user.tasks.length) {
             let tasks = req.user.tasks;
-            let pageCount = Math.ceil(count / 5);
-            let current = Math.ceil(skip / 5);      // current page
-            pages = Array(pageCount).fill(1).map((el, idx) => idx * 5);
+            let pageCount = Math.ceil(count / limit);
+            let current = Math.ceil(skip / limit);      // current page
+            pages = Array(pageCount).fill(1).map((el, idx) => idx * limit);
             res.render('../partials/tasks', { tasks, pages, current });
         } else
             res.render('../partials/tasks', { tasks: [] });

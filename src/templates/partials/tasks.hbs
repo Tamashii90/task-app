@@ -1,5 +1,5 @@
 {{#if tasks}}
-<table class="table is-striped is-fullwidth my-4" id="resTable">
+{{!-- <table class="table is-striped is-fullwidth my-4" id="resTable">
     <thead>
         <tr>
             <th>Task</th>
@@ -62,11 +62,79 @@
         </tr>
         {{/each}}
     </tbody>
-</table>
+</table> --}}
+<div class="columns is-vcentered is-multiline">
+    {{#each tasks}}
+    <div class="column is-full-tablet is-half-desktop task-container">
+        <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}"></form>
+        <div class="task">
+            <div class="task-info">
+                <div class="date-container">
+                    <span class="date-text">
+                        {{DateString this.createdAt}}
+                    </span>
+                </div>
+                <h6 id="state-{{this._id}}" style="color:{{#if this.completed}}#c657c6;{{else}}gray;{{/if}}">
+                    <span>
+                        {{#if this.completed}}
+                        Complete
+                        {{else}}
+                        Incomplete
+                        {{/if}}
+                    </span>
+                    <span class="icon">
+                        {{#if this.completed}}
+                        <i class="fas fa-check"></i>
+                        {{else}}
+                        <i class="fas fa-times fa-lg"></i>
+                        {{/if}}
+                    </span>
+                </h6>
+                <div class="hidden select">
+                    <select form="edit-{{this._id}}" name="completed">
+                        <option value="false">Incomplete</option>
+                        <option value="true" selected>Complete</option>
+                    </select>
+                </div>
+                <h2>{{this.description}}</h2>
+                <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30" rows="1"
+                    required>{{this.description}}</textarea>
+                {{#unless this.completed}}
+                <button class="button completeBtn" data-id="{{this._id}}">
+                    <span>Mark As Complete</span>
+                    <span class="icon"><i class="fas fa-check"></i></span>
+                </button>
+                {{/unless}}
+            </div>
+            <div class="task-options">
+                <button class="button deleteBtn" data-id="{{this._id}}">
+                    <span>Delete Task</span>
+                    <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                </button>
+                <button type="button" class="button preEditBtn" data-form="{{this._id}}">
+                    <span>Edit Task</span>
+                    <span class="icon"><i class="fas fa-pencil-alt"></i></span>
+                </button>
+                <button type="submit" class="button hidden" form="edit-{{this._id}}">
+                    <span>Save Changes</span><span class="icon"><i class="fas fa-check"></i></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+
+
+
+
+
+
+
 {{else}}
 <div style="text-align: center;margin: 4rem auto;">No Tasks Found</div>
 {{/if}}
-<nav class="pagination" role="navigation" aria-label="pagination">
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
     <ul class="pagination-list">
 
         {{#each pages}}
