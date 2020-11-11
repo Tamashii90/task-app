@@ -23,7 +23,6 @@ document.querySelectorAll('.preEditBtn').forEach(btn => {
         }
         for (let element of [btn, completedState, initialDesc]) {
             hide(element);
-            console.log('ich ni hide !');
         }
         parentCard.style.zIndex = 20;
     });
