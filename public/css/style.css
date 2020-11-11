@@ -36,35 +36,46 @@ footer {
     left:0;
 }
 
-.modal-content{
+.my-modal-content{
+    border-radius: 10px;
     position: absolute;
-    padding:20px;
-    width:400px;
+    width:60%;
     left:50vw;
     top:10vh;
     transform:translateX(-50%);
     background-color: white;
 }
 
-.modal-header{
-    padding: 10px 0;
+.my-modal-header{
+    border-radius: 10px 10px 0px 0px;
+    background-color: #c657c6a6;
+    border-bottom: 2px solid gray;
+    padding: 20px;
 }
 
-.modal-body{
+.my-modal-body{
+    padding:10px 20px;
     margin:20px auto;
 }
 
-.modal-body * {
-    margin:0 2px 15px;
+.my-modal-body * {
+    margin-bottom:15px;
 }
 
-.modal-body label{
+.my-modal-body label{
     display:inline-block;   /* so I can adjust vertical margins */
     margin-right:6px;
 }
 
-.modal-footer{
-    padding: 10px 0;
+.my-modal-footer{
+    border-radius: 0 0 10px 10px;
+    background-color: #c657c6a6;
+    border-top: 2px solid gray;
+    padding: 20px;
+}
+
+.my-modal-footer .button {
+    background-color: white;
 }
 
 #overlay{

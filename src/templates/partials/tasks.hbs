@@ -97,8 +97,8 @@
                     </select>
                 </div>
                 <h2>{{this.description}}</h2>
-                <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30" rows="1"
-                    required>{{this.description}}</textarea>
+                <textarea class="hidden textarea" name="description" form="edit-{{this._id}}" cols="30" rows="2"
+                    maxlength="70" wrap="hard" required>{{this.description}}</textarea>
                 {{#unless this.completed}}
                 <button class="button completeBtn" data-id="{{this._id}}">
                     <span>Mark As Complete</span>

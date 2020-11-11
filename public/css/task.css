@@ -5,7 +5,7 @@
 	box-shadow: 3px 3px 10px 10px rgba(0, 0, 0, 0.4);
     display: flex;
 	margin: 20px;
-	height: 185px;
+	height: 200px;
 	position: relative; 	/* necessary for z-index */
 }
 
@@ -21,13 +21,14 @@
 }
 
 .task-options {
+	border-radius: 0px 9px 9px 0px;
 	background-color: #c657c6a6;
 	color: #fff;
 	display: flex;
 	flex-direction: row;
 	align-content: space-evenly;
 	flex-wrap: wrap;
-	justify-content: start;
+	justify-content: center;
 	padding-left: 10px;
 
 }
@@ -75,5 +76,10 @@
 @media screen and (max-width:768px){
 	.task * {
 		font-size: .75rem;
+	}
+}
+@media screen and (max-width:480px){
+	.date-container{
+		top:5px;
 	}
 }
