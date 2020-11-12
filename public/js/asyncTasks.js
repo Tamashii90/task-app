@@ -90,6 +90,6 @@ document.querySelectorAll('.pagination-link').forEach(link => {
         showLoader(true);
         await filterTsksAndRldScrpt();
         showLoader(false);
-        window.scrollTo(0, 0);
+        setTimeout(() => window.scrollTo(0, 0), 10);
     });
 });
