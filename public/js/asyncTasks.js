@@ -35,8 +35,10 @@ document.querySelectorAll('.deleteBtn').forEach(btn => {
                     .then(res => {
                         hide(overlay);
                         displaySuccess(res.data);
-                        setTimeout(() => {          // so it matches the fade time of the confirmation msg
-                            loadContentAndScript('tasks');
+                        setTimeout(async () => {          // so it matches the fade time of the confirmation msg
+                            showLoader(true);
+                            await loadContentAndScript('tasks');
+                            showLoader(false);
                         }, 800);
                     }).catch(err => {
                         displayError(err);
@@ -49,8 +51,10 @@ document.querySelectorAll('.completeBtn').forEach(btn => {
         axios.patch(`/tasks/${this.dataset.id}`, { completed: true }).then(res => {
             hide(overlay);
             displaySuccess(res.data);
-            setTimeout(() => {          // so it matches the fade time of the confirmation msg
-                filterTsksAndRldScrpt();
+            setTimeout(async () => {          // so it matches the fade time of the confirmation msg
+                showLoader(true);
+                await filterTsksAndRldScrpt();
+                showLoader(false);
             }, 800);
         }).catch(err => {
             displayError(err);
@@ -65,8 +69,10 @@ document.querySelectorAll('.editForm').forEach(editForm => {
                 hide(overlay);
                 hide(contentModal);
                 displaySuccess(res.data);
-                setTimeout(() => {          // so the new task shows up after the displaySuccess fades out
-                    filterTsksAndRldScrpt();
+                setTimeout(async() => {          // so the new task shows up after the displaySuccess fades out
+                    showLoader(true);
+                    await filterTsksAndRldScrpt();
+                    showLoader(false);
                 }, 800);
             }).catch(err => {
                 hide(overlay);
@@ -76,12 +82,14 @@ document.querySelectorAll('.editForm').forEach(editForm => {
     });
 });
 document.querySelectorAll('.pagination-link').forEach(link => {
-    link.addEventListener('click', function () {
+    link.addEventListener('click', async function () {
         document.querySelectorAll('.pagination-link').forEach(link => {     // remove any active links first
             link.classList.remove('is-current');
         });
         link.classList.add('is-current');
-        filterTsksAndRldScrpt();
-        window.scrollTo(0,0);
+        showLoader(true);
+        await filterTsksAndRldScrpt();
+        showLoader(false);
+        window.scrollTo(0, 0);
     });
 });

@@ -37,8 +37,11 @@ taskForm.addEventListener('submit', e => {
             hide(contentModal);
             hide(containerModal);
             displaySuccess(res.data);
-            setTimeout(() => {          // so the new task shows up after the displaySuccess fades out
-                filterTsksAndRldScrpt('first'); // so it goes to the first page
+            setTimeout(async () => {          // so the new task shows up after the displaySuccess fades out
+                showLoader(true);
+                await filterTsksAndRldScrpt('first')
+                showLoader(false); // so it goes to the first page
+                window.scrollTo(0, 0);
             }, 800);
         }).catch(err => {
             hide(containerModal);
@@ -46,27 +49,35 @@ taskForm.addEventListener('submit', e => {
             displayError(err);
         });
 });
-document.querySelector('#sortBy').addEventListener('change', function () {
-    filterTsksAndRldScrpt();
+document.querySelector('#sortBy').addEventListener('change', async function () {
+    showLoader(true);
+    await filterTsksAndRldScrpt();
+    showLoader(false);
 });
-document.querySelector('.switch input[type=checkbox]').addEventListener('change', function () {
-    filterTsksAndRldScrpt('first');
+document.querySelector('.switch input[type=checkbox]').addEventListener('change', async function () {
+    showLoader(true);
+    await filterTsksAndRldScrpt();
+    showLoader(false);
 });
-document.querySelector('#sortOrder').addEventListener('click', function () {
+document.querySelector('#sortOrder').addEventListener('click', async function () {
     const up = this.querySelector('.fa-sort-amount-up');
     const down = this.querySelector('.fa-sort-amount-down');
     up.classList.toggle('hidden');
     down.classList.toggle('hidden');
-    filterTsksAndRldScrpt();
+    showLoader(true);
+    await filterTsksAndRldScrpt();
+    showLoader(false);
 
 });
-window.addEventListener('click', e => {
+window.addEventListener('click', async (e) => {
     if (e.target === containerModal) {
         hide(e.target);
     }
     if (e.target === overlay) {
         hide(e.target);
-        filterTsksAndRldScrpt();     // to drop the changes
+        showLoader(true);
+        await filterTsksAndRldScrpt();      // to drop the changes
+        showLoader(false);
     }
 });
 
@@ -173,29 +184,25 @@ function loadContentAndScript(route, error) {
         // desiredDiv = tasksDiv.querySelector('.column:last-child');
         // desiredDiv = tasksDiv.querySelector('tbody');
     }
-    showLoader(true);
-    axios.get(route)
+    return axios.get(route)
         .then(res => {
             // If this is confusing, check from where it's being called.
             // The way axios works, if there's an error, the response payload will be inside
             // error.response.data. I pass this error because I want hbs to render it.
-            showLoader(false);
             error ? desiredDiv.innerHTML = error.response.data : desiredDiv.innerHTML = res.data;
             desiredDiv.append(script);
         }).catch(err => {
-            showLoader(false);
             displayError(err);
         });
 }
 
-function filterTsksAndRldScrpt(skipToFirstOrLast) {
+async function filterTsksAndRldScrpt(skipToFirstOrLast) {
     // skipToFirstOrLast MUST have either 'last','first', or just undefined
     const sortField = document.querySelector('#sortBy').value;
     const sortOrder = document.querySelector('#sortOrder i.fas:not(.hidden)').dataset.order;
     const skip = skipToFirstOrLast || document.querySelector('.pagination-link.is-current').dataset.skip;
     const isCompleted = document.querySelector('.switch input[type=checkbox]').checked;
-    showLoader(true);
-    axios.get('/tasks/', {
+    return axios.get('/tasks/', {
         params: {
             sortBy: `${sortField}:${sortOrder}`,
             skip,
@@ -205,14 +212,12 @@ function filterTsksAndRldScrpt(skipToFirstOrLast) {
         const desiredDiv = tasksDiv.children[tasksDiv.children.length - 1];
         // const desiredDiv = tasksDiv.querySelector('.column:last-child');
         // const desiredDiv = tasksDiv.querySelector('tbody');
-        showLoader(false);
         desiredDiv.innerHTML = res.data;
         const script = document.createElement('script');
         script.src = "/js/asyncTasks.js";
         desiredDiv.append(script);
     })
         .catch(err => {
-            showLoader(false);
             displayError(err.message);
         });
 

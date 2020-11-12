@@ -6,9 +6,11 @@ document.querySelector('#profileForm').addEventListener('submit', function (e) {
         setTimeout(() => {
             window.location.reload();
         }, 800);
-    }).catch(err => {
+    }).catch(async(err) => {
         hide(contentModal);
-        loadContentAndScript('profile', err);
+        showLoader(true);
+        await loadContentAndScript('profile', err);
+        showLoader(false);
     });
 });
 document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
@@ -37,8 +39,10 @@ document.querySelector('#deleteAvForm').addEventListener('submit', function (e) 
     asyncSubmitMulti(this, 'DELETE').then(res => {          // no idea why I have to make this multipart
         hide(contentModal);
         displaySuccess(res.data);
-        setTimeout(() => {
-            loadContentAndScript('profile');
+        setTimeout(async () => {
+            showLoader(true);
+            await loadContentAndScript('profile');
+            showLoader(false);
             avatars.forEach(avatar => avatar.src = 'https://i.imgur.com/F9cRyax.png');
         }, 800);
     }).catch(err => {
