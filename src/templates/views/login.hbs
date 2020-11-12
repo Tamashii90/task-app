@@ -13,37 +13,40 @@
 <body>
     {{> header}}
     <main id="loginMain">
-        <form method="POST" action="/users/login">
-            <div class="field">
-                <label class="label">Your Email</label>
-                <div class="control has-icons-left">
-                    <input class="input {{#if error}}is-danger{{/if}}" type="email" size="30" name="email"
-                        placeholder="Email" value="{{pastEmail}}" required>
-                    <span class="icon is-left {{#if error}}has-text-danger{{/if}}">
-                        <i class="fas fa-envelope"></i>
-                    </span>
+        <div class="login-card">
+            <h2 class="is-title is-size-3 mb-6">Log In To Your Account</h2>
+            <form method="POST" action="/users/login">
+                <div class="field">
+                    <label class="label">Your Email</label>
+                    <div class="control has-icons-left">
+                        <input class="input {{#if error}}is-danger{{/if}}" type="email" size="30" name="email"
+                            placeholder="Email" value="{{pastEmail}}" required>
+                        <span class="icon is-left {{#if error}}has-text-danger{{/if}}">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Your Password</label>
-                <div class="control has-icons-left">
-                    <input class="input {{#if error}}is-danger{{/if}}" type="password" size="30" name="password"
-                        placeholder="Password" required>
-                    <span class="icon is-left {{#if error}}has-text-danger{{/if}}">
-                        <i class="fas fa-key"></i>
-                    </span>
+                <div class="field">
+                    <label class="label">Your Password</label>
+                    <div class="control has-icons-left">
+                        <input class="input {{#if error}}is-danger{{/if}}" type="password" size="30" name="password"
+                            placeholder="Password" required>
+                        <span class="icon is-left {{#if error}}has-text-danger{{/if}}">
+                            <i class="fas fa-key"></i>
+                        </span>
 
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <div class="control">
-                    <button class="button is-outlined">Log In</button>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-outlined">Log In</button>
+                    </div>
+                    <span class="help is-danger">{{error}}</span>
                 </div>
-                <span class="help is-danger">{{error}}</span>
+            </form>
+            <div style="margin-top:30px;">
+                <a href="/users/signup">Don't have an account ?</a>
             </div>
-        </form>
-        <div style="margin-top:30px;">
-            <a href="/users/signup">Don't have an account ?</a>
         </div>
     </main>
     {{> footer}}

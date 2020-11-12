@@ -213,7 +213,7 @@ function filterTsksAndRldScrpt(skipToFirstOrLast) {
     })
         .catch(err => {
             showLoader(false);
-            alert(err.message);
+            displayError(err.message);
         });
 
 }

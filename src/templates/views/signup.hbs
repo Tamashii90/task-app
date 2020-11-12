@@ -13,53 +13,56 @@
 <body>
     {{> header}}
     <main id="signupMain">
-        <form method="POST" action="/users/signup">
-            <div class="field">
-                <label class="label">Choose a Username</label>
-                <div class="control has-icons-left">
-                    <input class="input {{#if error.errors.name}}is-danger{{/if}}" type="text" name="name"
-                        placeholder="Username" value="{{pastName}}" required>
-                    <span class="icon is-left {{#if error.errors.name}}has-text-danger{{/if}}">
-                        <i class="fas fa-user"></i>
-                    </span>
-                    <span class="help is-danger">{{error.errors.name.message}}</span>
+        <div class="login-card">
+            <h2 class="is-title is-size-3 mb-6">Create a New Account</h2>
+            <form method="POST" action="/users/signup">
+                <div class="field">
+                    <label class="label">Choose a Username</label>
+                    <div class="control has-icons-left">
+                        <input class="input {{#if error.errors.name}}is-danger{{/if}}" type="text" name="name"
+                            placeholder="Username" value="{{pastName}}" required>
+                        <span class="icon is-left {{#if error.errors.name}}has-text-danger{{/if}}">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span class="help is-danger">{{error.errors.name.message}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Enter a Valid Email</label>
-                <div class="control has-icons-left">
-                    <input class="input {{#if error.errors.email}}is-danger{{/if}}" type="email" name="email"
-                        placeholder="Email" value="{{pastEmail}}" required>
-                    <span class="icon is-left {{#if error.errors.email}}has-text-danger{{/if}}">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                    <span class="help is-danger">{{error.errors.email.message}}</span>
+                <div class="field">
+                    <label class="label">Enter a Valid Email</label>
+                    <div class="control has-icons-left">
+                        <input class="input {{#if error.errors.email}}is-danger{{/if}}" type="email" name="email"
+                            placeholder="Email" value="{{pastEmail}}" required>
+                        <span class="icon is-left {{#if error.errors.email}}has-text-danger{{/if}}">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span class="help is-danger">{{error.errors.email.message}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Choose a Password</label>
-                <div class="control has-icons-left">
-                    <input class="input {{#if error.errors.password}}is-danger{{/if}}" type="password" name="password"
-                        placeholder="Password" required>
-                    <span class="icon is-left {{#if error.errors.password}}has-text-danger{{/if}}">
-                        <i class="fas fa-key"></i>
-                    </span>
-                    <span class="help is-danger">{{error.errors.password.message}}</span>
+                <div class="field">
+                    <label class="label">Choose a Password</label>
+                    <div class="control has-icons-left">
+                        <input class="input {{#if error.errors.password}}is-danger{{/if}}" type="password"
+                            name="password" placeholder="Password" required>
+                        <span class="icon is-left {{#if error.errors.password}}has-text-danger{{/if}}">
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <span class="help is-danger">{{error.errors.password.message}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label">Repeat Your Password</label>
-                <div class="control has-icons-left">
-                    <input class="input {{#if error.errors.pwdVerif}}is-danger{{/if}}" type="password" name="pwdVerif"
-                        placeholder="Verify Password" required>
-                    <span class="icon is-left {{#if error.errors.pwdVerif}}has-text-danger{{/if}}">
-                        <i class="fas fa-key"></i>
-                    </span>
-                    <span class="help is-danger">{{error.errors.pwdVerif.message}}</span>
+                <div class="field">
+                    <label class="label">Repeat Your Password</label>
+                    <div class="control has-icons-left">
+                        <input class="input {{#if error.errors.pwdVerif}}is-danger{{/if}}" type="password"
+                            name="pwdVerif" placeholder="Verify Password" required>
+                        <span class="icon is-left {{#if error.errors.pwdVerif}}has-text-danger{{/if}}">
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <span class="help is-danger">{{error.errors.pwdVerif.message}}</span>
+                    </div>
                 </div>
-            </div>
-            <button class="button">Sign Up</button>
-        </form>
+                <button class="button">Sign Up</button>
+            </form>
+        </div>
     </main>
     {{> footer}}
     <script>

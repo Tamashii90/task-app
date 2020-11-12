@@ -82,5 +82,6 @@ document.querySelectorAll('.pagination-link').forEach(link => {
         });
         link.classList.add('is-current');
         filterTsksAndRldScrpt();
+        window.scrollTo(0,0);
     });
 });
