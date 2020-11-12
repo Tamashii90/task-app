@@ -13,19 +13,20 @@ document.querySelector('#profileForm').addEventListener('submit', function (e) {
 });
 document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
     e.preventDefault();
-    displayConfirm('Are you sure you want to delete your account ?\n This action is irreversible.')
+    displayConfirm('Are you sure you want to delete your account ?\n\n This action is irreversible.')
         .then(value => {
             if (value) {
-                asyncSubmit(this, 'DELETE').then(res => {
-                    hide(contentModal);
-                    displaySuccess(res.data);
-                    setTimeout(() => {
-                        window.location = '/';
-                    }, 800);
-                }).catch(err => {
-                    hide(contentModal);
-                    displayError(err.message);
-                });
+                asyncSubmit(this, 'DELETE')
+                    .then(res => {
+                        hide(contentModal);
+                        displaySuccess(res.data);
+                        setTimeout(() => {
+                            window.location = '/';
+                        }, 1000);
+                    }).catch(err => {
+                        hide(contentModal);
+                        displayError(err.message);
+                    });
             }
         })
 

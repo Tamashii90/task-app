@@ -289,7 +289,7 @@ tr {
 @media screen and (max-width:768px){
    .tabs, .textarea, .button, .label, .select, .input, .file, .icon {
     border-radius: 2px;
-    font-size: .75rem;
+    font-size: .85rem;
    }
    .icon.is-large {
        top:0;
