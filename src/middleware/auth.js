@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
         req.user = user;    
         next();
     } catch (err) {
-        res.status(401).redirect('/');
+        res.status(401).redirect('/users/login');
     }
 
 };

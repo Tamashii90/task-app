@@ -38,7 +38,7 @@ app.use(usersRouter);
 app.use(tasksRouter);
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.redirect('/users/me')
 });
 
 app.get('*', (req, res) => {

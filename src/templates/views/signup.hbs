@@ -15,6 +15,7 @@
     <main id="signupMain">
         <form method="POST" action="/users/signup">
             <div class="field">
+                <label class="label">Choose a Username</label>
                 <div class="control has-icons-left">
                     <input class="input {{#if error.errors.name}}is-danger{{/if}}" type="text" name="name"
                         placeholder="Username" value="{{pastName}}" required>
@@ -25,6 +26,7 @@
                 </div>
             </div>
             <div class="field">
+                <label class="label">Enter a Valid Email</label>
                 <div class="control has-icons-left">
                     <input class="input {{#if error.errors.email}}is-danger{{/if}}" type="email" name="email"
                         placeholder="Email" value="{{pastEmail}}" required>
@@ -35,6 +37,7 @@
                 </div>
             </div>
             <div class="field">
+                <label class="label">Choose a Password</label>
                 <div class="control has-icons-left">
                     <input class="input {{#if error.errors.password}}is-danger{{/if}}" type="password" name="password"
                         placeholder="Password" required>
@@ -45,6 +48,7 @@
                 </div>
             </div>
             <div class="field">
+                <label class="label">Repeat Your Password</label>
                 <div class="control has-icons-left">
                     <input class="input {{#if error.errors.pwdVerif}}is-danger{{/if}}" type="password" name="pwdVerif"
                         placeholder="Verify Password" required>

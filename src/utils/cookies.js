@@ -6,8 +6,8 @@ module.exports = {
         if (user.avatar) this.cookie('hasAvatar', true);
     },
     clearMyCookies() {
-        this.clearCookie('auth_token');
-        this.clearCookie('current_user');
-        this.clearCookie('hasAvatar');
+        this.clearCookie('auth_token', { sameSite: 'lax' });
+        this.clearCookie('current_user', { sameSite: 'lax' });
+        this.clearCookie('hasAvatar', { sameSite: 'lax' });
     }
 }

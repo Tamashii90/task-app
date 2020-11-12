@@ -214,16 +214,16 @@ button, input[type=submit] {
 
   /* End of toggle swtich taken from w3schools */
 
-.progress {
+svg {
+    margin: auto;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; 
+    display: block; 
+    shape-rendering: auto;
     position: fixed;
+    left:50vw;
+    top:45vh;
+    transform: translate(-50%, -50%);
     z-index: 100;
-    top: 0;
-    height: 5px;
-    border-radius: 0;
-}
-
-.progress:indeterminate{
-    animation-duration: 1s;
 }
 
 .noideawhatimdoing {
