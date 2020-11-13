@@ -69,27 +69,27 @@
         <form action="/tasks/{{this._id}}" class="editForm" id="edit-{{this._id}}"></form>
         <div class="task">
             <div class="task-info">
-                <div class="date-container">
+                <div class="date-state-container">
                     <span class="date-text">
                         {{DateString this.createdAt}}
                     </span>
+                    <h6 id="state-{{this._id}}" style="color:{{#if this.completed}}#c657c6;{{else}}gray;{{/if}}">
+                        <span>
+                            {{#if this.completed}}
+                            Complete
+                            {{else}}
+                            Incomplete
+                            {{/if}}
+                        </span>
+                        <span class="icon">
+                            {{#if this.completed}}
+                            <i class="fas fa-check"></i>
+                            {{else}}
+                            <i class="fas fa-times fa-lg"></i>
+                            {{/if}}
+                        </span>
+                    </h6>
                 </div>
-                <h6 id="state-{{this._id}}" style="color:{{#if this.completed}}#c657c6;{{else}}gray;{{/if}}">
-                    <span>
-                        {{#if this.completed}}
-                        Complete
-                        {{else}}
-                        Incomplete
-                        {{/if}}
-                    </span>
-                    <span class="icon">
-                        {{#if this.completed}}
-                        <i class="fas fa-check"></i>
-                        {{else}}
-                        <i class="fas fa-times fa-lg"></i>
-                        {{/if}}
-                    </span>
-                </h6>
                 <div class="hidden select">
                     <select form="edit-{{this._id}}" name="completed">
                         <option value="false">Incomplete</option>

@@ -5,12 +5,11 @@
 	box-shadow: 3px 3px 10px 10px rgba(0, 0, 0, 0.4);
     display: flex;
 	margin: 20px;
-	height: 200px;
+	height: 220px;
 	position: relative; 	/* necessary for z-index */
 }
 
 .task h6 {
-	margin: 0;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 }
@@ -48,20 +47,14 @@
 	width: 100%;
 }
 
-.date-container {
-	position: absolute;
-	right: 10px;
-	top: 16px;
-	text-align: right;
-	width: 150px;
+.date-state-container{
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
-.date {
-	background-color: #ddd;
-	border-radius: 3px;
-	height: 5px;
-	width: 100%;
-}
 .date-text {
 	font-size: 10px;
 	opacity: 0.6;
@@ -77,12 +70,20 @@
 }
 
 @media screen and (max-width:768px){
-	.task * {
+	.task *:not(.date-text) {
 		font-size: .85rem;
 	}
 }
-@media screen and (max-width:480px){
-	.date-container{
-		top:5px;
+@media screen and (max-width:485px){
+	.date-state-container{
+		flex-direction: column-reverse;
+	}
+	.date-text{
+		margin: 5px 0px 5px -12px;
+	}
+	.task .completeBtn{
+		margin-left: 50%;
+		transform: translate(-50%);
+		left: 0;
 	}
 }
