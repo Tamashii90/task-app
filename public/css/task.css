@@ -75,6 +75,9 @@
 	}
 }
 @media screen and (max-width:485px){
+	.task {
+		height:250px;
+	}
 	.date-state-container{
 		flex-direction: column-reverse;
 	}
@@ -85,5 +88,5 @@
 		margin-left: 50%;
 		transform: translate(-50%);
 		left: 0;
-	}
+	}	
 }
