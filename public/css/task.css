@@ -70,6 +70,9 @@
 }
 
 @media screen and (max-width:768px){
+	.slider::before{
+		bottom: 1.95px;
+	}
 	.task *:not(.date-text) {
 		font-size: .85rem;
 	}
