@@ -56,7 +56,7 @@ document.querySelector('#sortBy').addEventListener('change', async function () {
 });
 document.querySelector('.switch input[type=checkbox]').addEventListener('change', async function () {
     showLoader(true);
-    await filterTsksAndRldScrpt();
+    await filterTsksAndRldScrpt('first');
     showLoader(false);
 });
 document.querySelector('#sortOrder').addEventListener('click', async function () {
