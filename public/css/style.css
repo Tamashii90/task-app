@@ -72,7 +72,8 @@ footer {
 .my-modal-content{
     border-radius: 10px;
     position: absolute;
-    width:60%;
+    width:80%;
+    max-width: 544px;
     left:50vw;
     top:10vh;
     transform:translateX(-50%);
@@ -123,35 +124,6 @@ footer {
 
 button, input[type=submit] {
     cursor: pointer;
-}
-
-#resTable {
-    table-layout: fixed;
-    border-collapse: collapse; 
-}
-
-#resTable button {
-    border:none;
-    background: none;
-}
-
-#resTable td, #resTable th {
-    vertical-align: middle;
-    /* white-space: nowrap; */
-    padding: 10px;
-    text-align: center;
-}
-
-#resTable tr td:nth-child(1) {
-    text-align: left;
-}
-
-#resTable tr:nth-child(odd) {
-    background-color: #c657c6ad;
-}
-
-#resTable tr:nth-child(even) {
-    background-color: rgba(208, 160, 208, 0.71);
 }
 
 .profile{
@@ -282,14 +254,6 @@ select option:checked{
     border-color:#c657c6;
 }
 
-tr {
-    position: relative;     /* this is necessary in order to adjust the z-index for the overlay effect */
-}
-
-/* .button:active{
-    background-color: #c657c6;
-} */
-
 .hidden{
     display:none;
 }
@@ -298,9 +262,8 @@ tr {
     overflow: hidden !important;
 }
 
-.unchanging {
-    border:none;
-}
+
+
 
 @media screen and (max-width:955px){
     .input_field {
@@ -334,5 +297,10 @@ tr {
     }
     #resTable .dateCell {       /* no need to display date on small screens */
         display: none;
+    }
+}
+@media screen and (max-width:420px){
+    .my-modal-header, .my-modal-footer{
+        text-align: center;
     }
 }
