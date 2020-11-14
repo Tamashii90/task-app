@@ -13,7 +13,7 @@ const upload = multer({
     },
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/))
-            cb(new Error('Extension must be jpg, jpeg, or png'));
+            cb(new Error('Extension Must Be jpg, jpeg, Or png.'));
 
         cb(null, true);
     }

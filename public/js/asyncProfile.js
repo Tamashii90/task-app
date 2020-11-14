@@ -6,7 +6,7 @@ document.querySelector('#profileForm').addEventListener('submit', function (e) {
         setTimeout(() => {
             window.location.reload();
         }, 800);
-    }).catch(async(err) => {
+    }).catch(async (err) => {
         hide(contentModal);
         showLoader(true);
         await loadContentAndScript('profile', err);
@@ -33,6 +33,31 @@ document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
         })
 
 });
+// For the avatar upload 
+document.querySelector('#accountInfo .profile div:first-child').addEventListener('mouseover', () => {
+    document.querySelector('.edit-avatar-btn').classList.remove('hidden');
+});
+document.querySelector('#accountInfo .profile div:first-child').addEventListener('mouseout', () => {
+    document.querySelector('.edit-avatar-btn').classList.add('hidden');
+});
+document.querySelector('#avatarFile').addEventListener('change', function () {
+    const formData = new FormData();
+    formData.append("avatar", this.files[0]);
+    showLoader(true);
+    axios.patch('/users/me', formData)
+        .then(res => {
+            document.querySelectorAll('.avatarImg').forEach(img => {
+                img.src = '/users/me/avatar';
+            });
+            showLoader(false);
+            displaySuccess(res.data);
+        })
+        .catch(err => {
+            displayError(err.response.data.error);    // because of how axios handles error
+            showLoader(false);
+        });
+});
+// End of avatar upload
 document.querySelector('#deleteAvForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const avatars = document.querySelectorAll('.avatarImg');

@@ -254,6 +254,17 @@ select option:checked{
     border-color:#c657c6;
 }
 
+.edit-avatar{
+    position: relative;
+}
+
+.edit-avatar-btn{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(+50%, -50%);
+}
+
 .hidden{
     display:none;
 }
