@@ -69,7 +69,7 @@ document.querySelectorAll('.editForm').forEach(editForm => {
                 hide(overlay);
                 hide(contentModal);
                 displaySuccess(res.data);
-                setTimeout(async() => {          // so the new task shows up after the displaySuccess fades out
+                setTimeout(async () => {          // so the new task shows up after the displaySuccess fades out
                     showLoader(true);
                     await filterTsksAndRldScrpt();
                     showLoader(false);
@@ -90,6 +90,6 @@ document.querySelectorAll('.pagination-link').forEach(link => {
         showLoader(true);
         await filterTsksAndRldScrpt();
         showLoader(false);
-        setTimeout(() => window.scrollTo(0, 0), 10);
+        setTimeout(() => window.scrollTo(0, 0), 70);    // need some delay sometimes to work
     });
 });
