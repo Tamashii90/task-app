@@ -80,7 +80,18 @@ window.addEventListener('click', async (e) => {
         showLoader(false);
     }
 });
-
+document.querySelectorAll('img').forEach(img =>
+    img.addEventListener('loadstart', function () {
+        console.log(this);
+        console.log('starting load lol');
+    })
+);
+document.querySelectorAll('img').forEach(img =>
+    img.addEventListener('load', function ()  {
+        console.log(this);
+        console.log('img loaded !');
+    })
+);
 
 
 //---------------- Functions ----------------//

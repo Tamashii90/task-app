@@ -6,16 +6,18 @@
             {{else}}
             <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' />
             {{/if}}
-            <span class="file edit-avatar-btn hidden">
-                <label class="file-label">
-                    <input class="file-input" type="file" id="avatarFile" name="avatar" form="profileForm">
-                    <span class="file-cta">
-                        <span class="file-icon">
-                            <i class="fas fa-pencil-alt"></i>
+            <div class="img-cover hidden">
+                <span class="file edit-avatar-btn">
+                    <label class="file-label">
+                        <input class="file-input" type="file" id="avatarFile" name="avatar" form="profileForm">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-user-edit"></i>
+                            </span>
                         </span>
-                    </span>
-                </label>
-            </span>
+                    </label>
+                </span>
+            </div>
         </div>
         <form action="/users/me/avatar" id="deleteAvForm">
             <input class="button" type="submit" value="Reset Profile Picture">
