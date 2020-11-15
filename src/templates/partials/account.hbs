@@ -1,11 +1,13 @@
 <div class="profile">
     <div class="input_field">
         <div class="edit-avatar">
-            {{#if hasAvatar}}
-            <img class="avatarImg" src='/users/me/avatar' />
-            {{else}}
-            <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' />
-            {{/if}}
+            <div class="avatar-container">
+                {{#if hasAvatar}}
+                <img class="avatarImg" src='/users/me/avatar' />
+                {{else}}
+                <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' />
+                {{/if}}
+            </div>
             <div class="img-cover hidden">
                 <span class="file edit-avatar-btn">
                     <label class="file-label">

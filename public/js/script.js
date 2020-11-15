@@ -10,6 +10,7 @@ const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const overlay = document.querySelector('#overlay');
 const preLoader = document.querySelector('svg');
+let tempHolder;
 
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
@@ -80,18 +81,16 @@ window.addEventListener('click', async (e) => {
         showLoader(false);
     }
 });
-document.querySelectorAll('img').forEach(img =>
+document.querySelectorAll('img').forEach(img => {
     img.addEventListener('loadstart', function () {
-        console.log(this);
-        console.log('starting load lol');
-    })
-);
-document.querySelectorAll('img').forEach(img =>
-    img.addEventListener('load', function ()  {
-        console.log(this);
-        console.log('img loaded !');
-    })
-);
+        this.parentElement.style.background = 'red';
+    });
+});
+document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('load', function () {
+        this.parentElement.style.background = 'none';
+    });
+});
 
 
 //---------------- Functions ----------------//
