@@ -75,17 +75,18 @@ document.querySelector('#avatarFile').addEventListener('change', function () {
         });
 });
 // End of avatar upload
-document.querySelector('#deleteAvForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+document.querySelector('#deleteAvBtn').addEventListener('click', function () {
     const avatars = document.querySelectorAll('.avatarImg');
     showLoader(true);
-    asyncSubmitMulti(this, 'DELETE').then(res => {          // no idea why I have to make this multipart
-        // hide(contentModal);
-        showLoader(false);
-        displaySuccess(res.data);
-        avatars.forEach(avatar => avatar.src = 'https://i.imgur.com/F9cRyax.png');
-    }).catch(err => {
-        // hide(contentModal);
-        displayError(err.message);
-    });
+    axios.delete('/users/me/avatar')
+        .then(res => {
+            // hide(contentModal);
+            showLoader(false);
+            displaySuccess(res.data);
+            avatars.forEach(avatar => avatar.src = 'https://i.imgur.com/F9cRyax.png');
+        })
+        .catch(err => {
+            // hide(contentModal);
+            displayError(err.message);
+        });
 });

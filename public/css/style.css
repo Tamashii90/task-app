@@ -321,7 +321,7 @@ select option:checked{
         padding-left: 0;
         width: auto;
     }
-    #deleteAvForm  input {
+    #deleteAvBtn {
         margin-top:20px;
     }
 }

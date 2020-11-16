@@ -29,7 +29,7 @@ router.get('/users/me', auth, async (req, res) => {
             path: 'tasks',
             options: {
                 limit,
-                sort:{createdAt:'desc'}     // I want to display the most recent tasks first
+                sort: { createdAt: 'desc' }     // I want to display the most recent tasks first
             }
         }).execPopulate();
         if (req.user.tasks.length) {
@@ -55,13 +55,8 @@ router.get('/users/me/info', auth, (req, res) => {
 });
 
 router.post('/users/signup', async (req, res, next) => {
-
-    // if (req.body.pwdVerif !== req.body.password)
-    //     return next("Passwords don't match.");
-    //delete req.body.pwdVerif;       // this doesn't get stored in the database
     try {
         const user = new User(req.body);
-        // user.pwdVerif = req.body.pwdVerif;
         await user.save();
         //sendWelcome(user.name, user.email);
         const token = await user.generateAuthToken();
@@ -182,7 +177,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
 router.delete('/users/me/avatar/', auth, async (req, res) => {
     req.user.avatar = undefined;
     await req.user.save();
-    res.cookie('hasAvatar', '', { sameSite: 'lax' });
+    res.clearCookie('hasAvatar', { sameSite: 'lax' });
     res.send('Avatar Reset.');
 });
 

@@ -1,7 +1,7 @@
 <div class="profile">
     <div class="input_field">
         <div class="edit-avatar">
-            <div class="avatar-container">
+            <div class="avatar-container loading">
                 {{#if hasAvatar}}
                 <img class="avatarImg" src='/users/me/avatar' />
                 {{else}}
@@ -21,9 +21,7 @@
                 </span>
             </div>
         </div>
-        <form action="/users/me/avatar" id="deleteAvForm">
-            <input class="button" type="submit" value="Reset Profile Picture">
-        </form>
+            <button id="deleteAvBtn" type="button" class="button">Reset Profile Picture</button>
     </div>
     <hr>
     <form action="/users/me/" enctype="multipart/form-data" id="profileForm">
