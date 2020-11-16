@@ -3,12 +3,12 @@
         <div class="edit-avatar">
             <div class="avatar-container loading">
                 {{#if hasAvatar}}
-                <img class="avatarImg" src='/users/me/avatar' onload="imgLoad(this)" />
+                <img class="avatarImg" width="200" height="200" src='/users/me/avatar' onload="imgLoad(this)" />
                 {{else}}
-                <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' onload="imgLoad(this)" />
+                <img class="avatarImg" width="200" height="200" src='https://i.imgur.com/F9cRyax.png' onload="imgLoad(this)" />
                 {{/if}}
             </div>
-            <div class="img-cover">
+            <div class="img-cover hidden">
                 <span class="file edit-avatar-btn">
                     <label class="file-label">
                         <input class="file-input" type="file" id="avatarFile" name="avatar" form="profileForm">

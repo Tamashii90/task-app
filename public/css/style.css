@@ -255,8 +255,7 @@ select option:checked{
 }
 
 .avatarImg {
-    position: relative;     
-    z-index: -10;       /* img should be behind the preload img at first */
+    visibility: hidden;    
 }
 
 .edit-avatar-btn{

@@ -34,13 +34,13 @@ document.querySelector('#deleteAcct').addEventListener('submit', function (e) {
 
 });
 // For the avatar upload 
-document.querySelector('#accountInfo .profile div:first-child').addEventListener('mouseover', () => {
-    unhide(document.querySelector('.edit-avatar .img-cover'));
+document.querySelector('.edit-avatar').addEventListener('mouseover', () => {
+    unhide(document.querySelector('.img-cover'));
     document.querySelector('.edit-avatar img').classList.add('blur');
 
 });
-document.querySelector('#accountInfo .profile div:first-child').addEventListener('mouseout', () => {
-    hide(document.querySelector('.edit-avatar .img-cover'));
+document.querySelector('.edit-avatar').addEventListener('mouseout', () => {
+    hide(document.querySelector('.img-cover'));
     document.querySelector('.edit-avatar img').classList.remove('blur');
 });
 document.querySelector('#avatarFile').addEventListener('change', function () {
