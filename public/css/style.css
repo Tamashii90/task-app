@@ -255,7 +255,8 @@ select option:checked{
 }
 
 .avatarImg {
-    position: relative;     /* need this to change z-index for preloader */
+    position: relative;     
+    z-index: -10;       /* img should be behind the preload img at first */
 }
 
 .edit-avatar-btn{
@@ -291,6 +292,7 @@ select option:checked{
     background-image: url('/preLoader.svg');
     background-repeat: no-repeat;
     background-position: center center;
+    border: 1px solid gray;
 }
 
 .blur {

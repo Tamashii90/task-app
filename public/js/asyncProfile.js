@@ -1,17 +1,3 @@
-document.querySelectorAll('.avatarImg').forEach(img => {
-    img.addEventListener('loadstart', function () {
-        console.log('starting load');
-        this.style.zIndex = -99;
-        this.parentElement.classList.add('loading');
-    });
-});
-document.querySelectorAll('.avatarImg').forEach(img => {
-    img.addEventListener('load', function () {
-        this.parentElement.classList.remove('loading');
-        this.style.zIndex = 0;
-        console.log('load finished');
-    });
-});
 document.querySelector('#profileForm').addEventListener('submit', function (e) {
     e.preventDefault();
     asyncSubmitMulti(this, 'PATCH').then(res => {

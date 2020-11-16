@@ -9,12 +9,18 @@
     <link rel="stylesheet" href="/css/bulma.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/task.css">
+    <script>
+         function imgLoad(img) {
+            img.parentElement.classList.remove('loading');
+            img.style.zIndex = 0;
+        }
+    </script>
 </head>
 
 <body>
     {{> header}}
-    <svg class="hidden" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="38px" height="38px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+    <svg class="hidden" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="38px"
+        height="38px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
         <g transform="translate(50 50)">
             <g>
                 <animateTransform attributeName="transform" type="rotate" values="0;45" keyTimes="0;1" dur="0.2s"
@@ -65,13 +71,13 @@
                         <span class="slider round"></span>
                     </label>
                 </div>
-                <div style="margin: 20px 0px;">
+                <div class="hidden" style="margin: 20px 0px;">
                     {{> tasks}}
                     <script src="/js/asyncTasks.js"></script>
                 </div>
 
             </div>
-            <div class="hidden" id="accountInfo">
+            <div id="accountInfo">
                 {{> account}}
                 <script src="/js/asyncProfile.js"></script>
             </div>
@@ -104,6 +110,7 @@
     {{> footer}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    {{!-- <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.js"></script> --}}
     <script src="/js/script.js"></script>
 </body>
 

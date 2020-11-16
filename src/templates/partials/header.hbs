@@ -6,11 +6,11 @@
     <div class="level-right">
         {{#if user}}
         <span class="level-item">
-            <div class="avatar-container">
+            <div class="avatar-container loading">
                 {{#if hasAvatar}}
-                <img class="avatarImg" src='/users/me/avatar' width="64" height="64" />
+                <img class="avatarImg" src='/users/me/avatar' width="64" height="64" onload="imgLoad(this)"/>
                 {{else}}
-                <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' width="64" height="64" />
+                <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' width="64" height="64" onload="imgLoad(this)" />
                 {{/if}}
             </div>
         </span>
