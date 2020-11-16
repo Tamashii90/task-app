@@ -11,10 +11,6 @@ const taskForm = document.querySelector('#taskForm');
 const overlay = document.querySelector('#overlay');
 const preLoader = document.querySelector('svg');
 
-// preloading the img loader svg
-let imgPreLoader = new Image();
-imgPreLoader.src = '/preLoader.svg';
-
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
     getInfoBtn.parentElement.classList.add('is-active');

@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/task.css">
     <script>
-         function imgLoad(img) {
+        // preloading the img loader svg
+        let imgPreLoader = new Image();
+        imgPreLoader.src = '/preLoader.svg';
+        function imgLoad(img) {
             img.parentElement.classList.remove('loading');
             img.style.zIndex = 0;
         }
@@ -71,13 +74,13 @@
                         <span class="slider round"></span>
                     </label>
                 </div>
-                <div class="hidden" style="margin: 20px 0px;">
+                <div style="margin: 20px 0px;">
                     {{> tasks}}
                     <script src="/js/asyncTasks.js"></script>
                 </div>
 
             </div>
-            <div id="accountInfo">
+            <div class="hidden" id="accountInfo">
                 {{> account}}
                 <script src="/js/asyncProfile.js"></script>
             </div>
