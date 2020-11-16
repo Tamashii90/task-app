@@ -78,17 +78,14 @@ document.querySelector('#avatarFile').addEventListener('change', function () {
 document.querySelector('#deleteAvForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const avatars = document.querySelectorAll('.avatarImg');
+    showLoader(true);
     asyncSubmitMulti(this, 'DELETE').then(res => {          // no idea why I have to make this multipart
-        hide(contentModal);
+        // hide(contentModal);
+        showLoader(false);
         displaySuccess(res.data);
-        setTimeout(async () => {
-            showLoader(true);
-            await loadContentAndScript('profile');
-            showLoader(false);
-            avatars.forEach(avatar => avatar.src = 'https://i.imgur.com/F9cRyax.png');
-        }, 800);
+        avatars.forEach(avatar => avatar.src = 'https://i.imgur.com/F9cRyax.png');
     }).catch(err => {
-        hide(contentModal);
+        // hide(contentModal);
         displayError(err.message);
     });
 });
