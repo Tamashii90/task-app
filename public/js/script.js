@@ -10,7 +10,10 @@ const accountDiv = document.querySelector('#accountInfo');
 const taskForm = document.querySelector('#taskForm');
 const overlay = document.querySelector('#overlay');
 const preLoader = document.querySelector('svg');
-let tempHolder;
+
+// preloading the img loader svg
+let imgPreLoader = new Image();
+imgPreLoader.src = '/preLoader.svg';
 
 getInfoBtn.addEventListener('click', function () {
     fetchTasksBtn.parentElement.classList.remove('is-active');
