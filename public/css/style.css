@@ -282,6 +282,13 @@ select option:checked{
     margin-right: 0em;
 }
 
+.loading {
+    background-color: black;
+    background-image: url('/preLoader.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 .blur {
     filter: blur(5px);
 }

@@ -83,12 +83,16 @@ window.addEventListener('click', async (e) => {
 });
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('loadstart', function () {
-        this.parentElement.style.background = 'red';
+        console.log('starting load');
+        this.style.zIndex = -99;
+        this.parentElement.classList.add('loading');
     });
 });
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('load', function () {
-        this.parentElement.style.background = 'none';
+        this.parentElement.classList.remove('loading');
+        this.style.zIndex = 0;
+        console.log('load finished');
     });
 });
 
