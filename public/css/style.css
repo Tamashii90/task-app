@@ -254,6 +254,10 @@ select option:checked{
     border-color:#c657c6;
 }
 
+.avatarImg {
+    position: relative;     /* need this to change z-index for preloader */
+}
+
 .edit-avatar-btn{
     position: absolute;
     top: 50%;
@@ -283,7 +287,7 @@ select option:checked{
 }
 
 .loading {
-    background-color: black;
+    background-color: white;
     background-image: url('/preLoader.svg');
     background-repeat: no-repeat;
     background-position: center center;

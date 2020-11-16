@@ -81,20 +81,6 @@ window.addEventListener('click', async (e) => {
         showLoader(false);
     }
 });
-document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('loadstart', function () {
-        console.log('starting load');
-        this.style.zIndex = -99;
-        this.parentElement.classList.add('loading');
-    });
-});
-document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('load', function () {
-        this.parentElement.classList.remove('loading');
-        this.style.zIndex = 0;
-        console.log('load finished');
-    });
-});
 
 
 //---------------- Functions ----------------//
