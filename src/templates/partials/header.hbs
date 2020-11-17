@@ -1,3 +1,12 @@
+<script>
+    // preloading the img loader svg
+    let imgPreLoader = new Image();
+    imgPreLoader.src = '/preLoader.svg';
+    function imgLoad(img) {
+        img.parentElement.classList.remove('loading');
+        img.style.visibility = 'visible';
+    }
+</script>
 <header class="level px-5 py-2">
     <div class="level-left">
         <a class="level-item" href="/"><img src="/Logo.png" /></a>
@@ -8,9 +17,10 @@
         <span class="level-item">
             <div class="avatar-container loading">
                 {{#if hasAvatar}}
-                <img class="avatarImg" src='/users/me/avatar' width="64" height="64" onload="imgLoad(this)"/>
+                <img class="avatarImg" src='/users/me/avatar' width="64" height="64" onload="imgLoad(this)" />
                 {{else}}
-                <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' width="64" height="64" onload="imgLoad(this)" />
+                <img class="avatarImg" src='https://i.imgur.com/F9cRyax.png' width="64" height="64"
+                    onload="imgLoad(this)" />
                 {{/if}}
             </div>
         </span>
