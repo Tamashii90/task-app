@@ -13,7 +13,7 @@ const upload = multer({
     },
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/))
-            cb(new Error('Extension Must Be jpg, jpeg, Or png.'));
+            cb(new Error('Extension must be jpg, jpeg, or png.'));
 
         cb(null, true);
     }
@@ -69,8 +69,8 @@ router.post('/users/signup', async (req, res, next) => {
     }
 });
 
-router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
-    const allowedFields = ["name", "pwdVerif", "email", "password", "avatar"];
+router.patch('/users/me', auth, async (req, res) => {
+    const allowedFields = ["name", "pwdVerif", "email", "password"];
     const isAllowedField = Object.keys(req.body).every(property => allowedFields.includes(property));
     if (!isAllowedField)
         return res.status(400).send('Bad field.');
@@ -80,21 +80,15 @@ router.patch('/users/me', auth, upload.single('avatar'), async (req, res) => {
         delete req.body.password;
         delete req.body.pwdVerif;
     }
-    if (req.file) {
-        req.body.avatar = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
-    }
     const user = req.user;
     Object.assign(user, req.body);
     try {
         await user.save();
-        if (user.avatar) res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
         res.cookie('current_user', user.name, { sameSite: "lax" });     // update the cookie to the new name
         res.send('Changes Applied.');
     } catch (error) {
         res.status(400).render('../partials/account', { profile: user, error });
     }
-}, (err, req, res, next) => {
-    res.status(400).send({ error: err.message });
 });
 
 router.delete('/users/me', auth, async (req, res) => {
@@ -164,15 +158,19 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     }
 });
 
-// router.post('/users/me/avatar/', auth, upload.single('avatar'), async (req, res) => {
-//     const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
-//     req.user.avatar = buffer;
-//     await req.user.save();
-//     res.send('Uploaded !');
-
-// }, (err, req, res, next) => {
-//     res.status(400).send({ error: err.message });
-// });
+router.put('/users/me/avatar/', auth, upload.single('avatar'), async (req, res) => {
+    const buffer = await sharp(req.file.buffer).resize({ width: 200, height: 200 }).png().toBuffer();
+    req.user.avatar = buffer;
+    try {
+        await req.user.save();
+        res.cookie('hasAvatar', 'true', { sameSite: 'lax' });        // update the avatar cookie
+        res.send('Avatar Updated.');
+    } catch (error) {
+        res.status(400).send(error);
+    }
+}, (err, req, res, next) => {
+    res.status(400).send({ error: err.message });
+});
 
 router.delete('/users/me/avatar/', auth, async (req, res) => {
     req.user.avatar = undefined;

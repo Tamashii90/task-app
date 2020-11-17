@@ -11,7 +11,7 @@
             <div class="img-cover hidden">
                 <span class="file edit-avatar-btn">
                     <label class="file-label">
-                        <input class="file-input" type="file" id="avatarFile" name="avatar" form="profileForm">
+                        <input class="file-input" type="file" id="avatarFile">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-user-edit"></i>
@@ -24,11 +24,11 @@
         <button id="deleteAvBtn" type="button" class="button">Reset Profile Picture</button>
     </div>
     <hr>
-    <form action="/users/me/" enctype="multipart/form-data" id="profileForm">
+    <form action="/users/me/" id="profileForm">
         <div class="input_field">
             <label class="label">Username</label>
             <div class="field">
-                <input class="input" size="30" type="text" name="name" form="profileForm" value="{{profile.name}}">
+                <input minlength="3" maxlength="14" class="input" size="30" type="text" name="name" form="profileForm" value="{{profile.name}}">
                 <span class="help is-danger">{{error.errors.name.message}}</span>
             </div>
         </div>

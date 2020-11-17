@@ -1,6 +1,6 @@
 document.querySelector('#profileForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    asyncSubmitMulti(this, 'PATCH').then(res => {
+    asyncSubmit(this, 'PATCH').then(res => {
         hide(contentModal);
         displaySuccess(res.data);
         setTimeout(() => {
@@ -47,7 +47,7 @@ document.querySelector('#avatarFile').addEventListener('change', function () {
     const formData = new FormData();
     formData.append("avatar", this.files[0]);
     showLoader(true);
-    axios.patch('/users/me', formData)
+    axios.put('/users/me/avatar', formData)
         .then(res => {
             document.querySelectorAll('.avatarImg').forEach(img => {
                 img.src = '/users/me/avatar';
@@ -56,7 +56,11 @@ document.querySelector('#avatarFile').addEventListener('change', function () {
             displaySuccess(res.data);
         })
         .catch(err => {
-            displayError(err.response.data.error);    // because of how axios handles error
+            if (err.response) {
+                displayError(err.response.data.error);    // because of how axios handles error
+            } else {
+                displayError(err.message);
+            }
             showLoader(false);
         });
 });
