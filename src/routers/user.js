@@ -114,7 +114,9 @@ router.get('/users/signup', (req, res) => {
 
 router.get('/users/login', (req, res) => {
     if (!req.cookies['auth_token']) {
-        return res.render('login')
+        return res.render('login', {
+			pastEmail:"test@fakeyahoo.com"
+		})
     }
     res.redirect('/users/me');
 });
