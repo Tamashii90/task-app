@@ -4,7 +4,6 @@ const sharp = require('sharp');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const { clearMyCookies, setMyCookies } = require('../utils/cookies');
-const { sendBye, sendWelcome } = require('../../mailgun');
 const multer = require('multer');
 const Task = require('../models/task');
 const upload = multer({
